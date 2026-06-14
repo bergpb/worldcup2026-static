@@ -98,6 +98,7 @@
     display: inline-block;
   }
   .nav-btn:hover, .ctrl-btn:hover { opacity: 0.8; }
+  body.hide-bmc #nav-feedback { display: none !important; }
   .nav-btn.active {
     background: var(--gold); color: #0A0E1A;
     border-color: var(--gold);
@@ -1021,5 +1022,6 @@ setInterval(loadAndRender, 60000);
 
 
 
+<script>const HIDE_BMC = true; if (HIDE_BMC) document.body.classList.add('hide-bmc');</script>
 </body>
 </html>
