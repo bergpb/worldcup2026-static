@@ -1,0 +1,5806 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="105.56451mm"
+   height="126.99999mm"
+   viewBox="0 0 105.56451 126.99999"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="United 2026 logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.4378367"
+     inkscape:cx="205.51708"
+     inkscape:cy="234.03214"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <clipPath
+       id="clip59">
+      <path
+         d="m 100.47,539.11 c 0.875,1.1406 3.7344,-0.87891 4.0078,-1.6562 0,0 -2.6289,1.957 -3.1172,0.63281 -1.0781,-2.9023 5.6094,-11.703 5.6367,-11.742 -5.2148,5.5547 -8.0352,10.809 -6.5273,12.766"
+         id="path1" />
+    </clipPath>
+    <linearGradient
+       id="linear0"
+       x1="-0.20596001"
+       x2="1.6724"
+       gradientTransform="matrix(4.5172,-7.2542,-7.2542,-4.5172,99.667,538.62)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#8e908f"
+         offset="0"
+         id="stop1" />
+      <stop
+         stop-color="#8e908f"
+         offset=".0625"
+         id="stop2" />
+      <stop
+         stop-color="#8e908f"
+         offset=".09375"
+         id="stop3" />
+      <stop
+         stop-color="#8e908f"
+         offset=".10938"
+         id="stop4" />
+      <stop
+         stop-color="#8f9190"
+         offset=".11328"
+         id="stop5" />
+      <stop
+         stop-color="#909291"
+         offset=".11719"
+         id="stop6" />
+      <stop
+         stop-color="#919392"
+         offset=".12109"
+         id="stop7" />
+      <stop
+         stop-color="#929493"
+         offset=".125"
+         id="stop8" />
+      <stop
+         stop-color="#939594"
+         offset=".12891"
+         id="stop9" />
+      <stop
+         stop-color="#949695"
+         offset=".13281"
+         id="stop10" />
+      <stop
+         stop-color="#959796"
+         offset=".13672"
+         id="stop11" />
+      <stop
+         stop-color="#979897"
+         offset=".14062"
+         id="stop12" />
+      <stop
+         stop-color="#979997"
+         offset=".14453"
+         id="stop13" />
+      <stop
+         stop-color="#989a98"
+         offset=".14844"
+         id="stop14" />
+      <stop
+         stop-color="#999b99"
+         offset=".15234"
+         id="stop15" />
+      <stop
+         stop-color="#9a9c9a"
+         offset=".15625"
+         id="stop16" />
+      <stop
+         stop-color="#9b9d9b"
+         offset=".16016"
+         id="stop17" />
+      <stop
+         stop-color="#9c9e9c"
+         offset=".16406"
+         id="stop18" />
+      <stop
+         stop-color="#9d9f9d"
+         offset=".16797"
+         id="stop19" />
+      <stop
+         stop-color="#9ea09e"
+         offset=".17188"
+         id="stop20" />
+      <stop
+         stop-color="#9fa09f"
+         offset=".17578"
+         id="stop21" />
+      <stop
+         stop-color="#a0a19f"
+         offset=".17969"
+         id="stop22" />
+      <stop
+         stop-color="#a1a2a0"
+         offset=".18359"
+         id="stop23" />
+      <stop
+         stop-color="#a2a3a1"
+         offset=".1875"
+         id="stop24" />
+      <stop
+         stop-color="#a3a4a2"
+         offset=".19141"
+         id="stop25" />
+      <stop
+         stop-color="#a4a5a3"
+         offset=".19531"
+         id="stop26" />
+      <stop
+         stop-color="#a5a6a4"
+         offset=".19922"
+         id="stop27" />
+      <stop
+         stop-color="#a5a7a5"
+         offset=".20312"
+         id="stop28" />
+      <stop
+         stop-color="#a6a7a5"
+         offset=".20703"
+         id="stop29" />
+      <stop
+         stop-color="#a7a8a6"
+         offset=".21094"
+         id="stop30" />
+      <stop
+         stop-color="#a8a9a7"
+         offset=".21484"
+         id="stop31" />
+      <stop
+         stop-color="#a9aaa8"
+         offset=".21875"
+         id="stop32" />
+      <stop
+         stop-color="#aaaba9"
+         offset=".22266"
+         id="stop33" />
+      <stop
+         stop-color="#abaca9"
+         offset=".22656"
+         id="stop34" />
+      <stop
+         stop-color="#abacaa"
+         offset=".23047"
+         id="stop35" />
+      <stop
+         stop-color="#acadab"
+         offset=".23438"
+         id="stop36" />
+      <stop
+         stop-color="#adaeac"
+         offset=".23828"
+         id="stop37" />
+      <stop
+         stop-color="#aeafad"
+         offset=".24219"
+         id="stop38" />
+      <stop
+         stop-color="#afb0ad"
+         offset=".24609"
+         id="stop39" />
+      <stop
+         stop-color="#afb0ae"
+         offset=".25"
+         id="stop40" />
+      <stop
+         stop-color="#b0b1af"
+         offset=".25391"
+         id="stop41" />
+      <stop
+         stop-color="#b1b2b0"
+         offset=".25781"
+         id="stop42" />
+      <stop
+         stop-color="#b2b3b0"
+         offset=".26172"
+         id="stop43" />
+      <stop
+         stop-color="#b2b3b1"
+         offset=".26562"
+         id="stop44" />
+      <stop
+         stop-color="#b3b4b2"
+         offset=".26953"
+         id="stop45" />
+      <stop
+         stop-color="#b4b5b2"
+         offset=".27344"
+         id="stop46" />
+      <stop
+         stop-color="#b5b5b3"
+         offset=".27734"
+         id="stop47" />
+      <stop
+         stop-color="#b5b6b4"
+         offset=".28125"
+         id="stop48" />
+      <stop
+         stop-color="#b6b7b5"
+         offset=".28516"
+         id="stop49" />
+      <stop
+         stop-color="#b7b8b5"
+         offset=".28906"
+         id="stop50" />
+      <stop
+         stop-color="#b7b8b6"
+         offset=".29297"
+         id="stop51" />
+      <stop
+         stop-color="#b8b9b7"
+         offset=".29688"
+         id="stop52" />
+      <stop
+         stop-color="#b9bab7"
+         offset=".30078"
+         id="stop53" />
+      <stop
+         stop-color="#b9bab8"
+         offset=".30469"
+         id="stop54" />
+      <stop
+         stop-color="#babbb9"
+         offset=".30859"
+         id="stop55" />
+      <stop
+         stop-color="#bbbcb9"
+         offset=".3125"
+         id="stop56" />
+      <stop
+         stop-color="#bbbcba"
+         offset=".31641"
+         id="stop57" />
+      <stop
+         stop-color="#bcbdba"
+         offset=".32031"
+         id="stop58" />
+      <stop
+         stop-color="#bcbdbb"
+         offset=".32812"
+         id="stop59" />
+      <stop
+         stop-color="#bebfbc"
+         offset=".33594"
+         id="stop60" />
+      <stop
+         stop-color="#bfc0bd"
+         offset=".34375"
+         id="stop61" />
+      <stop
+         stop-color="#c0c1bf"
+         offset=".35156"
+         id="stop62" />
+      <stop
+         stop-color="#c1c2c0"
+         offset=".35938"
+         id="stop63" />
+      <stop
+         stop-color="#c2c3c1"
+         offset=".36719"
+         id="stop64" />
+      <stop
+         stop-color="#c3c4c2"
+         offset=".375"
+         id="stop65" />
+      <stop
+         stop-color="#c4c5c3"
+         offset=".38281"
+         id="stop66" />
+      <stop
+         stop-color="#c5c6c4"
+         offset=".39062"
+         id="stop67" />
+      <stop
+         stop-color="#c6c7c5"
+         offset=".39844"
+         id="stop68" />
+      <stop
+         stop-color="#c7c8c5"
+         offset=".40625"
+         id="stop69" />
+      <stop
+         stop-color="#c8c9c6"
+         offset=".41406"
+         id="stop70" />
+      <stop
+         stop-color="#c8c9c7"
+         offset=".42188"
+         id="stop71" />
+      <stop
+         stop-color="#c9cac8"
+         offset=".42969"
+         id="stop72" />
+      <stop
+         stop-color="#cacbc9"
+         offset=".4375"
+         id="stop73" />
+      <stop
+         stop-color="#caccc9"
+         offset=".44531"
+         id="stop74" />
+      <stop
+         stop-color="#cbccca"
+         offset=".45312"
+         id="stop75" />
+      <stop
+         stop-color="#cccdcb"
+         offset=".46875"
+         id="stop76" />
+      <stop
+         stop-color="#cdcecc"
+         offset=".48438"
+         id="stop77" />
+      <stop
+         stop-color="#cecfcd"
+         offset=".5"
+         id="stop78" />
+      <stop
+         stop-color="#cfd0ce"
+         offset=".51562"
+         id="stop79" />
+      <stop
+         stop-color="#d0d1cf"
+         offset=".53125"
+         id="stop80" />
+      <stop
+         stop-color="#d0d2cf"
+         offset=".5625"
+         id="stop81" />
+      <stop
+         stop-color="#d1d3d0"
+         offset=".625"
+         id="stop82" />
+      <stop
+         stop-color="#d2d3d1"
+         offset=".75"
+         id="stop83" />
+      <stop
+         stop-color="#d2d3d1"
+         offset="1"
+         id="stop84" />
+    </linearGradient>
+    <clipPath
+       id="clip61">
+      <path
+         d="m 111.62,501.67 c -0.0742,0.004 -0.86718,0.0547 -1.9726,0.23829 -0.66406,0.11328 -1.4414,0.27343 -2.2461,0.5039 -2.8555,0.8086 -6.9375,2.7774 -9.3789,5.6914 -5.8438,6.9805 -3.8477,14.215 -3.8477,14.215 l 4.8594,-2.3984 c 0,0 -1.1523,-5.4141 1.7969,-10.582 2.0312,-3.5547 5.1055,-5.5234 7.4531,-6.5703 1.8672,-0.83203 3.2773,-1.0898 3.3398,-1.0977 z"
+         id="path84" />
+    </clipPath>
+    <linearGradient
+       id="linear1"
+       x1="-0.014353"
+       x2="0.99085999"
+       gradientTransform="matrix(-0.097544,20.636,20.636,0.097544,101.95,501.92)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#27823a"
+         offset="0"
+         id="stop85" />
+      <stop
+         stop-color="#27823a"
+         offset=".015625"
+         id="stop86" />
+      <stop
+         stop-color="#27833a"
+         offset=".023438"
+         id="stop87" />
+      <stop
+         stop-color="#27833a"
+         offset=".03125"
+         id="stop88" />
+      <stop
+         stop-color="#28833a"
+         offset=".039062"
+         id="stop89" />
+      <stop
+         stop-color="#28843a"
+         offset=".046875"
+         id="stop90" />
+      <stop
+         stop-color="#28843a"
+         offset=".054688"
+         id="stop91" />
+      <stop
+         stop-color="#28853a"
+         offset=".0625"
+         id="stop92" />
+      <stop
+         stop-color="#28853a"
+         offset=".070312"
+         id="stop93" />
+      <stop
+         stop-color="#29863a"
+         offset=".078125"
+         id="stop94" />
+      <stop
+         stop-color="#29863a"
+         offset=".085938"
+         id="stop95" />
+      <stop
+         stop-color="#29863b"
+         offset=".09375"
+         id="stop96" />
+      <stop
+         stop-color="#29873b"
+         offset=".10156"
+         id="stop97" />
+      <stop
+         stop-color="#29873b"
+         offset=".10938"
+         id="stop98" />
+      <stop
+         stop-color="#2a883b"
+         offset=".11719"
+         id="stop99" />
+      <stop
+         stop-color="#2a883b"
+         offset=".125"
+         id="stop100" />
+      <stop
+         stop-color="#2a893b"
+         offset=".13281"
+         id="stop101" />
+      <stop
+         stop-color="#2a893b"
+         offset=".14062"
+         id="stop102" />
+      <stop
+         stop-color="#2a893b"
+         offset=".14844"
+         id="stop103" />
+      <stop
+         stop-color="#2b8a3b"
+         offset=".15625"
+         id="stop104" />
+      <stop
+         stop-color="#2b8a3b"
+         offset=".16406"
+         id="stop105" />
+      <stop
+         stop-color="#2b8b3b"
+         offset=".17188"
+         id="stop106" />
+      <stop
+         stop-color="#2b8b3b"
+         offset=".17969"
+         id="stop107" />
+      <stop
+         stop-color="#2b8c3b"
+         offset=".1875"
+         id="stop108" />
+      <stop
+         stop-color="#2c8c3b"
+         offset=".19531"
+         id="stop109" />
+      <stop
+         stop-color="#2c8d3b"
+         offset=".20312"
+         id="stop110" />
+      <stop
+         stop-color="#2c8d3b"
+         offset=".21094"
+         id="stop111" />
+      <stop
+         stop-color="#2c8d3b"
+         offset=".21875"
+         id="stop112" />
+      <stop
+         stop-color="#2c8e3b"
+         offset=".22656"
+         id="stop113" />
+      <stop
+         stop-color="#2d8e3b"
+         offset=".23438"
+         id="stop114" />
+      <stop
+         stop-color="#2d8f3b"
+         offset=".24219"
+         id="stop115" />
+      <stop
+         stop-color="#2d8f3b"
+         offset=".25"
+         id="stop116" />
+      <stop
+         stop-color="#2d903b"
+         offset=".25781"
+         id="stop117" />
+      <stop
+         stop-color="#2d903b"
+         offset=".26562"
+         id="stop118" />
+      <stop
+         stop-color="#2e903b"
+         offset=".27344"
+         id="stop119" />
+      <stop
+         stop-color="#2e913b"
+         offset=".28125"
+         id="stop120" />
+      <stop
+         stop-color="#2e913b"
+         offset=".28906"
+         id="stop121" />
+      <stop
+         stop-color="#2e923b"
+         offset=".29688"
+         id="stop122" />
+      <stop
+         stop-color="#2e923b"
+         offset=".30469"
+         id="stop123" />
+      <stop
+         stop-color="#2f933b"
+         offset=".3125"
+         id="stop124" />
+      <stop
+         stop-color="#2f933b"
+         offset=".32031"
+         id="stop125" />
+      <stop
+         stop-color="#2f943b"
+         offset=".32812"
+         id="stop126" />
+      <stop
+         stop-color="#2f943b"
+         offset=".33594"
+         id="stop127" />
+      <stop
+         stop-color="#2f943b"
+         offset=".34375"
+         id="stop128" />
+      <stop
+         stop-color="#30953b"
+         offset=".35156"
+         id="stop129" />
+      <stop
+         stop-color="#30953b"
+         offset=".35938"
+         id="stop130" />
+      <stop
+         stop-color="#30963b"
+         offset=".36719"
+         id="stop131" />
+      <stop
+         stop-color="#30963c"
+         offset=".375"
+         id="stop132" />
+      <stop
+         stop-color="#31973c"
+         offset=".38281"
+         id="stop133" />
+      <stop
+         stop-color="#31973c"
+         offset=".39062"
+         id="stop134" />
+      <stop
+         stop-color="#31983c"
+         offset=".39844"
+         id="stop135" />
+      <stop
+         stop-color="#31983c"
+         offset=".40625"
+         id="stop136" />
+      <stop
+         stop-color="#31983c"
+         offset=".41406"
+         id="stop137" />
+      <stop
+         stop-color="#32993c"
+         offset=".42188"
+         id="stop138" />
+      <stop
+         stop-color="#32993c"
+         offset=".42969"
+         id="stop139" />
+      <stop
+         stop-color="#329a3c"
+         offset=".4375"
+         id="stop140" />
+      <stop
+         stop-color="#329a3c"
+         offset=".44531"
+         id="stop141" />
+      <stop
+         stop-color="#329b3c"
+         offset=".45312"
+         id="stop142" />
+      <stop
+         stop-color="#339b3c"
+         offset=".46094"
+         id="stop143" />
+      <stop
+         stop-color="#339c3c"
+         offset=".46875"
+         id="stop144" />
+      <stop
+         stop-color="#339c3c"
+         offset=".47656"
+         id="stop145" />
+      <stop
+         stop-color="#339c3c"
+         offset=".48438"
+         id="stop146" />
+      <stop
+         stop-color="#349d3c"
+         offset=".49219"
+         id="stop147" />
+      <stop
+         stop-color="#349d3c"
+         offset=".5"
+         id="stop148" />
+      <stop
+         stop-color="#349e3c"
+         offset=".50781"
+         id="stop149" />
+      <stop
+         stop-color="#349e3c"
+         offset=".51562"
+         id="stop150" />
+      <stop
+         stop-color="#349f3c"
+         offset=".52344"
+         id="stop151" />
+      <stop
+         stop-color="#359f3c"
+         offset=".53125"
+         id="stop152" />
+      <stop
+         stop-color="#35a03c"
+         offset=".53906"
+         id="stop153" />
+      <stop
+         stop-color="#35a03c"
+         offset=".54688"
+         id="stop154" />
+      <stop
+         stop-color="#35a13c"
+         offset=".55469"
+         id="stop155" />
+      <stop
+         stop-color="#35a13c"
+         offset=".5625"
+         id="stop156" />
+      <stop
+         stop-color="#36a13c"
+         offset=".57031"
+         id="stop157" />
+      <stop
+         stop-color="#36a23c"
+         offset=".57812"
+         id="stop158" />
+      <stop
+         stop-color="#36a33c"
+         offset=".59375"
+         id="stop159" />
+      <stop
+         stop-color="#37a33c"
+         offset=".60938"
+         id="stop160" />
+      <stop
+         stop-color="#37a43c"
+         offset=".625"
+         id="stop161" />
+      <stop
+         stop-color="#38a53c"
+         offset=".64062"
+         id="stop162" />
+      <stop
+         stop-color="#38a63c"
+         offset=".65625"
+         id="stop163" />
+      <stop
+         stop-color="#38a73c"
+         offset=".67188"
+         id="stop164" />
+      <stop
+         stop-color="#39a83c"
+         offset=".6875"
+         id="stop165" />
+      <stop
+         stop-color="#39a93c"
+         offset=".70312"
+         id="stop166" />
+      <stop
+         stop-color="#3aaa3c"
+         offset=".71875"
+         id="stop167" />
+      <stop
+         stop-color="#3aab3c"
+         offset=".73438"
+         id="stop168" />
+      <stop
+         stop-color="#3bab3c"
+         offset=".75"
+         id="stop169" />
+      <stop
+         stop-color="#3bac3c"
+         offset=".76562"
+         id="stop170" />
+      <stop
+         stop-color="#3bad3c"
+         offset=".78125"
+         id="stop171" />
+      <stop
+         stop-color="#3cae3c"
+         offset=".79688"
+         id="stop172" />
+      <stop
+         stop-color="#3caf3c"
+         offset=".8125"
+         id="stop173" />
+      <stop
+         stop-color="#3db03c"
+         offset=".82812"
+         id="stop174" />
+      <stop
+         stop-color="#3db13c"
+         offset=".84375"
+         id="stop175" />
+      <stop
+         stop-color="#3db13c"
+         offset=".85938"
+         id="stop176" />
+      <stop
+         stop-color="#3eb23c"
+         offset=".875"
+         id="stop177" />
+      <stop
+         stop-color="#3eb33c"
+         offset=".89062"
+         id="stop178" />
+      <stop
+         stop-color="#3fb43c"
+         offset=".90625"
+         id="stop179" />
+      <stop
+         stop-color="#3fb53c"
+         offset=".92188"
+         id="stop180" />
+      <stop
+         stop-color="#3fb63c"
+         offset=".9375"
+         id="stop181" />
+      <stop
+         stop-color="#40b63c"
+         offset=".95312"
+         id="stop182" />
+      <stop
+         stop-color="#40b73c"
+         offset=".96875"
+         id="stop183" />
+      <stop
+         stop-color="#41b83c"
+         offset=".98438"
+         id="stop184" />
+      <stop
+         stop-color="#41b93c"
+         offset="1"
+         id="stop185" />
+    </linearGradient>
+    <clipPath
+       id="clip63">
+      <path
+         d="m 118.7,504.34 c 0,0 -4.5508,7.6016 -3.9023,19.152 0.6289,11.234 5.4258,21.336 11.371,17.984 1.5664,-0.88281 3.4023,-2.957 3.4023,-2.957 0,0 -1.3633,0.97656 -2.5625,0.39063 -2.3789,-1.168 -6.3828,-7.1445 -7.1797,-16.402 -0.79688,-9.2539 2.4062,-15.348 2.8086,-16.254 0.40234,-0.91797 0.79297,-1.4141 1.4414,-1.4453 0.70312,-0.0312 1.2969,0.36719 1.2969,0.36719 0,0 -0.71875,-0.58984 -2.5586,-1.5 -0.60938,-0.27734 -1.3555,-0.49219 -2.0625,-0.49219 -0.83985,0 -1.6211,0.30078 -2.0547,1.1562"
+         id="path185" />
+    </clipPath>
+    <radialGradient
+       id="radial0"
+       cx="0"
+       cy="0"
+       r="25.587"
+       gradientTransform="matrix(-0.0065147,-0.99998,-0.99998,0.0065147,117.32,523.96)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#eb1c26"
+         offset="0"
+         id="stop186" />
+      <stop
+         stop-color="#ea1c26"
+         offset=".03125"
+         id="stop187" />
+      <stop
+         stop-color="#e91c26"
+         offset=".058594"
+         id="stop188" />
+      <stop
+         stop-color="#e91c26"
+         offset=".070312"
+         id="stop189" />
+      <stop
+         stop-color="#e81c26"
+         offset=".082031"
+         id="stop190" />
+      <stop
+         stop-color="#e71c26"
+         offset=".09375"
+         id="stop191" />
+      <stop
+         stop-color="#e71d26"
+         offset=".10547"
+         id="stop192" />
+      <stop
+         stop-color="#e61d25"
+         offset=".11719"
+         id="stop193" />
+      <stop
+         stop-color="#e51d25"
+         offset=".12891"
+         id="stop194" />
+      <stop
+         stop-color="#e41d25"
+         offset=".14062"
+         id="stop195" />
+      <stop
+         stop-color="#e41d25"
+         offset=".15234"
+         id="stop196" />
+      <stop
+         stop-color="#e31d25"
+         offset=".16406"
+         id="stop197" />
+      <stop
+         stop-color="#e21d25"
+         offset=".17578"
+         id="stop198" />
+      <stop
+         stop-color="#e11d25"
+         offset=".1875"
+         id="stop199" />
+      <stop
+         stop-color="#e01d25"
+         offset=".19922"
+         id="stop200" />
+      <stop
+         stop-color="#e01d25"
+         offset=".21094"
+         id="stop201" />
+      <stop
+         stop-color="#df1d25"
+         offset=".22266"
+         id="stop202" />
+      <stop
+         stop-color="#de1d25"
+         offset=".23438"
+         id="stop203" />
+      <stop
+         stop-color="#dd1d25"
+         offset=".24609"
+         id="stop204" />
+      <stop
+         stop-color="#dc1d25"
+         offset=".25781"
+         id="stop205" />
+      <stop
+         stop-color="#dc1d25"
+         offset=".26562"
+         id="stop206" />
+      <stop
+         stop-color="#db1d25"
+         offset=".27344"
+         id="stop207" />
+      <stop
+         stop-color="#da1d25"
+         offset=".28125"
+         id="stop208" />
+      <stop
+         stop-color="#da1d25"
+         offset=".28906"
+         id="stop209" />
+      <stop
+         stop-color="#d91d24"
+         offset=".29688"
+         id="stop210" />
+      <stop
+         stop-color="#d81d24"
+         offset=".30469"
+         id="stop211" />
+      <stop
+         stop-color="#d81d24"
+         offset=".3125"
+         id="stop212" />
+      <stop
+         stop-color="#d71d24"
+         offset=".32031"
+         id="stop213" />
+      <stop
+         stop-color="#d71d24"
+         offset=".32812"
+         id="stop214" />
+      <stop
+         stop-color="#d61d24"
+         offset=".33594"
+         id="stop215" />
+      <stop
+         stop-color="#d51d24"
+         offset=".34375"
+         id="stop216" />
+      <stop
+         stop-color="#d51d24"
+         offset=".35156"
+         id="stop217" />
+      <stop
+         stop-color="#d41d24"
+         offset=".35938"
+         id="stop218" />
+      <stop
+         stop-color="#d31d24"
+         offset=".36719"
+         id="stop219" />
+      <stop
+         stop-color="#d31d24"
+         offset=".375"
+         id="stop220" />
+      <stop
+         stop-color="#d21d24"
+         offset=".38281"
+         id="stop221" />
+      <stop
+         stop-color="#d01d24"
+         offset=".39844"
+         id="stop222" />
+      <stop
+         stop-color="#cf1d24"
+         offset=".41406"
+         id="stop223" />
+      <stop
+         stop-color="#ce1d24"
+         offset=".42969"
+         id="stop224" />
+      <stop
+         stop-color="#cd1d23"
+         offset=".44531"
+         id="stop225" />
+      <stop
+         stop-color="#cc1d23"
+         offset=".45312"
+         id="stop226" />
+      <stop
+         stop-color="#cb1d23"
+         offset=".46094"
+         id="stop227" />
+      <stop
+         stop-color="#cb1d23"
+         offset=".46875"
+         id="stop228" />
+      <stop
+         stop-color="#ca1d23"
+         offset=".47656"
+         id="stop229" />
+      <stop
+         stop-color="#c91d23"
+         offset=".48438"
+         id="stop230" />
+      <stop
+         stop-color="#c91d23"
+         offset=".49219"
+         id="stop231" />
+      <stop
+         stop-color="#c81d23"
+         offset=".5"
+         id="stop232" />
+      <stop
+         stop-color="#c71d23"
+         offset=".50781"
+         id="stop233" />
+      <stop
+         stop-color="#c61d23"
+         offset=".51953"
+         id="stop234" />
+      <stop
+         stop-color="#c51e23"
+         offset=".53125"
+         id="stop235" />
+      <stop
+         stop-color="#c41e23"
+         offset=".54297"
+         id="stop236" />
+      <stop
+         stop-color="#c31e23"
+         offset=".55469"
+         id="stop237" />
+      <stop
+         stop-color="#c21e23"
+         offset=".56641"
+         id="stop238" />
+      <stop
+         stop-color="#c11e22"
+         offset=".57812"
+         id="stop239" />
+      <stop
+         stop-color="#c01e22"
+         offset=".58984"
+         id="stop240" />
+      <stop
+         stop-color="#bf1e22"
+         offset=".60156"
+         id="stop241" />
+      <stop
+         stop-color="#bd1e22"
+         offset=".61328"
+         id="stop242" />
+      <stop
+         stop-color="#bc1e22"
+         offset=".625"
+         id="stop243" />
+      <stop
+         stop-color="#bb1e22"
+         offset=".63672"
+         id="stop244" />
+      <stop
+         stop-color="#bb1e22"
+         offset=".64453"
+         id="stop245" />
+      <stop
+         stop-color="#ba1e22"
+         offset=".65234"
+         id="stop246" />
+      <stop
+         stop-color="#b91e22"
+         offset=".66016"
+         id="stop247" />
+      <stop
+         stop-color="#b91e22"
+         offset=".66797"
+         id="stop248" />
+      <stop
+         stop-color="#b81e22"
+         offset=".67578"
+         id="stop249" />
+      <stop
+         stop-color="#b71e22"
+         offset=".68359"
+         id="stop250" />
+      <stop
+         stop-color="#b61e22"
+         offset=".69141"
+         id="stop251" />
+      <stop
+         stop-color="#b61e21"
+         offset=".69922"
+         id="stop252" />
+      <stop
+         stop-color="#b51e21"
+         offset=".70703"
+         id="stop253" />
+      <stop
+         stop-color="#b41e21"
+         offset=".71484"
+         id="stop254" />
+      <stop
+         stop-color="#b31e21"
+         offset=".72266"
+         id="stop255" />
+      <stop
+         stop-color="#b31e21"
+         offset=".73047"
+         id="stop256" />
+      <stop
+         stop-color="#b21e21"
+         offset=".73828"
+         id="stop257" />
+      <stop
+         stop-color="#b11e21"
+         offset=".74609"
+         id="stop258" />
+      <stop
+         stop-color="#b01e21"
+         offset=".75391"
+         id="stop259" />
+      <stop
+         stop-color="#af1e21"
+         offset=".76562"
+         id="stop260" />
+      <stop
+         stop-color="#ae1e21"
+         offset=".77734"
+         id="stop261" />
+      <stop
+         stop-color="#ad1e21"
+         offset=".78906"
+         id="stop262" />
+      <stop
+         stop-color="#ac1e21"
+         offset=".80078"
+         id="stop263" />
+      <stop
+         stop-color="#ab1e20"
+         offset=".8125"
+         id="stop264" />
+      <stop
+         stop-color="#aa1e20"
+         offset=".82422"
+         id="stop265" />
+      <stop
+         stop-color="#a91e20"
+         offset=".83203"
+         id="stop266" />
+      <stop
+         stop-color="#a81e20"
+         offset=".83984"
+         id="stop267" />
+      <stop
+         stop-color="#a71e20"
+         offset=".84766"
+         id="stop268" />
+      <stop
+         stop-color="#a71e20"
+         offset=".85547"
+         id="stop269" />
+      <stop
+         stop-color="#a61e20"
+         offset=".86328"
+         id="stop270" />
+      <stop
+         stop-color="#a51e20"
+         offset=".87109"
+         id="stop271" />
+      <stop
+         stop-color="#a41e20"
+         offset=".87891"
+         id="stop272" />
+      <stop
+         stop-color="#a31e20"
+         offset=".89062"
+         id="stop273" />
+      <stop
+         stop-color="#a21e20"
+         offset=".90234"
+         id="stop274" />
+      <stop
+         stop-color="#a11e20"
+         offset=".91406"
+         id="stop275" />
+      <stop
+         stop-color="#a01e1f"
+         offset=".92188"
+         id="stop276" />
+      <stop
+         stop-color="#a01e1f"
+         offset=".92969"
+         id="stop277" />
+      <stop
+         stop-color="#9f1e1f"
+         offset=".9375"
+         id="stop278" />
+      <stop
+         stop-color="#9e1e1f"
+         offset=".94531"
+         id="stop279" />
+      <stop
+         stop-color="#9d1e1f"
+         offset=".95703"
+         id="stop280" />
+      <stop
+         stop-color="#9c1e1f"
+         offset=".96484"
+         id="stop281" />
+      <stop
+         stop-color="#9b1e1f"
+         offset=".97266"
+         id="stop282" />
+      <stop
+         stop-color="#9a1e1f"
+         offset=".98438"
+         id="stop283" />
+      <stop
+         stop-color="#991e1f"
+         offset=".99219"
+         id="stop284" />
+      <stop
+         stop-color="#991e1f"
+         offset="1"
+         id="stop285" />
+    </radialGradient>
+    <clipPath
+       id="clip65">
+      <path
+         d="m 109.07,503 c 0.125,0.0586 0.1875,0.0937 0.30078,0.18359 1.3359,1.0195 2.8867,7.6836 -4.2109,16.359 -12.469,15.238 -9.4688,17.387 -7.7344,19.223 1.3516,0.66797 1.9023,0.76954 2.5508,0.77735 -2.3125,-4.0625 3.9883,-9.6133 9.3672,-17.289 7.9219,-11.312 5.4922,-18.918 4.1992,-20.105 -0.18359,-0.17188 -0.50781,-0.34375 -0.76172,-0.41797 -1.1758,0.0859 -2.8359,0.89844 -3.7109,1.2695"
+         id="path285" />
+    </clipPath>
+    <linearGradient
+       id="linear2"
+       x1="-0.0050507998"
+       x2="0.98347998"
+       gradientTransform="matrix(0.1222,38.331,38.331,-0.1222,104.92,501.88)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#195228"
+         offset="0"
+         id="stop286" />
+      <stop
+         stop-color="#1a5329"
+         offset=".0039062"
+         id="stop287" />
+      <stop
+         stop-color="#1a5329"
+         offset=".0078125"
+         id="stop288" />
+      <stop
+         stop-color="#1a5529"
+         offset=".011719"
+         id="stop289" />
+      <stop
+         stop-color="#1b562a"
+         offset=".015625"
+         id="stop290" />
+      <stop
+         stop-color="#1c582a"
+         offset=".019531"
+         id="stop291" />
+      <stop
+         stop-color="#1c5a2b"
+         offset=".023438"
+         id="stop292" />
+      <stop
+         stop-color="#1d5b2b"
+         offset=".027344"
+         id="stop293" />
+      <stop
+         stop-color="#1d5d2c"
+         offset=".03125"
+         id="stop294" />
+      <stop
+         stop-color="#1e5e2c"
+         offset=".035156"
+         id="stop295" />
+      <stop
+         stop-color="#1e602c"
+         offset=".039062"
+         id="stop296" />
+      <stop
+         stop-color="#1f622d"
+         offset=".042969"
+         id="stop297" />
+      <stop
+         stop-color="#20632d"
+         offset=".046875"
+         id="stop298" />
+      <stop
+         stop-color="#20652e"
+         offset=".050781"
+         id="stop299" />
+      <stop
+         stop-color="#21662e"
+         offset=".054688"
+         id="stop300" />
+      <stop
+         stop-color="#21682e"
+         offset=".058594"
+         id="stop301" />
+      <stop
+         stop-color="#22692f"
+         offset=".0625"
+         id="stop302" />
+      <stop
+         stop-color="#236b2f"
+         offset=".066406"
+         id="stop303" />
+      <stop
+         stop-color="#236d30"
+         offset=".070312"
+         id="stop304" />
+      <stop
+         stop-color="#246e30"
+         offset=".074219"
+         id="stop305" />
+      <stop
+         stop-color="#247030"
+         offset=".078125"
+         id="stop306" />
+      <stop
+         stop-color="#257131"
+         offset=".082031"
+         id="stop307" />
+      <stop
+         stop-color="#257331"
+         offset=".085938"
+         id="stop308" />
+      <stop
+         stop-color="#267431"
+         offset=".089844"
+         id="stop309" />
+      <stop
+         stop-color="#277632"
+         offset=".09375"
+         id="stop310" />
+      <stop
+         stop-color="#277732"
+         offset=".097656"
+         id="stop311" />
+      <stop
+         stop-color="#287932"
+         offset=".10156"
+         id="stop312" />
+      <stop
+         stop-color="#287a33"
+         offset=".10547"
+         id="stop313" />
+      <stop
+         stop-color="#297b33"
+         offset=".10938"
+         id="stop314" />
+      <stop
+         stop-color="#297d33"
+         offset=".11328"
+         id="stop315" />
+      <stop
+         stop-color="#2a7e33"
+         offset=".11719"
+         id="stop316" />
+      <stop
+         stop-color="#2a8034"
+         offset=".12109"
+         id="stop317" />
+      <stop
+         stop-color="#2b8134"
+         offset=".125"
+         id="stop318" />
+      <stop
+         stop-color="#2c8234"
+         offset=".12891"
+         id="stop319" />
+      <stop
+         stop-color="#2c8434"
+         offset=".13281"
+         id="stop320" />
+      <stop
+         stop-color="#2d8535"
+         offset=".13672"
+         id="stop321" />
+      <stop
+         stop-color="#2d8735"
+         offset=".14062"
+         id="stop322" />
+      <stop
+         stop-color="#2e8835"
+         offset=".14453"
+         id="stop323" />
+      <stop
+         stop-color="#2e8935"
+         offset=".14844"
+         id="stop324" />
+      <stop
+         stop-color="#2f8a36"
+         offset=".15234"
+         id="stop325" />
+      <stop
+         stop-color="#2f8c36"
+         offset=".15625"
+         id="stop326" />
+      <stop
+         stop-color="#308d36"
+         offset=".16016"
+         id="stop327" />
+      <stop
+         stop-color="#308e36"
+         offset=".16406"
+         id="stop328" />
+      <stop
+         stop-color="#318f37"
+         offset=".16797"
+         id="stop329" />
+      <stop
+         stop-color="#319137"
+         offset=".17188"
+         id="stop330" />
+      <stop
+         stop-color="#329237"
+         offset=".17578"
+         id="stop331" />
+      <stop
+         stop-color="#329337"
+         offset=".17969"
+         id="stop332" />
+      <stop
+         stop-color="#329437"
+         offset=".18359"
+         id="stop333" />
+      <stop
+         stop-color="#339538"
+         offset=".1875"
+         id="stop334" />
+      <stop
+         stop-color="#339738"
+         offset=".19141"
+         id="stop335" />
+      <stop
+         stop-color="#349838"
+         offset=".19531"
+         id="stop336" />
+      <stop
+         stop-color="#349938"
+         offset=".19922"
+         id="stop337" />
+      <stop
+         stop-color="#359a38"
+         offset=".20312"
+         id="stop338" />
+      <stop
+         stop-color="#359b38"
+         offset=".20703"
+         id="stop339" />
+      <stop
+         stop-color="#359c39"
+         offset=".21094"
+         id="stop340" />
+      <stop
+         stop-color="#369d39"
+         offset=".21484"
+         id="stop341" />
+      <stop
+         stop-color="#369e39"
+         offset=".21875"
+         id="stop342" />
+      <stop
+         stop-color="#379f39"
+         offset=".22266"
+         id="stop343" />
+      <stop
+         stop-color="#37a039"
+         offset=".22656"
+         id="stop344" />
+      <stop
+         stop-color="#37a139"
+         offset=".23047"
+         id="stop345" />
+      <stop
+         stop-color="#38a239"
+         offset=".23438"
+         id="stop346" />
+      <stop
+         stop-color="#38a33a"
+         offset=".23828"
+         id="stop347" />
+      <stop
+         stop-color="#39a43a"
+         offset=".24219"
+         id="stop348" />
+      <stop
+         stop-color="#39a53a"
+         offset=".24609"
+         id="stop349" />
+      <stop
+         stop-color="#39a53a"
+         offset=".25"
+         id="stop350" />
+      <stop
+         stop-color="#3aa63a"
+         offset=".25391"
+         id="stop351" />
+      <stop
+         stop-color="#3aa73a"
+         offset=".25781"
+         id="stop352" />
+      <stop
+         stop-color="#3aa83a"
+         offset=".26172"
+         id="stop353" />
+      <stop
+         stop-color="#3ba93a"
+         offset=".26562"
+         id="stop354" />
+      <stop
+         stop-color="#3ba93a"
+         offset=".26953"
+         id="stop355" />
+      <stop
+         stop-color="#3baa3b"
+         offset=".27344"
+         id="stop356" />
+      <stop
+         stop-color="#3bab3b"
+         offset=".27734"
+         id="stop357" />
+      <stop
+         stop-color="#3cac3b"
+         offset=".28125"
+         id="stop358" />
+      <stop
+         stop-color="#3cac3b"
+         offset=".28516"
+         id="stop359" />
+      <stop
+         stop-color="#3cad3b"
+         offset=".28906"
+         id="stop360" />
+      <stop
+         stop-color="#3dae3b"
+         offset=".29297"
+         id="stop361" />
+      <stop
+         stop-color="#3dae3b"
+         offset=".29688"
+         id="stop362" />
+      <stop
+         stop-color="#3daf3b"
+         offset=".30469"
+         id="stop363" />
+      <stop
+         stop-color="#3eb03b"
+         offset=".3125"
+         id="stop364" />
+      <stop
+         stop-color="#3eb13b"
+         offset=".32031"
+         id="stop365" />
+      <stop
+         stop-color="#3eb23b"
+         offset=".32812"
+         id="stop366" />
+      <stop
+         stop-color="#3fb33c"
+         offset=".33594"
+         id="stop367" />
+      <stop
+         stop-color="#3fb43c"
+         offset=".34375"
+         id="stop368" />
+      <stop
+         stop-color="#3fb53c"
+         offset=".35156"
+         id="stop369" />
+      <stop
+         stop-color="#40b53c"
+         offset=".35938"
+         id="stop370" />
+      <stop
+         stop-color="#40b63c"
+         offset=".375"
+         id="stop371" />
+      <stop
+         stop-color="#40b73c"
+         offset=".39062"
+         id="stop372" />
+      <stop
+         stop-color="#41b83c"
+         offset=".40625"
+         id="stop373" />
+      <stop
+         stop-color="#41b93c"
+         offset=".4375"
+         id="stop374" />
+      <stop
+         stop-color="#41b93c"
+         offset=".45312"
+         id="stop375" />
+      <stop
+         stop-color="#41b83e"
+         offset=".45703"
+         id="stop376" />
+      <stop
+         stop-color="#41b73f"
+         offset=".46094"
+         id="stop377" />
+      <stop
+         stop-color="#40b542"
+         offset=".46484"
+         id="stop378" />
+      <stop
+         stop-color="#40b344"
+         offset=".46875"
+         id="stop379" />
+      <stop
+         stop-color="#3fb047"
+         offset=".47266"
+         id="stop380" />
+      <stop
+         stop-color="#3fae49"
+         offset=".47656"
+         id="stop381" />
+      <stop
+         stop-color="#3eac4b"
+         offset=".48047"
+         id="stop382" />
+      <stop
+         stop-color="#3eaa4e"
+         offset=".48438"
+         id="stop383" />
+      <stop
+         stop-color="#3da850"
+         offset=".48828"
+         id="stop384" />
+      <stop
+         stop-color="#3da652"
+         offset=".49219"
+         id="stop385" />
+      <stop
+         stop-color="#3ca454"
+         offset=".49609"
+         id="stop386" />
+      <stop
+         stop-color="#3ca256"
+         offset=".5"
+         id="stop387" />
+      <stop
+         stop-color="#3ca058"
+         offset=".50391"
+         id="stop388" />
+      <stop
+         stop-color="#3b9e5a"
+         offset=".50781"
+         id="stop389" />
+      <stop
+         stop-color="#3b9c5c"
+         offset=".51172"
+         id="stop390" />
+      <stop
+         stop-color="#3a9a5e"
+         offset=".51562"
+         id="stop391" />
+      <stop
+         stop-color="#3a9860"
+         offset=".51953"
+         id="stop392" />
+      <stop
+         stop-color="#3a9662"
+         offset=".52344"
+         id="stop393" />
+      <stop
+         stop-color="#399463"
+         offset=".52734"
+         id="stop394" />
+      <stop
+         stop-color="#399265"
+         offset=".53125"
+         id="stop395" />
+      <stop
+         stop-color="#389067"
+         offset=".53516"
+         id="stop396" />
+      <stop
+         stop-color="#388e68"
+         offset=".53906"
+         id="stop397" />
+      <stop
+         stop-color="#388c6a"
+         offset=".54297"
+         id="stop398" />
+      <stop
+         stop-color="#378a6b"
+         offset=".54688"
+         id="stop399" />
+      <stop
+         stop-color="#37896d"
+         offset=".55078"
+         id="stop400" />
+      <stop
+         stop-color="#37876e"
+         offset=".55469"
+         id="stop401" />
+      <stop
+         stop-color="#368570"
+         offset=".55859"
+         id="stop402" />
+      <stop
+         stop-color="#368371"
+         offset=".5625"
+         id="stop403" />
+      <stop
+         stop-color="#368172"
+         offset=".56641"
+         id="stop404" />
+      <stop
+         stop-color="#358073"
+         offset=".57031"
+         id="stop405" />
+      <stop
+         stop-color="#357e75"
+         offset=".57422"
+         id="stop406" />
+      <stop
+         stop-color="#357c76"
+         offset=".57812"
+         id="stop407" />
+      <stop
+         stop-color="#347a77"
+         offset=".58203"
+         id="stop408" />
+      <stop
+         stop-color="#347978"
+         offset=".58594"
+         id="stop409" />
+      <stop
+         stop-color="#347779"
+         offset=".58984"
+         id="stop410" />
+      <stop
+         stop-color="#33757a"
+         offset=".59375"
+         id="stop411" />
+      <stop
+         stop-color="#33747b"
+         offset=".59766"
+         id="stop412" />
+      <stop
+         stop-color="#33727c"
+         offset=".60156"
+         id="stop413" />
+      <stop
+         stop-color="#33707d"
+         offset=".60547"
+         id="stop414" />
+      <stop
+         stop-color="#326f7e"
+         offset=".60938"
+         id="stop415" />
+      <stop
+         stop-color="#326d7f"
+         offset=".61328"
+         id="stop416" />
+      <stop
+         stop-color="#326b7f"
+         offset=".61719"
+         id="stop417" />
+      <stop
+         stop-color="#326a80"
+         offset=".62109"
+         id="stop418" />
+      <stop
+         stop-color="#316881"
+         offset=".625"
+         id="stop419" />
+      <stop
+         stop-color="#316782"
+         offset=".62891"
+         id="stop420" />
+      <stop
+         stop-color="#316582"
+         offset=".63281"
+         id="stop421" />
+      <stop
+         stop-color="#316483"
+         offset=".63672"
+         id="stop422" />
+      <stop
+         stop-color="#306284"
+         offset=".64062"
+         id="stop423" />
+      <stop
+         stop-color="#306184"
+         offset=".64453"
+         id="stop424" />
+      <stop
+         stop-color="#305f85"
+         offset=".64844"
+         id="stop425" />
+      <stop
+         stop-color="#305e85"
+         offset=".65234"
+         id="stop426" />
+      <stop
+         stop-color="#2f5c86"
+         offset=".65625"
+         id="stop427" />
+      <stop
+         stop-color="#2f5b87"
+         offset=".66016"
+         id="stop428" />
+      <stop
+         stop-color="#2f5a87"
+         offset=".66406"
+         id="stop429" />
+      <stop
+         stop-color="#2f5887"
+         offset=".66797"
+         id="stop430" />
+      <stop
+         stop-color="#2f5788"
+         offset=".67188"
+         id="stop431" />
+      <stop
+         stop-color="#2e5588"
+         offset=".67578"
+         id="stop432" />
+      <stop
+         stop-color="#2e5489"
+         offset=".67969"
+         id="stop433" />
+      <stop
+         stop-color="#2e5389"
+         offset=".68359"
+         id="stop434" />
+      <stop
+         stop-color="#2e5289"
+         offset=".6875"
+         id="stop435" />
+      <stop
+         stop-color="#2e508a"
+         offset=".69141"
+         id="stop436" />
+      <stop
+         stop-color="#2d4f8a"
+         offset=".69531"
+         id="stop437" />
+      <stop
+         stop-color="#2d4e8a"
+         offset=".69922"
+         id="stop438" />
+      <stop
+         stop-color="#2d4d8b"
+         offset=".70312"
+         id="stop439" />
+      <stop
+         stop-color="#2d4c8b"
+         offset=".70703"
+         id="stop440" />
+      <stop
+         stop-color="#2d4a8b"
+         offset=".71094"
+         id="stop441" />
+      <stop
+         stop-color="#2d498b"
+         offset=".71484"
+         id="stop442" />
+      <stop
+         stop-color="#2c488c"
+         offset=".71875"
+         id="stop443" />
+      <stop
+         stop-color="#2c478c"
+         offset=".72266"
+         id="stop444" />
+      <stop
+         stop-color="#2c468c"
+         offset=".72656"
+         id="stop445" />
+      <stop
+         stop-color="#2c458c"
+         offset=".73047"
+         id="stop446" />
+      <stop
+         stop-color="#2c448c"
+         offset=".73438"
+         id="stop447" />
+      <stop
+         stop-color="#2c438c"
+         offset=".73828"
+         id="stop448" />
+      <stop
+         stop-color="#2c428d"
+         offset=".74219"
+         id="stop449" />
+      <stop
+         stop-color="#2c418d"
+         offset=".74609"
+         id="stop450" />
+      <stop
+         stop-color="#2b408d"
+         offset=".75"
+         id="stop451" />
+      <stop
+         stop-color="#2b3f8d"
+         offset=".75391"
+         id="stop452" />
+      <stop
+         stop-color="#2b3e8d"
+         offset=".75781"
+         id="stop453" />
+      <stop
+         stop-color="#2b3e8d"
+         offset=".76172"
+         id="stop454" />
+      <stop
+         stop-color="#2b3d8d"
+         offset=".76562"
+         id="stop455" />
+      <stop
+         stop-color="#2b3c8d"
+         offset=".76953"
+         id="stop456" />
+      <stop
+         stop-color="#2b3b8d"
+         offset=".77344"
+         id="stop457" />
+      <stop
+         stop-color="#2b3b8d"
+         offset=".77734"
+         id="stop458" />
+      <stop
+         stop-color="#2b3a8d"
+         offset=".78125"
+         id="stop459" />
+      <stop
+         stop-color="#2b3a8d"
+         offset=".78516"
+         id="stop460" />
+      <stop
+         stop-color="#2a398d"
+         offset=".78906"
+         id="stop461" />
+      <stop
+         stop-color="#2b398d"
+         offset=".79297"
+         id="stop462" />
+      <stop
+         stop-color="#2b398c"
+         offset=".79688"
+         id="stop463" />
+      <stop
+         stop-color="#2b398b"
+         offset=".80078"
+         id="stop464" />
+      <stop
+         stop-color="#2b398b"
+         offset=".80469"
+         id="stop465" />
+      <stop
+         stop-color="#2b398a"
+         offset=".80859"
+         id="stop466" />
+      <stop
+         stop-color="#2b3889"
+         offset=".8125"
+         id="stop467" />
+      <stop
+         stop-color="#2b3888"
+         offset=".81641"
+         id="stop468" />
+      <stop
+         stop-color="#2b3887"
+         offset=".82031"
+         id="stop469" />
+      <stop
+         stop-color="#2b3886"
+         offset=".82422"
+         id="stop470" />
+      <stop
+         stop-color="#2b3885"
+         offset=".82812"
+         id="stop471" />
+      <stop
+         stop-color="#2b3884"
+         offset=".83203"
+         id="stop472" />
+      <stop
+         stop-color="#2b3883"
+         offset=".83594"
+         id="stop473" />
+      <stop
+         stop-color="#2b3882"
+         offset=".83984"
+         id="stop474" />
+      <stop
+         stop-color="#2b3781"
+         offset=".84375"
+         id="stop475" />
+      <stop
+         stop-color="#2b3780"
+         offset=".84766"
+         id="stop476" />
+      <stop
+         stop-color="#2b377f"
+         offset=".85156"
+         id="stop477" />
+      <stop
+         stop-color="#2b377d"
+         offset=".85547"
+         id="stop478" />
+      <stop
+         stop-color="#2b377c"
+         offset=".85938"
+         id="stop479" />
+      <stop
+         stop-color="#2b377b"
+         offset=".86328"
+         id="stop480" />
+      <stop
+         stop-color="#2b367a"
+         offset=".86719"
+         id="stop481" />
+      <stop
+         stop-color="#2b3679"
+         offset=".87109"
+         id="stop482" />
+      <stop
+         stop-color="#2b3678"
+         offset=".875"
+         id="stop483" />
+      <stop
+         stop-color="#2b3677"
+         offset=".87891"
+         id="stop484" />
+      <stop
+         stop-color="#2b3675"
+         offset=".88281"
+         id="stop485" />
+      <stop
+         stop-color="#2b3674"
+         offset=".88672"
+         id="stop486" />
+      <stop
+         stop-color="#2b3573"
+         offset=".89062"
+         id="stop487" />
+      <stop
+         stop-color="#2b3572"
+         offset=".89453"
+         id="stop488" />
+      <stop
+         stop-color="#2b3571"
+         offset=".89844"
+         id="stop489" />
+      <stop
+         stop-color="#2b3570"
+         offset=".90234"
+         id="stop490" />
+      <stop
+         stop-color="#2b356e"
+         offset=".90625"
+         id="stop491" />
+      <stop
+         stop-color="#2b346d"
+         offset=".91016"
+         id="stop492" />
+      <stop
+         stop-color="#2b346c"
+         offset=".91406"
+         id="stop493" />
+      <stop
+         stop-color="#2b346b"
+         offset=".91797"
+         id="stop494" />
+      <stop
+         stop-color="#2b3469"
+         offset=".92188"
+         id="stop495" />
+      <stop
+         stop-color="#2b3468"
+         offset=".92578"
+         id="stop496" />
+      <stop
+         stop-color="#2b3367"
+         offset=".92969"
+         id="stop497" />
+      <stop
+         stop-color="#2b3366"
+         offset=".93359"
+         id="stop498" />
+      <stop
+         stop-color="#2b3365"
+         offset=".9375"
+         id="stop499" />
+      <stop
+         stop-color="#2b3363"
+         offset=".94141"
+         id="stop500" />
+      <stop
+         stop-color="#2a3362"
+         offset=".94531"
+         id="stop501" />
+      <stop
+         stop-color="#2a3261"
+         offset=".94922"
+         id="stop502" />
+      <stop
+         stop-color="#2a3260"
+         offset=".95312"
+         id="stop503" />
+      <stop
+         stop-color="#2a325e"
+         offset=".95703"
+         id="stop504" />
+      <stop
+         stop-color="#2a325d"
+         offset=".96094"
+         id="stop505" />
+      <stop
+         stop-color="#2a315c"
+         offset=".96484"
+         id="stop506" />
+      <stop
+         stop-color="#2a315b"
+         offset=".96875"
+         id="stop507" />
+      <stop
+         stop-color="#2a3159"
+         offset=".97266"
+         id="stop508" />
+      <stop
+         stop-color="#2a3158"
+         offset=".97656"
+         id="stop509" />
+      <stop
+         stop-color="#2a3057"
+         offset=".98047"
+         id="stop510" />
+      <stop
+         stop-color="#293056"
+         offset=".98438"
+         id="stop511" />
+      <stop
+         stop-color="#293054"
+         offset=".98828"
+         id="stop512" />
+      <stop
+         stop-color="#293053"
+         offset=".99219"
+         id="stop513" />
+      <stop
+         stop-color="#292f52"
+         offset=".99609"
+         id="stop514" />
+      <stop
+         stop-color="#292f51"
+         offset="1"
+         id="stop515" />
+    </linearGradient>
+    <clipPath
+       id="clip67">
+      <path
+         d="m 130.89,526.69 c -1.2305,6.4688 -1.9062,10.555 -3.4219,11.824 0.71484,0.20313 1.5469,-0.004 2.4258,-0.38671 1.5312,-1.6406 3.375,-3.8906 4.6602,-9.9844 0.85157,-4.0469 1.0274,-6.2188 0.26172,-9.6055 -0.73047,-1.1953 -2.1211,-2.1914 -3.5234,-2.418 1.2031,1.375 0.53516,5.6524 -0.40234,10.57"
+         id="path515" />
+    </clipPath>
+    <linearGradient
+       id="linear3"
+       x1="0.017774001"
+       x2="0.98629999"
+       gradientTransform="matrix(0.22707,23.41,23.41,-0.22707,131.42,515.67)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#292f51"
+         offset="0"
+         id="stop516" />
+      <stop
+         stop-color="#292f52"
+         offset=".0039062"
+         id="stop517" />
+      <stop
+         stop-color="#293053"
+         offset=".0078125"
+         id="stop518" />
+      <stop
+         stop-color="#293054"
+         offset=".011719"
+         id="stop519" />
+      <stop
+         stop-color="#293055"
+         offset=".015625"
+         id="stop520" />
+      <stop
+         stop-color="#2a3057"
+         offset=".019531"
+         id="stop521" />
+      <stop
+         stop-color="#2a3158"
+         offset=".023438"
+         id="stop522" />
+      <stop
+         stop-color="#2a3159"
+         offset=".027344"
+         id="stop523" />
+      <stop
+         stop-color="#2a315a"
+         offset=".03125"
+         id="stop524" />
+      <stop
+         stop-color="#2a315b"
+         offset=".035156"
+         id="stop525" />
+      <stop
+         stop-color="#2a325d"
+         offset=".039062"
+         id="stop526" />
+      <stop
+         stop-color="#2a325e"
+         offset=".042969"
+         id="stop527" />
+      <stop
+         stop-color="#2a325f"
+         offset=".046875"
+         id="stop528" />
+      <stop
+         stop-color="#2a3260"
+         offset=".050781"
+         id="stop529" />
+      <stop
+         stop-color="#2a3261"
+         offset=".054688"
+         id="stop530" />
+      <stop
+         stop-color="#2a3362"
+         offset=".058594"
+         id="stop531" />
+      <stop
+         stop-color="#2b3364"
+         offset=".0625"
+         id="stop532" />
+      <stop
+         stop-color="#2b3365"
+         offset=".066406"
+         id="stop533" />
+      <stop
+         stop-color="#2b3366"
+         offset=".070312"
+         id="stop534" />
+      <stop
+         stop-color="#2b3367"
+         offset=".074219"
+         id="stop535" />
+      <stop
+         stop-color="#2b3468"
+         offset=".078125"
+         id="stop536" />
+      <stop
+         stop-color="#2b346a"
+         offset=".082031"
+         id="stop537" />
+      <stop
+         stop-color="#2b346b"
+         offset=".085938"
+         id="stop538" />
+      <stop
+         stop-color="#2b346c"
+         offset=".089844"
+         id="stop539" />
+      <stop
+         stop-color="#2b346d"
+         offset=".09375"
+         id="stop540" />
+      <stop
+         stop-color="#2b356e"
+         offset=".097656"
+         id="stop541" />
+      <stop
+         stop-color="#2b356f"
+         offset=".10156"
+         id="stop542" />
+      <stop
+         stop-color="#2b3571"
+         offset=".10547"
+         id="stop543" />
+      <stop
+         stop-color="#2b3572"
+         offset=".10938"
+         id="stop544" />
+      <stop
+         stop-color="#2b3573"
+         offset=".11328"
+         id="stop545" />
+      <stop
+         stop-color="#2b3674"
+         offset=".11719"
+         id="stop546" />
+      <stop
+         stop-color="#2b3675"
+         offset=".12109"
+         id="stop547" />
+      <stop
+         stop-color="#2b3676"
+         offset=".125"
+         id="stop548" />
+      <stop
+         stop-color="#2b3678"
+         offset=".12891"
+         id="stop549" />
+      <stop
+         stop-color="#2b3679"
+         offset=".13281"
+         id="stop550" />
+      <stop
+         stop-color="#2b367a"
+         offset=".13672"
+         id="stop551" />
+      <stop
+         stop-color="#2b377b"
+         offset=".14062"
+         id="stop552" />
+      <stop
+         stop-color="#2b377c"
+         offset=".14453"
+         id="stop553" />
+      <stop
+         stop-color="#2b377d"
+         offset=".14844"
+         id="stop554" />
+      <stop
+         stop-color="#2b377e"
+         offset=".15234"
+         id="stop555" />
+      <stop
+         stop-color="#2b3780"
+         offset=".15625"
+         id="stop556" />
+      <stop
+         stop-color="#2b3781"
+         offset=".16016"
+         id="stop557" />
+      <stop
+         stop-color="#2b3882"
+         offset=".16406"
+         id="stop558" />
+      <stop
+         stop-color="#2b3883"
+         offset=".16797"
+         id="stop559" />
+      <stop
+         stop-color="#2b3884"
+         offset=".17188"
+         id="stop560" />
+      <stop
+         stop-color="#2b3885"
+         offset=".17578"
+         id="stop561" />
+      <stop
+         stop-color="#2b3886"
+         offset=".17969"
+         id="stop562" />
+      <stop
+         stop-color="#2b3887"
+         offset=".18359"
+         id="stop563" />
+      <stop
+         stop-color="#2b3888"
+         offset=".1875"
+         id="stop564" />
+      <stop
+         stop-color="#2b3889"
+         offset=".19141"
+         id="stop565" />
+      <stop
+         stop-color="#2b398a"
+         offset=".19531"
+         id="stop566" />
+      <stop
+         stop-color="#2b398b"
+         offset=".19922"
+         id="stop567" />
+      <stop
+         stop-color="#2b398c"
+         offset=".20312"
+         id="stop568" />
+      <stop
+         stop-color="#2b398d"
+         offset=".20703"
+         id="stop569" />
+      <stop
+         stop-color="#2b398d"
+         offset=".21094"
+         id="stop570" />
+      <stop
+         stop-color="#2b398d"
+         offset=".21484"
+         id="stop571" />
+      <stop
+         stop-color="#2b398d"
+         offset=".21875"
+         id="stop572" />
+      <stop
+         stop-color="#2c398c"
+         offset=".22266"
+         id="stop573" />
+      <stop
+         stop-color="#2d398c"
+         offset=".22656"
+         id="stop574" />
+      <stop
+         stop-color="#2d388c"
+         offset=".23047"
+         id="stop575" />
+      <stop
+         stop-color="#2e388b"
+         offset=".23438"
+         id="stop576" />
+      <stop
+         stop-color="#2f388b"
+         offset=".23828"
+         id="stop577" />
+      <stop
+         stop-color="#2f388a"
+         offset=".24219"
+         id="stop578" />
+      <stop
+         stop-color="#30388a"
+         offset=".24609"
+         id="stop579" />
+      <stop
+         stop-color="#313889"
+         offset=".25"
+         id="stop580" />
+      <stop
+         stop-color="#323789"
+         offset=".25391"
+         id="stop581" />
+      <stop
+         stop-color="#323788"
+         offset=".25781"
+         id="stop582" />
+      <stop
+         stop-color="#333788"
+         offset=".26172"
+         id="stop583" />
+      <stop
+         stop-color="#343787"
+         offset=".26562"
+         id="stop584" />
+      <stop
+         stop-color="#353787"
+         offset=".26953"
+         id="stop585" />
+      <stop
+         stop-color="#363786"
+         offset=".27344"
+         id="stop586" />
+      <stop
+         stop-color="#373686"
+         offset=".27734"
+         id="stop587" />
+      <stop
+         stop-color="#383685"
+         offset=".28125"
+         id="stop588" />
+      <stop
+         stop-color="#393684"
+         offset=".28516"
+         id="stop589" />
+      <stop
+         stop-color="#3a3684"
+         offset=".28906"
+         id="stop590" />
+      <stop
+         stop-color="#3b3683"
+         offset=".29297"
+         id="stop591" />
+      <stop
+         stop-color="#3c3583"
+         offset=".29688"
+         id="stop592" />
+      <stop
+         stop-color="#3d3582"
+         offset=".30078"
+         id="stop593" />
+      <stop
+         stop-color="#3e3581"
+         offset=".30469"
+         id="stop594" />
+      <stop
+         stop-color="#3f3581"
+         offset=".30859"
+         id="stop595" />
+      <stop
+         stop-color="#403580"
+         offset=".3125"
+         id="stop596" />
+      <stop
+         stop-color="#41347f"
+         offset=".31641"
+         id="stop597" />
+      <stop
+         stop-color="#42347f"
+         offset=".32031"
+         id="stop598" />
+      <stop
+         stop-color="#43347e"
+         offset=".32422"
+         id="stop599" />
+      <stop
+         stop-color="#44347d"
+         offset=".32812"
+         id="stop600" />
+      <stop
+         stop-color="#45347d"
+         offset=".33203"
+         id="stop601" />
+      <stop
+         stop-color="#47337c"
+         offset=".33594"
+         id="stop602" />
+      <stop
+         stop-color="#48337b"
+         offset=".33984"
+         id="stop603" />
+      <stop
+         stop-color="#49337a"
+         offset=".34375"
+         id="stop604" />
+      <stop
+         stop-color="#4a337a"
+         offset=".34766"
+         id="stop605" />
+      <stop
+         stop-color="#4b3379"
+         offset=".35156"
+         id="stop606" />
+      <stop
+         stop-color="#4c3278"
+         offset=".35547"
+         id="stop607" />
+      <stop
+         stop-color="#4e3277"
+         offset=".35938"
+         id="stop608" />
+      <stop
+         stop-color="#4f3277"
+         offset=".36328"
+         id="stop609" />
+      <stop
+         stop-color="#503276"
+         offset=".36719"
+         id="stop610" />
+      <stop
+         stop-color="#513175"
+         offset=".37109"
+         id="stop611" />
+      <stop
+         stop-color="#523174"
+         offset=".375"
+         id="stop612" />
+      <stop
+         stop-color="#543173"
+         offset=".37891"
+         id="stop613" />
+      <stop
+         stop-color="#553173"
+         offset=".38281"
+         id="stop614" />
+      <stop
+         stop-color="#563172"
+         offset=".38672"
+         id="stop615" />
+      <stop
+         stop-color="#573071"
+         offset=".39062"
+         id="stop616" />
+      <stop
+         stop-color="#593070"
+         offset=".39453"
+         id="stop617" />
+      <stop
+         stop-color="#5a306f"
+         offset=".39844"
+         id="stop618" />
+      <stop
+         stop-color="#5b306f"
+         offset=".40234"
+         id="stop619" />
+      <stop
+         stop-color="#5c306e"
+         offset=".40625"
+         id="stop620" />
+      <stop
+         stop-color="#5e2f6d"
+         offset=".41016"
+         id="stop621" />
+      <stop
+         stop-color="#5f2f6c"
+         offset=".41406"
+         id="stop622" />
+      <stop
+         stop-color="#602f6b"
+         offset=".41797"
+         id="stop623" />
+      <stop
+         stop-color="#612f6a"
+         offset=".42188"
+         id="stop624" />
+      <stop
+         stop-color="#632e69"
+         offset=".42578"
+         id="stop625" />
+      <stop
+         stop-color="#642e69"
+         offset=".42969"
+         id="stop626" />
+      <stop
+         stop-color="#652e68"
+         offset=".43359"
+         id="stop627" />
+      <stop
+         stop-color="#672e67"
+         offset=".4375"
+         id="stop628" />
+      <stop
+         stop-color="#682e66"
+         offset=".44141"
+         id="stop629" />
+      <stop
+         stop-color="#692d65"
+         offset=".44531"
+         id="stop630" />
+      <stop
+         stop-color="#6b2d64"
+         offset=".44922"
+         id="stop631" />
+      <stop
+         stop-color="#6c2d63"
+         offset=".45312"
+         id="stop632" />
+      <stop
+         stop-color="#6d2d62"
+         offset=".45703"
+         id="stop633" />
+      <stop
+         stop-color="#6f2d61"
+         offset=".46094"
+         id="stop634" />
+      <stop
+         stop-color="#702c60"
+         offset=".46484"
+         id="stop635" />
+      <stop
+         stop-color="#712c5f"
+         offset=".46875"
+         id="stop636" />
+      <stop
+         stop-color="#732c5e"
+         offset=".47266"
+         id="stop637" />
+      <stop
+         stop-color="#742c5e"
+         offset=".47656"
+         id="stop638" />
+      <stop
+         stop-color="#762c5d"
+         offset=".48047"
+         id="stop639" />
+      <stop
+         stop-color="#772b5c"
+         offset=".48438"
+         id="stop640" />
+      <stop
+         stop-color="#782b5b"
+         offset=".48828"
+         id="stop641" />
+      <stop
+         stop-color="#7a2b5a"
+         offset=".49219"
+         id="stop642" />
+      <stop
+         stop-color="#7b2b59"
+         offset=".49609"
+         id="stop643" />
+      <stop
+         stop-color="#7c2b58"
+         offset=".5"
+         id="stop644" />
+      <stop
+         stop-color="#7e2a57"
+         offset=".50391"
+         id="stop645" />
+      <stop
+         stop-color="#7f2a56"
+         offset=".50781"
+         id="stop646" />
+      <stop
+         stop-color="#812a55"
+         offset=".51172"
+         id="stop647" />
+      <stop
+         stop-color="#822a54"
+         offset=".51562"
+         id="stop648" />
+      <stop
+         stop-color="#832a53"
+         offset=".51953"
+         id="stop649" />
+      <stop
+         stop-color="#852a52"
+         offset=".52344"
+         id="stop650" />
+      <stop
+         stop-color="#862951"
+         offset=".52734"
+         id="stop651" />
+      <stop
+         stop-color="#882950"
+         offset=".53125"
+         id="stop652" />
+      <stop
+         stop-color="#89294f"
+         offset=".53516"
+         id="stop653" />
+      <stop
+         stop-color="#8b294e"
+         offset=".53906"
+         id="stop654" />
+      <stop
+         stop-color="#8c294d"
+         offset=".54297"
+         id="stop655" />
+      <stop
+         stop-color="#8d284c"
+         offset=".54688"
+         id="stop656" />
+      <stop
+         stop-color="#8f284b"
+         offset=".55078"
+         id="stop657" />
+      <stop
+         stop-color="#90284a"
+         offset=".55469"
+         id="stop658" />
+      <stop
+         stop-color="#922849"
+         offset=".55859"
+         id="stop659" />
+      <stop
+         stop-color="#932848"
+         offset=".5625"
+         id="stop660" />
+      <stop
+         stop-color="#952846"
+         offset=".56641"
+         id="stop661" />
+      <stop
+         stop-color="#962845"
+         offset=".57031"
+         id="stop662" />
+      <stop
+         stop-color="#972744"
+         offset=".57422"
+         id="stop663" />
+      <stop
+         stop-color="#992743"
+         offset=".57812"
+         id="stop664" />
+      <stop
+         stop-color="#9a2742"
+         offset=".58203"
+         id="stop665" />
+      <stop
+         stop-color="#9c2741"
+         offset=".58594"
+         id="stop666" />
+      <stop
+         stop-color="#9d2740"
+         offset=".58984"
+         id="stop667" />
+      <stop
+         stop-color="#9f273f"
+         offset=".59375"
+         id="stop668" />
+      <stop
+         stop-color="#a0263e"
+         offset=".59766"
+         id="stop669" />
+      <stop
+         stop-color="#a2263d"
+         offset=".60156"
+         id="stop670" />
+      <stop
+         stop-color="#a3263c"
+         offset=".60547"
+         id="stop671" />
+      <stop
+         stop-color="#a5263b"
+         offset=".60938"
+         id="stop672" />
+      <stop
+         stop-color="#a62639"
+         offset=".61328"
+         id="stop673" />
+      <stop
+         stop-color="#a72638"
+         offset=".61719"
+         id="stop674" />
+      <stop
+         stop-color="#a92637"
+         offset=".62109"
+         id="stop675" />
+      <stop
+         stop-color="#aa2636"
+         offset=".625"
+         id="stop676" />
+      <stop
+         stop-color="#ac2535"
+         offset=".62891"
+         id="stop677" />
+      <stop
+         stop-color="#ad2534"
+         offset=".63281"
+         id="stop678" />
+      <stop
+         stop-color="#af2533"
+         offset=".63672"
+         id="stop679" />
+      <stop
+         stop-color="#b02532"
+         offset=".64062"
+         id="stop680" />
+      <stop
+         stop-color="#b22531"
+         offset=".64453"
+         id="stop681" />
+      <stop
+         stop-color="#b3252f"
+         offset=".64844"
+         id="stop682" />
+      <stop
+         stop-color="#b5252e"
+         offset=".65234"
+         id="stop683" />
+      <stop
+         stop-color="#b6252d"
+         offset=".65625"
+         id="stop684" />
+      <stop
+         stop-color="#b8252c"
+         offset=".66016"
+         id="stop685" />
+      <stop
+         stop-color="#b9242b"
+         offset=".66406"
+         id="stop686" />
+      <stop
+         stop-color="#bb242a"
+         offset=".66797"
+         id="stop687" />
+      <stop
+         stop-color="#bc2428"
+         offset=".67188"
+         id="stop688" />
+      <stop
+         stop-color="#be2427"
+         offset=".67578"
+         id="stop689" />
+      <stop
+         stop-color="#bf2426"
+         offset=".67969"
+         id="stop690" />
+      <stop
+         stop-color="#c12425"
+         offset=".68359"
+         id="stop691" />
+      <stop
+         stop-color="#c22424"
+         offset=".6875"
+         id="stop692" />
+      <stop
+         stop-color="#c22424"
+         offset=".69141"
+         id="stop693" />
+      <stop
+         stop-color="#c32423"
+         offset=".69531"
+         id="stop694" />
+      <stop
+         stop-color="#c32423"
+         offset=".70312"
+         id="stop695" />
+      <stop
+         stop-color="#c32423"
+         offset=".71875"
+         id="stop696" />
+      <stop
+         stop-color="#c22423"
+         offset=".73438"
+         id="stop697" />
+      <stop
+         stop-color="#c22423"
+         offset=".75"
+         id="stop698" />
+      <stop
+         stop-color="#c12423"
+         offset=".75781"
+         id="stop699" />
+      <stop
+         stop-color="#c12423"
+         offset=".76562"
+         id="stop700" />
+      <stop
+         stop-color="#c02423"
+         offset=".77344"
+         id="stop701" />
+      <stop
+         stop-color="#bf2323"
+         offset=".78125"
+         id="stop702" />
+      <stop
+         stop-color="#bf2323"
+         offset=".78906"
+         id="stop703" />
+      <stop
+         stop-color="#be2323"
+         offset=".79688"
+         id="stop704" />
+      <stop
+         stop-color="#bd2323"
+         offset=".80078"
+         id="stop705" />
+      <stop
+         stop-color="#bc2322"
+         offset=".80469"
+         id="stop706" />
+      <stop
+         stop-color="#bc2322"
+         offset=".80859"
+         id="stop707" />
+      <stop
+         stop-color="#bb2322"
+         offset=".8125"
+         id="stop708" />
+      <stop
+         stop-color="#ba2322"
+         offset=".81641"
+         id="stop709" />
+      <stop
+         stop-color="#ba2322"
+         offset=".82031"
+         id="stop710" />
+      <stop
+         stop-color="#b92322"
+         offset=".82422"
+         id="stop711" />
+      <stop
+         stop-color="#b82222"
+         offset=".82812"
+         id="stop712" />
+      <stop
+         stop-color="#b82222"
+         offset=".83203"
+         id="stop713" />
+      <stop
+         stop-color="#b72222"
+         offset=".83594"
+         id="stop714" />
+      <stop
+         stop-color="#b62222"
+         offset=".83984"
+         id="stop715" />
+      <stop
+         stop-color="#b52222"
+         offset=".84375"
+         id="stop716" />
+      <stop
+         stop-color="#b42221"
+         offset=".84766"
+         id="stop717" />
+      <stop
+         stop-color="#b32221"
+         offset=".85156"
+         id="stop718" />
+      <stop
+         stop-color="#b22221"
+         offset=".85547"
+         id="stop719" />
+      <stop
+         stop-color="#b12121"
+         offset=".85938"
+         id="stop720" />
+      <stop
+         stop-color="#b02121"
+         offset=".86328"
+         id="stop721" />
+      <stop
+         stop-color="#af2121"
+         offset=".86719"
+         id="stop722" />
+      <stop
+         stop-color="#ae2121"
+         offset=".87109"
+         id="stop723" />
+      <stop
+         stop-color="#ad2121"
+         offset=".875"
+         id="stop724" />
+      <stop
+         stop-color="#ac2120"
+         offset=".87891"
+         id="stop725" />
+      <stop
+         stop-color="#ab2120"
+         offset=".88281"
+         id="stop726" />
+      <stop
+         stop-color="#a92020"
+         offset=".88672"
+         id="stop727" />
+      <stop
+         stop-color="#a82020"
+         offset=".89062"
+         id="stop728" />
+      <stop
+         stop-color="#a72020"
+         offset=".89453"
+         id="stop729" />
+      <stop
+         stop-color="#a52020"
+         offset=".89844"
+         id="stop730" />
+      <stop
+         stop-color="#a4201f"
+         offset=".90234"
+         id="stop731" />
+      <stop
+         stop-color="#a31f1f"
+         offset=".90625"
+         id="stop732" />
+      <stop
+         stop-color="#a11f1f"
+         offset=".91016"
+         id="stop733" />
+      <stop
+         stop-color="#a01f1f"
+         offset=".91406"
+         id="stop734" />
+      <stop
+         stop-color="#9e1f1f"
+         offset=".91797"
+         id="stop735" />
+      <stop
+         stop-color="#9d1e1e"
+         offset=".92188"
+         id="stop736" />
+      <stop
+         stop-color="#9b1e1e"
+         offset=".92578"
+         id="stop737" />
+      <stop
+         stop-color="#9a1e1e"
+         offset=".92969"
+         id="stop738" />
+      <stop
+         stop-color="#981e1e"
+         offset=".93359"
+         id="stop739" />
+      <stop
+         stop-color="#961d1d"
+         offset=".9375"
+         id="stop740" />
+      <stop
+         stop-color="#941d1d"
+         offset=".94141"
+         id="stop741" />
+      <stop
+         stop-color="#931d1d"
+         offset=".94531"
+         id="stop742" />
+      <stop
+         stop-color="#911d1d"
+         offset=".94922"
+         id="stop743" />
+      <stop
+         stop-color="#8f1c1c"
+         offset=".95312"
+         id="stop744" />
+      <stop
+         stop-color="#8d1c1c"
+         offset=".95703"
+         id="stop745" />
+      <stop
+         stop-color="#8b1c1c"
+         offset=".96094"
+         id="stop746" />
+      <stop
+         stop-color="#891b1b"
+         offset=".96484"
+         id="stop747" />
+      <stop
+         stop-color="#871b1b"
+         offset=".96875"
+         id="stop748" />
+      <stop
+         stop-color="#851b1b"
+         offset=".97266"
+         id="stop749" />
+      <stop
+         stop-color="#831a1b"
+         offset=".97656"
+         id="stop750" />
+      <stop
+         stop-color="#811a1a"
+         offset=".98047"
+         id="stop751" />
+      <stop
+         stop-color="#7f1a1a"
+         offset=".98438"
+         id="stop752" />
+      <stop
+         stop-color="#7d1919"
+         offset=".98828"
+         id="stop753" />
+      <stop
+         stop-color="#7b1919"
+         offset=".99219"
+         id="stop754" />
+      <stop
+         stop-color="#791919"
+         offset=".99609"
+         id="stop755" />
+      <stop
+         stop-color="#771818"
+         offset="1"
+         id="stop756" />
+    </linearGradient>
+    <clipPath
+       id="clip69">
+      <path
+         d="m 125.64,518.27 c 0,0 3.5078,-2.2422 4.4375,-1.0508 1.4336,1.832 0.29687,9.4648 0.29687,9.4648 0.71485,-3.9531 1.7461,-9.4219 0.52344,-10.199 -0.28125,-0.17969 -0.60547,-0.25781 -0.95703,-0.25781 -1.8281,0 -4.3008,2.043 -4.3008,2.043"
+         id="path756" />
+    </clipPath>
+    <linearGradient
+       id="linear4"
+       x1="-0.26855999"
+       x2="1.6665"
+       gradientTransform="matrix(3.8515,5.1302,5.1302,-3.8515,126.18,517.77)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#8e908f"
+         offset="0"
+         id="stop757" />
+      <stop
+         stop-color="#8e908f"
+         offset=".125"
+         id="stop758" />
+      <stop
+         stop-color="#8f918f"
+         offset=".14062"
+         id="stop759" />
+      <stop
+         stop-color="#909291"
+         offset=".14453"
+         id="stop760" />
+      <stop
+         stop-color="#919392"
+         offset=".14844"
+         id="stop761" />
+      <stop
+         stop-color="#929492"
+         offset=".15234"
+         id="stop762" />
+      <stop
+         stop-color="#939593"
+         offset=".15625"
+         id="stop763" />
+      <stop
+         stop-color="#949694"
+         offset=".16016"
+         id="stop764" />
+      <stop
+         stop-color="#959795"
+         offset=".16406"
+         id="stop765" />
+      <stop
+         stop-color="#969896"
+         offset=".16797"
+         id="stop766" />
+      <stop
+         stop-color="#979997"
+         offset=".17188"
+         id="stop767" />
+      <stop
+         stop-color="#989a98"
+         offset=".17578"
+         id="stop768" />
+      <stop
+         stop-color="#999b99"
+         offset=".17969"
+         id="stop769" />
+      <stop
+         stop-color="#9a9c9a"
+         offset=".18359"
+         id="stop770" />
+      <stop
+         stop-color="#9b9d9b"
+         offset=".1875"
+         id="stop771" />
+      <stop
+         stop-color="#9c9e9c"
+         offset=".19141"
+         id="stop772" />
+      <stop
+         stop-color="#9d9f9d"
+         offset=".19531"
+         id="stop773" />
+      <stop
+         stop-color="#9ea09e"
+         offset=".19922"
+         id="stop774" />
+      <stop
+         stop-color="#9fa09f"
+         offset=".20312"
+         id="stop775" />
+      <stop
+         stop-color="#a0a1a0"
+         offset=".20703"
+         id="stop776" />
+      <stop
+         stop-color="#a1a2a0"
+         offset=".21094"
+         id="stop777" />
+      <stop
+         stop-color="#a2a3a1"
+         offset=".21484"
+         id="stop778" />
+      <stop
+         stop-color="#a3a4a2"
+         offset=".21875"
+         id="stop779" />
+      <stop
+         stop-color="#a4a5a3"
+         offset=".22266"
+         id="stop780" />
+      <stop
+         stop-color="#a5a6a4"
+         offset=".22656"
+         id="stop781" />
+      <stop
+         stop-color="#a6a7a5"
+         offset=".23047"
+         id="stop782" />
+      <stop
+         stop-color="#a7a8a6"
+         offset=".23438"
+         id="stop783" />
+      <stop
+         stop-color="#a7a9a6"
+         offset=".23828"
+         id="stop784" />
+      <stop
+         stop-color="#a8a9a7"
+         offset=".24219"
+         id="stop785" />
+      <stop
+         stop-color="#a9aaa8"
+         offset=".24609"
+         id="stop786" />
+      <stop
+         stop-color="#aaaba9"
+         offset=".25"
+         id="stop787" />
+      <stop
+         stop-color="#abacaa"
+         offset=".25391"
+         id="stop788" />
+      <stop
+         stop-color="#acadab"
+         offset=".25781"
+         id="stop789" />
+      <stop
+         stop-color="#adaeab"
+         offset=".26172"
+         id="stop790" />
+      <stop
+         stop-color="#adaeac"
+         offset=".26562"
+         id="stop791" />
+      <stop
+         stop-color="#aeafad"
+         offset=".26953"
+         id="stop792" />
+      <stop
+         stop-color="#afb0ae"
+         offset=".27344"
+         id="stop793" />
+      <stop
+         stop-color="#b0b1af"
+         offset=".27734"
+         id="stop794" />
+      <stop
+         stop-color="#b1b2af"
+         offset=".28125"
+         id="stop795" />
+      <stop
+         stop-color="#b1b2b0"
+         offset=".28516"
+         id="stop796" />
+      <stop
+         stop-color="#b2b3b1"
+         offset=".28906"
+         id="stop797" />
+      <stop
+         stop-color="#b3b4b2"
+         offset=".29297"
+         id="stop798" />
+      <stop
+         stop-color="#b4b5b2"
+         offset=".29688"
+         id="stop799" />
+      <stop
+         stop-color="#b4b5b3"
+         offset=".30078"
+         id="stop800" />
+      <stop
+         stop-color="#b5b6b4"
+         offset=".30469"
+         id="stop801" />
+      <stop
+         stop-color="#b6b7b4"
+         offset=".30859"
+         id="stop802" />
+      <stop
+         stop-color="#b7b7b5"
+         offset=".3125"
+         id="stop803" />
+      <stop
+         stop-color="#b7b8b6"
+         offset=".31641"
+         id="stop804" />
+      <stop
+         stop-color="#b8b9b7"
+         offset=".32031"
+         id="stop805" />
+      <stop
+         stop-color="#b9bab7"
+         offset=".32422"
+         id="stop806" />
+      <stop
+         stop-color="#b9bab8"
+         offset=".32812"
+         id="stop807" />
+      <stop
+         stop-color="#babbb9"
+         offset=".33203"
+         id="stop808" />
+      <stop
+         stop-color="#bbbcb9"
+         offset=".33594"
+         id="stop809" />
+      <stop
+         stop-color="#bbbcba"
+         offset=".33984"
+         id="stop810" />
+      <stop
+         stop-color="#bcbdbb"
+         offset=".34375"
+         id="stop811" />
+      <stop
+         stop-color="#bdbebb"
+         offset=".34766"
+         id="stop812" />
+      <stop
+         stop-color="#bdbebc"
+         offset=".35156"
+         id="stop813" />
+      <stop
+         stop-color="#bebfbc"
+         offset=".35938"
+         id="stop814" />
+      <stop
+         stop-color="#bfc0be"
+         offset=".36719"
+         id="stop815" />
+      <stop
+         stop-color="#c0c1bf"
+         offset=".375"
+         id="stop816" />
+      <stop
+         stop-color="#c1c2c0"
+         offset=".38281"
+         id="stop817" />
+      <stop
+         stop-color="#c2c3c1"
+         offset=".39062"
+         id="stop818" />
+      <stop
+         stop-color="#c3c4c2"
+         offset=".39844"
+         id="stop819" />
+      <stop
+         stop-color="#c4c5c3"
+         offset=".40625"
+         id="stop820" />
+      <stop
+         stop-color="#c5c6c4"
+         offset=".41406"
+         id="stop821" />
+      <stop
+         stop-color="#c6c7c5"
+         offset=".42188"
+         id="stop822" />
+      <stop
+         stop-color="#c7c8c6"
+         offset=".42969"
+         id="stop823" />
+      <stop
+         stop-color="#c8c9c7"
+         offset=".4375"
+         id="stop824" />
+      <stop
+         stop-color="#c9cac7"
+         offset=".44531"
+         id="stop825" />
+      <stop
+         stop-color="#c9cbc8"
+         offset=".45312"
+         id="stop826" />
+      <stop
+         stop-color="#cacbc9"
+         offset=".46094"
+         id="stop827" />
+      <stop
+         stop-color="#cbccca"
+         offset=".46875"
+         id="stop828" />
+      <stop
+         stop-color="#cccdcb"
+         offset=".48438"
+         id="stop829" />
+      <stop
+         stop-color="#cdcecc"
+         offset=".5"
+         id="stop830" />
+      <stop
+         stop-color="#cecfcd"
+         offset=".51562"
+         id="stop831" />
+      <stop
+         stop-color="#cfd0ce"
+         offset=".53125"
+         id="stop832" />
+      <stop
+         stop-color="#d0d1cf"
+         offset=".5625"
+         id="stop833" />
+      <stop
+         stop-color="#d1d3d0"
+         offset=".625"
+         id="stop834" />
+      <stop
+         stop-color="#d2d3d1"
+         offset=".75"
+         id="stop835" />
+      <stop
+         stop-color="#d2d3d1"
+         offset="1"
+         id="stop836" />
+    </linearGradient>
+    <clipPath
+       id="clip71">
+      <path
+         d="m 124.27,505.3 c -1.0976,0.0274 -1.8359,2.4102 -2.3008,3.7852 0,0 1.1055,-2.6602 2.6172,-2.6328 2.3125,0.043 6.7656,4.4766 6.7969,4.5039 -2.1484,-2.8047 -5.4102,-5.6562 -7.0781,-5.6562 H 124.27"
+         id="path836" />
+    </clipPath>
+    <linearGradient
+       id="linear5"
+       x1="-0.11891"
+       x2="1.0453"
+       gradientTransform="matrix(8.6637,3.3736,3.3736,-8.6637,122.66,506.56)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#8e908f"
+         offset="0"
+         id="stop837" />
+      <stop
+         stop-color="#8e908f"
+         offset=".0625"
+         id="stop838" />
+      <stop
+         stop-color="#8e908f"
+         offset=".09375"
+         id="stop839" />
+      <stop
+         stop-color="#8e908f"
+         offset=".10156"
+         id="stop840" />
+      <stop
+         stop-color="#8f9190"
+         offset=".10547"
+         id="stop841" />
+      <stop
+         stop-color="#909291"
+         offset=".10938"
+         id="stop842" />
+      <stop
+         stop-color="#919392"
+         offset=".11328"
+         id="stop843" />
+      <stop
+         stop-color="#929493"
+         offset=".11719"
+         id="stop844" />
+      <stop
+         stop-color="#939594"
+         offset=".12109"
+         id="stop845" />
+      <stop
+         stop-color="#949695"
+         offset=".125"
+         id="stop846" />
+      <stop
+         stop-color="#959796"
+         offset=".12891"
+         id="stop847" />
+      <stop
+         stop-color="#969897"
+         offset=".13281"
+         id="stop848" />
+      <stop
+         stop-color="#979997"
+         offset=".13672"
+         id="stop849" />
+      <stop
+         stop-color="#989a98"
+         offset=".14062"
+         id="stop850" />
+      <stop
+         stop-color="#999b99"
+         offset=".14453"
+         id="stop851" />
+      <stop
+         stop-color="#9a9c9a"
+         offset=".14844"
+         id="stop852" />
+      <stop
+         stop-color="#9b9d9b"
+         offset=".15234"
+         id="stop853" />
+      <stop
+         stop-color="#9c9e9c"
+         offset=".15625"
+         id="stop854" />
+      <stop
+         stop-color="#9d9e9d"
+         offset=".16016"
+         id="stop855" />
+      <stop
+         stop-color="#9e9f9e"
+         offset=".16406"
+         id="stop856" />
+      <stop
+         stop-color="#9fa09e"
+         offset=".16797"
+         id="stop857" />
+      <stop
+         stop-color="#a0a19f"
+         offset=".17188"
+         id="stop858" />
+      <stop
+         stop-color="#a1a2a0"
+         offset=".17578"
+         id="stop859" />
+      <stop
+         stop-color="#a2a3a1"
+         offset=".17969"
+         id="stop860" />
+      <stop
+         stop-color="#a3a4a2"
+         offset=".18359"
+         id="stop861" />
+      <stop
+         stop-color="#a3a5a3"
+         offset=".1875"
+         id="stop862" />
+      <stop
+         stop-color="#a4a5a3"
+         offset=".19141"
+         id="stop863" />
+      <stop
+         stop-color="#a5a6a4"
+         offset=".19531"
+         id="stop864" />
+      <stop
+         stop-color="#a6a7a5"
+         offset=".19922"
+         id="stop865" />
+      <stop
+         stop-color="#a7a8a6"
+         offset=".20312"
+         id="stop866" />
+      <stop
+         stop-color="#a8a9a7"
+         offset=".20703"
+         id="stop867" />
+      <stop
+         stop-color="#a8a9a7"
+         offset=".21094"
+         id="stop868" />
+      <stop
+         stop-color="#a9aaa8"
+         offset=".21484"
+         id="stop869" />
+      <stop
+         stop-color="#aaaba9"
+         offset=".21875"
+         id="stop870" />
+      <stop
+         stop-color="#abacaa"
+         offset=".22266"
+         id="stop871" />
+      <stop
+         stop-color="#abacaa"
+         offset=".22656"
+         id="stop872" />
+      <stop
+         stop-color="#acadab"
+         offset=".23047"
+         id="stop873" />
+      <stop
+         stop-color="#adaeac"
+         offset=".23438"
+         id="stop874" />
+      <stop
+         stop-color="#aeafac"
+         offset=".23828"
+         id="stop875" />
+      <stop
+         stop-color="#aeafad"
+         offset=".24219"
+         id="stop876" />
+      <stop
+         stop-color="#afb0ae"
+         offset=".24609"
+         id="stop877" />
+      <stop
+         stop-color="#b0b1af"
+         offset=".25"
+         id="stop878" />
+      <stop
+         stop-color="#b0b1af"
+         offset=".25391"
+         id="stop879" />
+      <stop
+         stop-color="#b1b2b0"
+         offset=".25781"
+         id="stop880" />
+      <stop
+         stop-color="#b2b3b1"
+         offset=".26172"
+         id="stop881" />
+      <stop
+         stop-color="#b3b3b1"
+         offset=".26562"
+         id="stop882" />
+      <stop
+         stop-color="#b3b4b2"
+         offset=".26953"
+         id="stop883" />
+      <stop
+         stop-color="#b4b5b2"
+         offset=".27344"
+         id="stop884" />
+      <stop
+         stop-color="#b4b5b3"
+         offset=".27734"
+         id="stop885" />
+      <stop
+         stop-color="#b5b6b4"
+         offset=".28125"
+         id="stop886" />
+      <stop
+         stop-color="#b6b7b4"
+         offset=".28516"
+         id="stop887" />
+      <stop
+         stop-color="#b6b7b5"
+         offset=".28906"
+         id="stop888" />
+      <stop
+         stop-color="#b7b8b5"
+         offset=".29688"
+         id="stop889" />
+      <stop
+         stop-color="#b8b9b7"
+         offset=".30469"
+         id="stop890" />
+      <stop
+         stop-color="#b9bab8"
+         offset=".3125"
+         id="stop891" />
+      <stop
+         stop-color="#babbb9"
+         offset=".32031"
+         id="stop892" />
+      <stop
+         stop-color="#bbbcba"
+         offset=".32812"
+         id="stop893" />
+      <stop
+         stop-color="#bcbdbb"
+         offset=".33594"
+         id="stop894" />
+      <stop
+         stop-color="#bdbebc"
+         offset=".34375"
+         id="stop895" />
+      <stop
+         stop-color="#bebfbd"
+         offset=".35156"
+         id="stop896" />
+      <stop
+         stop-color="#bfc0be"
+         offset=".35938"
+         id="stop897" />
+      <stop
+         stop-color="#c0c1bf"
+         offset=".36719"
+         id="stop898" />
+      <stop
+         stop-color="#c1c2c0"
+         offset=".375"
+         id="stop899" />
+      <stop
+         stop-color="#c2c3c0"
+         offset=".38281"
+         id="stop900" />
+      <stop
+         stop-color="#c3c4c1"
+         offset=".39062"
+         id="stop901" />
+      <stop
+         stop-color="#c3c4c2"
+         offset=".39844"
+         id="stop902" />
+      <stop
+         stop-color="#c4c5c3"
+         offset=".40625"
+         id="stop903" />
+      <stop
+         stop-color="#c5c6c4"
+         offset=".41406"
+         id="stop904" />
+      <stop
+         stop-color="#c6c7c4"
+         offset=".42188"
+         id="stop905" />
+      <stop
+         stop-color="#c7c8c5"
+         offset=".4375"
+         id="stop906" />
+      <stop
+         stop-color="#c8c9c6"
+         offset=".45312"
+         id="stop907" />
+      <stop
+         stop-color="#c9cac8"
+         offset=".46875"
+         id="stop908" />
+      <stop
+         stop-color="#cacbc9"
+         offset=".48438"
+         id="stop909" />
+      <stop
+         stop-color="#cbccca"
+         offset=".5"
+         id="stop910" />
+      <stop
+         stop-color="#cccdcb"
+         offset=".51562"
+         id="stop911" />
+      <stop
+         stop-color="#cccecb"
+         offset=".53125"
+         id="stop912" />
+      <stop
+         stop-color="#cdcfcc"
+         offset=".5625"
+         id="stop913" />
+      <stop
+         stop-color="#cfd0ce"
+         offset=".59375"
+         id="stop914" />
+      <stop
+         stop-color="#cfd1ce"
+         offset=".625"
+         id="stop915" />
+      <stop
+         stop-color="#d0d2cf"
+         offset=".6875"
+         id="stop916" />
+      <stop
+         stop-color="#d1d3d0"
+         offset=".75"
+         id="stop917" />
+      <stop
+         stop-color="#d2d3d1"
+         offset="1"
+         id="stop918" />
+    </linearGradient>
+    <clipPath
+       id="clip73">
+      <path
+         d="m 120.72,525.6 c 1.2773,7.0391 4.6406,12.348 6.2266,12.285 1.3476,-0.0586 2.0547,-4.6133 2.0547,-4.6133 0,0 -1.0547,3.7852 -2.3242,2.9688 -3.5859,-2.3047 -5.9336,-10.551 -5.957,-10.641 z"
+         id="path918" />
+    </clipPath>
+    <linearGradient
+       id="linear6"
+       x1="-0.10345"
+       x2="1.6919"
+       gradientTransform="matrix(-4.4596,-6.9758,-6.9758,4.4596,128.4,537.32)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#8e908f"
+         offset="0"
+         id="stop919" />
+      <stop
+         stop-color="#8e908f"
+         offset=".03125"
+         id="stop920" />
+      <stop
+         stop-color="#8e908f"
+         offset=".046875"
+         id="stop921" />
+      <stop
+         stop-color="#8e908f"
+         offset=".054688"
+         id="stop922" />
+      <stop
+         stop-color="#8f9190"
+         offset=".058594"
+         id="stop923" />
+      <stop
+         stop-color="#909290"
+         offset=".0625"
+         id="stop924" />
+      <stop
+         stop-color="#919291"
+         offset=".066406"
+         id="stop925" />
+      <stop
+         stop-color="#929392"
+         offset=".070312"
+         id="stop926" />
+      <stop
+         stop-color="#939493"
+         offset=".074219"
+         id="stop927" />
+      <stop
+         stop-color="#949594"
+         offset=".078125"
+         id="stop928" />
+      <stop
+         stop-color="#959695"
+         offset=".082031"
+         id="stop929" />
+      <stop
+         stop-color="#969796"
+         offset=".085938"
+         id="stop930" />
+      <stop
+         stop-color="#969896"
+         offset=".089844"
+         id="stop931" />
+      <stop
+         stop-color="#979997"
+         offset=".09375"
+         id="stop932" />
+      <stop
+         stop-color="#989a98"
+         offset=".097656"
+         id="stop933" />
+      <stop
+         stop-color="#999b99"
+         offset=".10156"
+         id="stop934" />
+      <stop
+         stop-color="#9a9c9a"
+         offset=".10547"
+         id="stop935" />
+      <stop
+         stop-color="#9b9d9b"
+         offset=".10938"
+         id="stop936" />
+      <stop
+         stop-color="#9c9d9c"
+         offset=".11328"
+         id="stop937" />
+      <stop
+         stop-color="#9d9e9d"
+         offset=".11719"
+         id="stop938" />
+      <stop
+         stop-color="#9e9f9d"
+         offset=".12109"
+         id="stop939" />
+      <stop
+         stop-color="#9fa09e"
+         offset=".125"
+         id="stop940" />
+      <stop
+         stop-color="#a0a19f"
+         offset=".12891"
+         id="stop941" />
+      <stop
+         stop-color="#a1a2a0"
+         offset=".13281"
+         id="stop942" />
+      <stop
+         stop-color="#a1a3a1"
+         offset=".13672"
+         id="stop943" />
+      <stop
+         stop-color="#a2a3a2"
+         offset=".14062"
+         id="stop944" />
+      <stop
+         stop-color="#a3a4a2"
+         offset=".14453"
+         id="stop945" />
+      <stop
+         stop-color="#a4a5a3"
+         offset=".14844"
+         id="stop946" />
+      <stop
+         stop-color="#a5a6a4"
+         offset=".15234"
+         id="stop947" />
+      <stop
+         stop-color="#a6a7a5"
+         offset=".15625"
+         id="stop948" />
+      <stop
+         stop-color="#a6a8a6"
+         offset=".16016"
+         id="stop949" />
+      <stop
+         stop-color="#a7a8a6"
+         offset=".16406"
+         id="stop950" />
+      <stop
+         stop-color="#a8a9a7"
+         offset=".16797"
+         id="stop951" />
+      <stop
+         stop-color="#a9aaa8"
+         offset=".17188"
+         id="stop952" />
+      <stop
+         stop-color="#aaaba9"
+         offset=".17578"
+         id="stop953" />
+      <stop
+         stop-color="#abaca9"
+         offset=".17969"
+         id="stop954" />
+      <stop
+         stop-color="#abacaa"
+         offset=".18359"
+         id="stop955" />
+      <stop
+         stop-color="#acadab"
+         offset=".1875"
+         id="stop956" />
+      <stop
+         stop-color="#adaeac"
+         offset=".19141"
+         id="stop957" />
+      <stop
+         stop-color="#aeafac"
+         offset=".19531"
+         id="stop958" />
+      <stop
+         stop-color="#aeafad"
+         offset=".19922"
+         id="stop959" />
+      <stop
+         stop-color="#afb0ae"
+         offset=".20312"
+         id="stop960" />
+      <stop
+         stop-color="#b0b1af"
+         offset=".20703"
+         id="stop961" />
+      <stop
+         stop-color="#b1b2af"
+         offset=".21094"
+         id="stop962" />
+      <stop
+         stop-color="#b1b2b0"
+         offset=".21484"
+         id="stop963" />
+      <stop
+         stop-color="#b2b3b1"
+         offset=".21875"
+         id="stop964" />
+      <stop
+         stop-color="#b3b4b1"
+         offset=".22266"
+         id="stop965" />
+      <stop
+         stop-color="#b3b4b2"
+         offset=".22656"
+         id="stop966" />
+      <stop
+         stop-color="#b4b5b3"
+         offset=".23047"
+         id="stop967" />
+      <stop
+         stop-color="#b5b6b3"
+         offset=".23438"
+         id="stop968" />
+      <stop
+         stop-color="#b5b6b4"
+         offset=".23828"
+         id="stop969" />
+      <stop
+         stop-color="#b6b7b5"
+         offset=".24219"
+         id="stop970" />
+      <stop
+         stop-color="#b7b8b5"
+         offset=".24609"
+         id="stop971" />
+      <stop
+         stop-color="#b7b8b6"
+         offset=".25"
+         id="stop972" />
+      <stop
+         stop-color="#b8b9b7"
+         offset=".25391"
+         id="stop973" />
+      <stop
+         stop-color="#b9bab7"
+         offset=".25781"
+         id="stop974" />
+      <stop
+         stop-color="#b9bab8"
+         offset=".26172"
+         id="stop975" />
+      <stop
+         stop-color="#babbb9"
+         offset=".26562"
+         id="stop976" />
+      <stop
+         stop-color="#bbbbb9"
+         offset=".27344"
+         id="stop977" />
+      <stop
+         stop-color="#bcbdba"
+         offset=".28125"
+         id="stop978" />
+      <stop
+         stop-color="#bdbebb"
+         offset=".28906"
+         id="stop979" />
+      <stop
+         stop-color="#bebfbd"
+         offset=".29688"
+         id="stop980" />
+      <stop
+         stop-color="#bfc0be"
+         offset=".30469"
+         id="stop981" />
+      <stop
+         stop-color="#c0c1bf"
+         offset=".3125"
+         id="stop982" />
+      <stop
+         stop-color="#c1c2c0"
+         offset=".32031"
+         id="stop983" />
+      <stop
+         stop-color="#c2c3c1"
+         offset=".32812"
+         id="stop984" />
+      <stop
+         stop-color="#c3c4c2"
+         offset=".33594"
+         id="stop985" />
+      <stop
+         stop-color="#c4c5c3"
+         offset=".34375"
+         id="stop986" />
+      <stop
+         stop-color="#c5c6c4"
+         offset=".35156"
+         id="stop987" />
+      <stop
+         stop-color="#c6c7c4"
+         offset=".35938"
+         id="stop988" />
+      <stop
+         stop-color="#c7c8c5"
+         offset=".36719"
+         id="stop989" />
+      <stop
+         stop-color="#c7c9c6"
+         offset=".375"
+         id="stop990" />
+      <stop
+         stop-color="#c8c9c7"
+         offset=".38281"
+         id="stop991" />
+      <stop
+         stop-color="#c9cac8"
+         offset=".39062"
+         id="stop992" />
+      <stop
+         stop-color="#cacbc8"
+         offset=".39844"
+         id="stop993" />
+      <stop
+         stop-color="#caccc9"
+         offset=".40625"
+         id="stop994" />
+      <stop
+         stop-color="#cbccca"
+         offset=".42188"
+         id="stop995" />
+      <stop
+         stop-color="#cccecb"
+         offset=".4375"
+         id="stop996" />
+      <stop
+         stop-color="#cdcfcc"
+         offset=".45312"
+         id="stop997" />
+      <stop
+         stop-color="#ced0cd"
+         offset=".46875"
+         id="stop998" />
+      <stop
+         stop-color="#cfd0ce"
+         offset=".48438"
+         id="stop999" />
+      <stop
+         stop-color="#d0d1cf"
+         offset=".5"
+         id="stop1000" />
+      <stop
+         stop-color="#d0d2cf"
+         offset=".53125"
+         id="stop1001" />
+      <stop
+         stop-color="#d1d3d0"
+         offset=".5625"
+         id="stop1002" />
+      <stop
+         stop-color="#d2d3d1"
+         offset=".625"
+         id="stop1003" />
+      <stop
+         stop-color="#d2d3d1"
+         offset=".75"
+         id="stop1004" />
+      <stop
+         stop-color="#d2d3d1"
+         offset="1"
+         id="stop1005" />
+    </linearGradient>
+    <clipPath
+       id="clip75">
+      <path
+         d="m 104.62,505.78 c 0,0 3.0195,-2.2461 3.6562,-0.8789 2.0312,4.3555 -1.9102,12.059 -1.9102,12.059 4.6875,-6.4727 3.9141,-12.516 2.6211,-13.438 -0.125,-0.0859 -0.27735,-0.125 -0.44922,-0.125 -1.3477,0 -3.918,2.3828 -3.918,2.3828"
+         id="path1005" />
+    </clipPath>
+    <linearGradient
+       id="linear7"
+       x1="-0.12318"
+       x2="1.4255"
+       gradientTransform="matrix(-5.7801,7.5045,7.5045,5.7801,111.6,505.29)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#8e908f"
+         offset="0"
+         id="stop1006" />
+      <stop
+         stop-color="#8e908f"
+         offset=".0625"
+         id="stop1007" />
+      <stop
+         stop-color="#8e908f"
+         offset=".078125"
+         id="stop1008" />
+      <stop
+         stop-color="#8f9190"
+         offset=".082031"
+         id="stop1009" />
+      <stop
+         stop-color="#909290"
+         offset=".085938"
+         id="stop1010" />
+      <stop
+         stop-color="#919391"
+         offset=".089844"
+         id="stop1011" />
+      <stop
+         stop-color="#929392"
+         offset=".09375"
+         id="stop1012" />
+      <stop
+         stop-color="#929493"
+         offset=".097656"
+         id="stop1013" />
+      <stop
+         stop-color="#939593"
+         offset=".10156"
+         id="stop1014" />
+      <stop
+         stop-color="#949694"
+         offset=".10547"
+         id="stop1015" />
+      <stop
+         stop-color="#959795"
+         offset=".10938"
+         id="stop1016" />
+      <stop
+         stop-color="#969796"
+         offset=".11328"
+         id="stop1017" />
+      <stop
+         stop-color="#979897"
+         offset=".11719"
+         id="stop1018" />
+      <stop
+         stop-color="#979997"
+         offset=".12109"
+         id="stop1019" />
+      <stop
+         stop-color="#989a98"
+         offset=".125"
+         id="stop1020" />
+      <stop
+         stop-color="#999a99"
+         offset=".12891"
+         id="stop1021" />
+      <stop
+         stop-color="#9a9b9a"
+         offset=".13281"
+         id="stop1022" />
+      <stop
+         stop-color="#9b9c9a"
+         offset=".13672"
+         id="stop1023" />
+      <stop
+         stop-color="#9b9d9b"
+         offset=".14062"
+         id="stop1024" />
+      <stop
+         stop-color="#9c9d9c"
+         offset=".14453"
+         id="stop1025" />
+      <stop
+         stop-color="#9d9e9c"
+         offset=".14844"
+         id="stop1026" />
+      <stop
+         stop-color="#9e9f9d"
+         offset=".15234"
+         id="stop1027" />
+      <stop
+         stop-color="#9ea09e"
+         offset=".15625"
+         id="stop1028" />
+      <stop
+         stop-color="#9fa09f"
+         offset=".16016"
+         id="stop1029" />
+      <stop
+         stop-color="#a0a19f"
+         offset=".16406"
+         id="stop1030" />
+      <stop
+         stop-color="#a1a2a0"
+         offset=".16797"
+         id="stop1031" />
+      <stop
+         stop-color="#a2a3a1"
+         offset=".17188"
+         id="stop1032" />
+      <stop
+         stop-color="#a2a3a2"
+         offset=".17578"
+         id="stop1033" />
+      <stop
+         stop-color="#a3a4a2"
+         offset=".17969"
+         id="stop1034" />
+      <stop
+         stop-color="#a4a5a3"
+         offset=".18359"
+         id="stop1035" />
+      <stop
+         stop-color="#a4a6a4"
+         offset=".1875"
+         id="stop1036" />
+      <stop
+         stop-color="#a5a6a4"
+         offset=".19141"
+         id="stop1037" />
+      <stop
+         stop-color="#a6a7a5"
+         offset=".19531"
+         id="stop1038" />
+      <stop
+         stop-color="#a7a8a6"
+         offset=".19922"
+         id="stop1039" />
+      <stop
+         stop-color="#a7a8a6"
+         offset=".20312"
+         id="stop1040" />
+      <stop
+         stop-color="#a8a9a7"
+         offset=".20703"
+         id="stop1041" />
+      <stop
+         stop-color="#a9aaa8"
+         offset=".21094"
+         id="stop1042" />
+      <stop
+         stop-color="#a9aaa8"
+         offset=".21484"
+         id="stop1043" />
+      <stop
+         stop-color="#aaaba9"
+         offset=".21875"
+         id="stop1044" />
+      <stop
+         stop-color="#abacaa"
+         offset=".22266"
+         id="stop1045" />
+      <stop
+         stop-color="#abacaa"
+         offset=".22656"
+         id="stop1046" />
+      <stop
+         stop-color="#acadab"
+         offset=".23047"
+         id="stop1047" />
+      <stop
+         stop-color="#adaeac"
+         offset=".23438"
+         id="stop1048" />
+      <stop
+         stop-color="#adaeac"
+         offset=".23828"
+         id="stop1049" />
+      <stop
+         stop-color="#aeafad"
+         offset=".24219"
+         id="stop1050" />
+      <stop
+         stop-color="#afb0ae"
+         offset=".24609"
+         id="stop1051" />
+      <stop
+         stop-color="#afb0ae"
+         offset=".25"
+         id="stop1052" />
+      <stop
+         stop-color="#b0b1af"
+         offset=".25391"
+         id="stop1053" />
+      <stop
+         stop-color="#b1b2af"
+         offset=".25781"
+         id="stop1054" />
+      <stop
+         stop-color="#b1b2b0"
+         offset=".26172"
+         id="stop1055" />
+      <stop
+         stop-color="#b2b3b1"
+         offset=".26562"
+         id="stop1056" />
+      <stop
+         stop-color="#b3b3b1"
+         offset=".26953"
+         id="stop1057" />
+      <stop
+         stop-color="#b3b4b2"
+         offset=".27344"
+         id="stop1058" />
+      <stop
+         stop-color="#b4b5b2"
+         offset=".28125"
+         id="stop1059" />
+      <stop
+         stop-color="#b5b6b4"
+         offset=".28906"
+         id="stop1060" />
+      <stop
+         stop-color="#b6b7b5"
+         offset=".29688"
+         id="stop1061" />
+      <stop
+         stop-color="#b7b8b6"
+         offset=".30469"
+         id="stop1062" />
+      <stop
+         stop-color="#b8b9b7"
+         offset=".3125"
+         id="stop1063" />
+      <stop
+         stop-color="#b9bab8"
+         offset=".32031"
+         id="stop1064" />
+      <stop
+         stop-color="#babbb9"
+         offset=".32812"
+         id="stop1065" />
+      <stop
+         stop-color="#bbbcba"
+         offset=".33594"
+         id="stop1066" />
+      <stop
+         stop-color="#bcbdbb"
+         offset=".34375"
+         id="stop1067" />
+      <stop
+         stop-color="#bdbebc"
+         offset=".35156"
+         id="stop1068" />
+      <stop
+         stop-color="#bebfbd"
+         offset=".35938"
+         id="stop1069" />
+      <stop
+         stop-color="#bfc0be"
+         offset=".36719"
+         id="stop1070" />
+      <stop
+         stop-color="#c0c1bf"
+         offset=".375"
+         id="stop1071" />
+      <stop
+         stop-color="#c1c2c0"
+         offset=".38281"
+         id="stop1072" />
+      <stop
+         stop-color="#c2c3c1"
+         offset=".39062"
+         id="stop1073" />
+      <stop
+         stop-color="#c3c4c1"
+         offset=".39844"
+         id="stop1074" />
+      <stop
+         stop-color="#c4c5c2"
+         offset=".40625"
+         id="stop1075" />
+      <stop
+         stop-color="#c4c5c3"
+         offset=".41406"
+         id="stop1076" />
+      <stop
+         stop-color="#c5c6c4"
+         offset=".42188"
+         id="stop1077" />
+      <stop
+         stop-color="#c6c7c5"
+         offset=".42969"
+         id="stop1078" />
+      <stop
+         stop-color="#c7c8c5"
+         offset=".4375"
+         id="stop1079" />
+      <stop
+         stop-color="#c7c8c6"
+         offset=".44531"
+         id="stop1080" />
+      <stop
+         stop-color="#c8c9c7"
+         offset=".45312"
+         id="stop1081" />
+      <stop
+         stop-color="#c9cac8"
+         offset=".46875"
+         id="stop1082" />
+      <stop
+         stop-color="#cacbc9"
+         offset=".48438"
+         id="stop1083" />
+      <stop
+         stop-color="#cbccca"
+         offset=".5"
+         id="stop1084" />
+      <stop
+         stop-color="#cccdcb"
+         offset=".51562"
+         id="stop1085" />
+      <stop
+         stop-color="#cdcecc"
+         offset=".53125"
+         id="stop1086" />
+      <stop
+         stop-color="#cecfcd"
+         offset=".54688"
+         id="stop1087" />
+      <stop
+         stop-color="#cfd0ce"
+         offset=".5625"
+         id="stop1088" />
+      <stop
+         stop-color="#d0d1ce"
+         offset=".59375"
+         id="stop1089" />
+      <stop
+         stop-color="#d0d2cf"
+         offset=".625"
+         id="stop1090" />
+      <stop
+         stop-color="#d1d3d0"
+         offset=".75"
+         id="stop1091" />
+      <stop
+         stop-color="#d2d3d1"
+         offset="1"
+         id="stop1092" />
+    </linearGradient>
+    <clipPath
+       id="clip77">
+      <path
+         d="m 112.71,523.58 c -3.6875,5.8203 -6.1133,13.203 -9.1719,15.488 -3.0703,2.293 -5.7969,0.0352 -5.7969,0.0352 0,0 2.6328,2.7148 5.3789,3.9805 1.8398,0.84765 4.5625,0.25 6.0469,-1.7852 1.9258,-2.6328 3.8438,-6.4141 6.0352,-10.512 -0.28906,-1.1719 -0.89844,-4.5859 -0.90625,-9.6953 -0.54297,0.75391 -1.0664,1.6758 -1.5859,2.4883"
+         id="path1092" />
+    </clipPath>
+    <linearGradient
+       id="linear8"
+       x1="-0.18915001"
+       x2="1.1244"
+       gradientTransform="matrix(-14.262,16.551,16.551,14.262,113.15,524.77)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#2a398d"
+         offset="0"
+         id="stop1093" />
+      <stop
+         stop-color="#2a398d"
+         offset=".25"
+         id="stop1094" />
+      <stop
+         stop-color="#2a398d"
+         offset=".3125"
+         id="stop1095" />
+      <stop
+         stop-color="#2a398c"
+         offset=".34375"
+         id="stop1096" />
+      <stop
+         stop-color="#2a398b"
+         offset=".35938"
+         id="stop1097" />
+      <stop
+         stop-color="#2a398b"
+         offset=".375"
+         id="stop1098" />
+      <stop
+         stop-color="#2a398b"
+         offset=".39062"
+         id="stop1099" />
+      <stop
+         stop-color="#2a388a"
+         offset=".40625"
+         id="stop1100" />
+      <stop
+         stop-color="#2a3889"
+         offset=".42188"
+         id="stop1101" />
+      <stop
+         stop-color="#2a3889"
+         offset=".42969"
+         id="stop1102" />
+      <stop
+         stop-color="#2a3888"
+         offset=".4375"
+         id="stop1103" />
+      <stop
+         stop-color="#2a3888"
+         offset=".44531"
+         id="stop1104" />
+      <stop
+         stop-color="#2a3888"
+         offset=".45312"
+         id="stop1105" />
+      <stop
+         stop-color="#2a3887"
+         offset=".46094"
+         id="stop1106" />
+      <stop
+         stop-color="#2a3887"
+         offset=".46875"
+         id="stop1107" />
+      <stop
+         stop-color="#2a3886"
+         offset=".47656"
+         id="stop1108" />
+      <stop
+         stop-color="#2a3886"
+         offset=".48438"
+         id="stop1109" />
+      <stop
+         stop-color="#2a3885"
+         offset=".49219"
+         id="stop1110" />
+      <stop
+         stop-color="#2a3785"
+         offset=".5"
+         id="stop1111" />
+      <stop
+         stop-color="#2a3784"
+         offset=".50781"
+         id="stop1112" />
+      <stop
+         stop-color="#2a3784"
+         offset=".51562"
+         id="stop1113" />
+      <stop
+         stop-color="#2a3783"
+         offset=".52344"
+         id="stop1114" />
+      <stop
+         stop-color="#2a3782"
+         offset=".53125"
+         id="stop1115" />
+      <stop
+         stop-color="#2a3782"
+         offset=".53906"
+         id="stop1116" />
+      <stop
+         stop-color="#2a3781"
+         offset=".54297"
+         id="stop1117" />
+      <stop
+         stop-color="#2a3781"
+         offset=".54688"
+         id="stop1118" />
+      <stop
+         stop-color="#2a3780"
+         offset=".55078"
+         id="stop1119" />
+      <stop
+         stop-color="#2a3780"
+         offset=".55469"
+         id="stop1120" />
+      <stop
+         stop-color="#2a367f"
+         offset=".55859"
+         id="stop1121" />
+      <stop
+         stop-color="#2a367f"
+         offset=".5625"
+         id="stop1122" />
+      <stop
+         stop-color="#2a367f"
+         offset=".56641"
+         id="stop1123" />
+      <stop
+         stop-color="#2a367e"
+         offset=".57031"
+         id="stop1124" />
+      <stop
+         stop-color="#2a367e"
+         offset=".57422"
+         id="stop1125" />
+      <stop
+         stop-color="#2a367d"
+         offset=".57812"
+         id="stop1126" />
+      <stop
+         stop-color="#2a367d"
+         offset=".58203"
+         id="stop1127" />
+      <stop
+         stop-color="#2a367d"
+         offset=".58594"
+         id="stop1128" />
+      <stop
+         stop-color="#2a367c"
+         offset=".58984"
+         id="stop1129" />
+      <stop
+         stop-color="#29367c"
+         offset=".59375"
+         id="stop1130" />
+      <stop
+         stop-color="#29367b"
+         offset=".59766"
+         id="stop1131" />
+      <stop
+         stop-color="#29367b"
+         offset=".60156"
+         id="stop1132" />
+      <stop
+         stop-color="#29357a"
+         offset=".60547"
+         id="stop1133" />
+      <stop
+         stop-color="#29357a"
+         offset=".60938"
+         id="stop1134" />
+      <stop
+         stop-color="#293579"
+         offset=".61328"
+         id="stop1135" />
+      <stop
+         stop-color="#293579"
+         offset=".61719"
+         id="stop1136" />
+      <stop
+         stop-color="#293578"
+         offset=".62109"
+         id="stop1137" />
+      <stop
+         stop-color="#293578"
+         offset=".625"
+         id="stop1138" />
+      <stop
+         stop-color="#293577"
+         offset=".62891"
+         id="stop1139" />
+      <stop
+         stop-color="#293577"
+         offset=".63281"
+         id="stop1140" />
+      <stop
+         stop-color="#293576"
+         offset=".63672"
+         id="stop1141" />
+      <stop
+         stop-color="#293576"
+         offset=".64062"
+         id="stop1142" />
+      <stop
+         stop-color="#293475"
+         offset=".64453"
+         id="stop1143" />
+      <stop
+         stop-color="#293475"
+         offset=".64844"
+         id="stop1144" />
+      <stop
+         stop-color="#293474"
+         offset=".65234"
+         id="stop1145" />
+      <stop
+         stop-color="#293473"
+         offset=".65625"
+         id="stop1146" />
+      <stop
+         stop-color="#293473"
+         offset=".66016"
+         id="stop1147" />
+      <stop
+         stop-color="#293472"
+         offset=".66406"
+         id="stop1148" />
+      <stop
+         stop-color="#293472"
+         offset=".66797"
+         id="stop1149" />
+      <stop
+         stop-color="#293471"
+         offset=".67188"
+         id="stop1150" />
+      <stop
+         stop-color="#293470"
+         offset=".67578"
+         id="stop1151" />
+      <stop
+         stop-color="#283370"
+         offset=".67969"
+         id="stop1152" />
+      <stop
+         stop-color="#28336f"
+         offset=".68359"
+         id="stop1153" />
+      <stop
+         stop-color="#28336f"
+         offset=".6875"
+         id="stop1154" />
+      <stop
+         stop-color="#28336e"
+         offset=".69141"
+         id="stop1155" />
+      <stop
+         stop-color="#28336d"
+         offset=".69531"
+         id="stop1156" />
+      <stop
+         stop-color="#28336d"
+         offset=".69922"
+         id="stop1157" />
+      <stop
+         stop-color="#28336c"
+         offset=".70312"
+         id="stop1158" />
+      <stop
+         stop-color="#28326b"
+         offset=".70703"
+         id="stop1159" />
+      <stop
+         stop-color="#28326b"
+         offset=".71094"
+         id="stop1160" />
+      <stop
+         stop-color="#28326a"
+         offset=".71484"
+         id="stop1161" />
+      <stop
+         stop-color="#283269"
+         offset=".71875"
+         id="stop1162" />
+      <stop
+         stop-color="#283268"
+         offset=".72266"
+         id="stop1163" />
+      <stop
+         stop-color="#283268"
+         offset=".72656"
+         id="stop1164" />
+      <stop
+         stop-color="#283167"
+         offset=".73047"
+         id="stop1165" />
+      <stop
+         stop-color="#273166"
+         offset=".73438"
+         id="stop1166" />
+      <stop
+         stop-color="#273165"
+         offset=".73828"
+         id="stop1167" />
+      <stop
+         stop-color="#273165"
+         offset=".74219"
+         id="stop1168" />
+      <stop
+         stop-color="#273164"
+         offset=".74609"
+         id="stop1169" />
+      <stop
+         stop-color="#273163"
+         offset=".75"
+         id="stop1170" />
+      <stop
+         stop-color="#273062"
+         offset=".75391"
+         id="stop1171" />
+      <stop
+         stop-color="#273062"
+         offset=".75781"
+         id="stop1172" />
+      <stop
+         stop-color="#273061"
+         offset=".76172"
+         id="stop1173" />
+      <stop
+         stop-color="#273060"
+         offset=".76562"
+         id="stop1174" />
+      <stop
+         stop-color="#27305f"
+         offset=".76953"
+         id="stop1175" />
+      <stop
+         stop-color="#262f5e"
+         offset=".77344"
+         id="stop1176" />
+      <stop
+         stop-color="#262f5e"
+         offset=".77734"
+         id="stop1177" />
+      <stop
+         stop-color="#262f5d"
+         offset=".78125"
+         id="stop1178" />
+      <stop
+         stop-color="#262f5c"
+         offset=".78516"
+         id="stop1179" />
+      <stop
+         stop-color="#262f5b"
+         offset=".78906"
+         id="stop1180" />
+      <stop
+         stop-color="#262e5a"
+         offset=".79297"
+         id="stop1181" />
+      <stop
+         stop-color="#262e59"
+         offset=".79688"
+         id="stop1182" />
+      <stop
+         stop-color="#262e58"
+         offset=".80078"
+         id="stop1183" />
+      <stop
+         stop-color="#252e57"
+         offset=".80469"
+         id="stop1184" />
+      <stop
+         stop-color="#252d57"
+         offset=".80859"
+         id="stop1185" />
+      <stop
+         stop-color="#252d56"
+         offset=".8125"
+         id="stop1186" />
+      <stop
+         stop-color="#252d55"
+         offset=".81641"
+         id="stop1187" />
+      <stop
+         stop-color="#252d54"
+         offset=".82031"
+         id="stop1188" />
+      <stop
+         stop-color="#252c53"
+         offset=".82422"
+         id="stop1189" />
+      <stop
+         stop-color="#252c52"
+         offset=".82812"
+         id="stop1190" />
+      <stop
+         stop-color="#242c51"
+         offset=".83203"
+         id="stop1191" />
+      <stop
+         stop-color="#242c50"
+         offset=".83594"
+         id="stop1192" />
+      <stop
+         stop-color="#242b4f"
+         offset=".83984"
+         id="stop1193" />
+      <stop
+         stop-color="#242b4e"
+         offset=".84375"
+         id="stop1194" />
+      <stop
+         stop-color="#242b4d"
+         offset=".84766"
+         id="stop1195" />
+      <stop
+         stop-color="#242b4c"
+         offset=".85156"
+         id="stop1196" />
+      <stop
+         stop-color="#232a4b"
+         offset=".85547"
+         id="stop1197" />
+      <stop
+         stop-color="#232a4a"
+         offset=".85938"
+         id="stop1198" />
+      <stop
+         stop-color="#232a49"
+         offset=".86328"
+         id="stop1199" />
+      <stop
+         stop-color="#232948"
+         offset=".86719"
+         id="stop1200" />
+      <stop
+         stop-color="#232947"
+         offset=".87109"
+         id="stop1201" />
+      <stop
+         stop-color="#222946"
+         offset=".875"
+         id="stop1202" />
+      <stop
+         stop-color="#222845"
+         offset=".87891"
+         id="stop1203" />
+      <stop
+         stop-color="#222844"
+         offset=".88281"
+         id="stop1204" />
+      <stop
+         stop-color="#222843"
+         offset=".88672"
+         id="stop1205" />
+      <stop
+         stop-color="#212742"
+         offset=".89062"
+         id="stop1206" />
+      <stop
+         stop-color="#212741"
+         offset=".89453"
+         id="stop1207" />
+      <stop
+         stop-color="#212740"
+         offset=".89844"
+         id="stop1208" />
+      <stop
+         stop-color="#21263f"
+         offset=".90234"
+         id="stop1209" />
+      <stop
+         stop-color="#21263e"
+         offset=".90625"
+         id="stop1210" />
+      <stop
+         stop-color="#21263e"
+         offset=".9375"
+         id="stop1211" />
+      <stop
+         stop-color="#21263e"
+         offset="1"
+         id="stop1212" />
+    </linearGradient>
+    <clipPath
+       id="clip79">
+      <path
+         d="m 120.49,514.47 c -0.19922,1.3906 -0.37109,3.9688 -0.1289,7.9336 3.7305,-4.6758 7.7031,-6.4609 9.9414,-6.7383 2.8945,-0.35547 4.4023,2.4102 4.4023,2.4102 0,0 -0.3789,-2.0508 -1.8945,-4.8672 -0.95312,-1.7695 -2.4648,-2.5938 -4.2852,-2.5938 -2.3477,0 -5.207,1.3711 -8.0352,3.8555"
+         id="path1212" />
+    </clipPath>
+    <linearGradient
+       id="linear9"
+       x1="0.010152"
+       x2="1.0408"
+       gradientTransform="matrix(14.153,0,0,-14.153,119.98,516.51)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#2a398d"
+         offset="0"
+         id="stop1213" />
+      <stop
+         stop-color="#2a398d"
+         offset=".125"
+         id="stop1214" />
+      <stop
+         stop-color="#2a398c"
+         offset=".15625"
+         id="stop1215" />
+      <stop
+         stop-color="#2a398c"
+         offset=".1875"
+         id="stop1216" />
+      <stop
+         stop-color="#2a398b"
+         offset=".21875"
+         id="stop1217" />
+      <stop
+         stop-color="#2a398b"
+         offset=".23438"
+         id="stop1218" />
+      <stop
+         stop-color="#2a388a"
+         offset=".25"
+         id="stop1219" />
+      <stop
+         stop-color="#2a388a"
+         offset=".26562"
+         id="stop1220" />
+      <stop
+         stop-color="#2a3889"
+         offset=".28125"
+         id="stop1221" />
+      <stop
+         stop-color="#2a3889"
+         offset=".29688"
+         id="stop1222" />
+      <stop
+         stop-color="#2a3888"
+         offset=".3125"
+         id="stop1223" />
+      <stop
+         stop-color="#2a3887"
+         offset=".32812"
+         id="stop1224" />
+      <stop
+         stop-color="#2a3887"
+         offset=".33594"
+         id="stop1225" />
+      <stop
+         stop-color="#2a3887"
+         offset=".34375"
+         id="stop1226" />
+      <stop
+         stop-color="#2a3886"
+         offset=".35156"
+         id="stop1227" />
+      <stop
+         stop-color="#2a3886"
+         offset=".35938"
+         id="stop1228" />
+      <stop
+         stop-color="#2a3885"
+         offset=".36719"
+         id="stop1229" />
+      <stop
+         stop-color="#2a3885"
+         offset=".375"
+         id="stop1230" />
+      <stop
+         stop-color="#2a3785"
+         offset=".38281"
+         id="stop1231" />
+      <stop
+         stop-color="#2a3784"
+         offset=".39062"
+         id="stop1232" />
+      <stop
+         stop-color="#2a3784"
+         offset=".39844"
+         id="stop1233" />
+      <stop
+         stop-color="#2a3783"
+         offset=".40625"
+         id="stop1234" />
+      <stop
+         stop-color="#2a3783"
+         offset=".41406"
+         id="stop1235" />
+      <stop
+         stop-color="#2a3782"
+         offset=".42188"
+         id="stop1236" />
+      <stop
+         stop-color="#2a3782"
+         offset=".42969"
+         id="stop1237" />
+      <stop
+         stop-color="#2a3781"
+         offset=".4375"
+         id="stop1238" />
+      <stop
+         stop-color="#2a3781"
+         offset=".44531"
+         id="stop1239" />
+      <stop
+         stop-color="#2a3780"
+         offset=".45312"
+         id="stop1240" />
+      <stop
+         stop-color="#2a3780"
+         offset=".46094"
+         id="stop1241" />
+      <stop
+         stop-color="#2a367f"
+         offset=".46875"
+         id="stop1242" />
+      <stop
+         stop-color="#2a367e"
+         offset=".47656"
+         id="stop1243" />
+      <stop
+         stop-color="#2a367e"
+         offset=".48438"
+         id="stop1244" />
+      <stop
+         stop-color="#2a367d"
+         offset=".49219"
+         id="stop1245" />
+      <stop
+         stop-color="#2a367d"
+         offset=".5"
+         id="stop1246" />
+      <stop
+         stop-color="#2a367c"
+         offset=".50781"
+         id="stop1247" />
+      <stop
+         stop-color="#29367b"
+         offset=".51562"
+         id="stop1248" />
+      <stop
+         stop-color="#29367b"
+         offset=".52344"
+         id="stop1249" />
+      <stop
+         stop-color="#29357a"
+         offset=".52734"
+         id="stop1250" />
+      <stop
+         stop-color="#29357a"
+         offset=".53125"
+         id="stop1251" />
+      <stop
+         stop-color="#293579"
+         offset=".53516"
+         id="stop1252" />
+      <stop
+         stop-color="#293579"
+         offset=".53906"
+         id="stop1253" />
+      <stop
+         stop-color="#293578"
+         offset=".54297"
+         id="stop1254" />
+      <stop
+         stop-color="#293578"
+         offset=".54688"
+         id="stop1255" />
+      <stop
+         stop-color="#293578"
+         offset=".55078"
+         id="stop1256" />
+      <stop
+         stop-color="#293577"
+         offset=".55469"
+         id="stop1257" />
+      <stop
+         stop-color="#293577"
+         offset=".55859"
+         id="stop1258" />
+      <stop
+         stop-color="#293577"
+         offset=".5625"
+         id="stop1259" />
+      <stop
+         stop-color="#293576"
+         offset=".56641"
+         id="stop1260" />
+      <stop
+         stop-color="#293576"
+         offset=".57031"
+         id="stop1261" />
+      <stop
+         stop-color="#293575"
+         offset=".57422"
+         id="stop1262" />
+      <stop
+         stop-color="#293475"
+         offset=".57812"
+         id="stop1263" />
+      <stop
+         stop-color="#293475"
+         offset=".58203"
+         id="stop1264" />
+      <stop
+         stop-color="#293474"
+         offset=".58594"
+         id="stop1265" />
+      <stop
+         stop-color="#293474"
+         offset=".58984"
+         id="stop1266" />
+      <stop
+         stop-color="#293473"
+         offset=".59375"
+         id="stop1267" />
+      <stop
+         stop-color="#293473"
+         offset=".59766"
+         id="stop1268" />
+      <stop
+         stop-color="#293473"
+         offset=".60156"
+         id="stop1269" />
+      <stop
+         stop-color="#293472"
+         offset=".60547"
+         id="stop1270" />
+      <stop
+         stop-color="#293472"
+         offset=".60938"
+         id="stop1271" />
+      <stop
+         stop-color="#293471"
+         offset=".61328"
+         id="stop1272" />
+      <stop
+         stop-color="#293471"
+         offset=".61719"
+         id="stop1273" />
+      <stop
+         stop-color="#293471"
+         offset=".62109"
+         id="stop1274" />
+      <stop
+         stop-color="#293370"
+         offset=".625"
+         id="stop1275" />
+      <stop
+         stop-color="#283370"
+         offset=".62891"
+         id="stop1276" />
+      <stop
+         stop-color="#28336f"
+         offset=".63281"
+         id="stop1277" />
+      <stop
+         stop-color="#28336f"
+         offset=".63672"
+         id="stop1278" />
+      <stop
+         stop-color="#28336e"
+         offset=".64062"
+         id="stop1279" />
+      <stop
+         stop-color="#28336e"
+         offset=".64453"
+         id="stop1280" />
+      <stop
+         stop-color="#28336d"
+         offset=".64844"
+         id="stop1281" />
+      <stop
+         stop-color="#28336d"
+         offset=".65234"
+         id="stop1282" />
+      <stop
+         stop-color="#28336c"
+         offset=".65625"
+         id="stop1283" />
+      <stop
+         stop-color="#28336c"
+         offset=".66016"
+         id="stop1284" />
+      <stop
+         stop-color="#28326c"
+         offset=".66406"
+         id="stop1285" />
+      <stop
+         stop-color="#28326b"
+         offset=".66797"
+         id="stop1286" />
+      <stop
+         stop-color="#28326b"
+         offset=".67188"
+         id="stop1287" />
+      <stop
+         stop-color="#28326a"
+         offset=".67578"
+         id="stop1288" />
+      <stop
+         stop-color="#28326a"
+         offset=".67969"
+         id="stop1289" />
+      <stop
+         stop-color="#283269"
+         offset=".68359"
+         id="stop1290" />
+      <stop
+         stop-color="#283269"
+         offset=".6875"
+         id="stop1291" />
+      <stop
+         stop-color="#283268"
+         offset=".69141"
+         id="stop1292" />
+      <stop
+         stop-color="#283268"
+         offset=".69531"
+         id="stop1293" />
+      <stop
+         stop-color="#283167"
+         offset=".69922"
+         id="stop1294" />
+      <stop
+         stop-color="#283167"
+         offset=".70312"
+         id="stop1295" />
+      <stop
+         stop-color="#273166"
+         offset=".70703"
+         id="stop1296" />
+      <stop
+         stop-color="#273166"
+         offset=".71094"
+         id="stop1297" />
+      <stop
+         stop-color="#273165"
+         offset=".71484"
+         id="stop1298" />
+      <stop
+         stop-color="#273165"
+         offset=".71875"
+         id="stop1299" />
+      <stop
+         stop-color="#273164"
+         offset=".72266"
+         id="stop1300" />
+      <stop
+         stop-color="#273163"
+         offset=".72656"
+         id="stop1301" />
+      <stop
+         stop-color="#273163"
+         offset=".73047"
+         id="stop1302" />
+      <stop
+         stop-color="#273062"
+         offset=".73438"
+         id="stop1303" />
+      <stop
+         stop-color="#273062"
+         offset=".73828"
+         id="stop1304" />
+      <stop
+         stop-color="#273061"
+         offset=".74219"
+         id="stop1305" />
+      <stop
+         stop-color="#273061"
+         offset=".74609"
+         id="stop1306" />
+      <stop
+         stop-color="#273060"
+         offset=".75"
+         id="stop1307" />
+      <stop
+         stop-color="#273060"
+         offset=".75391"
+         id="stop1308" />
+      <stop
+         stop-color="#27305f"
+         offset=".75781"
+         id="stop1309" />
+      <stop
+         stop-color="#272f5f"
+         offset=".76172"
+         id="stop1310" />
+      <stop
+         stop-color="#262f5e"
+         offset=".76562"
+         id="stop1311" />
+      <stop
+         stop-color="#262f5d"
+         offset=".76953"
+         id="stop1312" />
+      <stop
+         stop-color="#262f5d"
+         offset=".77344"
+         id="stop1313" />
+      <stop
+         stop-color="#262f5c"
+         offset=".77734"
+         id="stop1314" />
+      <stop
+         stop-color="#262f5c"
+         offset=".78125"
+         id="stop1315" />
+      <stop
+         stop-color="#262f5b"
+         offset=".78516"
+         id="stop1316" />
+      <stop
+         stop-color="#262e5b"
+         offset=".78906"
+         id="stop1317" />
+      <stop
+         stop-color="#262e5a"
+         offset=".79297"
+         id="stop1318" />
+      <stop
+         stop-color="#262e59"
+         offset=".79688"
+         id="stop1319" />
+      <stop
+         stop-color="#262e59"
+         offset=".80078"
+         id="stop1320" />
+      <stop
+         stop-color="#262e58"
+         offset=".80469"
+         id="stop1321" />
+      <stop
+         stop-color="#252e58"
+         offset=".80859"
+         id="stop1322" />
+      <stop
+         stop-color="#252e57"
+         offset=".8125"
+         id="stop1323" />
+      <stop
+         stop-color="#252d56"
+         offset=".81641"
+         id="stop1324" />
+      <stop
+         stop-color="#252d56"
+         offset=".82031"
+         id="stop1325" />
+      <stop
+         stop-color="#252d55"
+         offset=".82422"
+         id="stop1326" />
+      <stop
+         stop-color="#252d55"
+         offset=".82812"
+         id="stop1327" />
+      <stop
+         stop-color="#252d54"
+         offset=".83203"
+         id="stop1328" />
+      <stop
+         stop-color="#252d53"
+         offset=".83594"
+         id="stop1329" />
+      <stop
+         stop-color="#252c53"
+         offset=".83984"
+         id="stop1330" />
+      <stop
+         stop-color="#252c52"
+         offset=".84375"
+         id="stop1331" />
+      <stop
+         stop-color="#242c51"
+         offset=".84766"
+         id="stop1332" />
+      <stop
+         stop-color="#242c51"
+         offset=".85156"
+         id="stop1333" />
+      <stop
+         stop-color="#242c50"
+         offset=".85547"
+         id="stop1334" />
+      <stop
+         stop-color="#242c50"
+         offset=".85938"
+         id="stop1335" />
+      <stop
+         stop-color="#242b4f"
+         offset=".86328"
+         id="stop1336" />
+      <stop
+         stop-color="#242b4e"
+         offset=".86719"
+         id="stop1337" />
+      <stop
+         stop-color="#242b4e"
+         offset=".87109"
+         id="stop1338" />
+      <stop
+         stop-color="#242b4d"
+         offset=".875"
+         id="stop1339" />
+      <stop
+         stop-color="#242b4c"
+         offset=".87891"
+         id="stop1340" />
+      <stop
+         stop-color="#232a4c"
+         offset=".88281"
+         id="stop1341" />
+      <stop
+         stop-color="#232a4b"
+         offset=".88672"
+         id="stop1342" />
+      <stop
+         stop-color="#232a4a"
+         offset=".89062"
+         id="stop1343" />
+      <stop
+         stop-color="#232a4a"
+         offset=".89453"
+         id="stop1344" />
+      <stop
+         stop-color="#232a49"
+         offset=".89844"
+         id="stop1345" />
+      <stop
+         stop-color="#232948"
+         offset=".90234"
+         id="stop1346" />
+      <stop
+         stop-color="#232948"
+         offset=".90625"
+         id="stop1347" />
+      <stop
+         stop-color="#232947"
+         offset=".91016"
+         id="stop1348" />
+      <stop
+         stop-color="#222946"
+         offset=".91406"
+         id="stop1349" />
+      <stop
+         stop-color="#222946"
+         offset=".91797"
+         id="stop1350" />
+      <stop
+         stop-color="#222845"
+         offset=".92188"
+         id="stop1351" />
+      <stop
+         stop-color="#222844"
+         offset=".92578"
+         id="stop1352" />
+      <stop
+         stop-color="#222844"
+         offset=".92969"
+         id="stop1353" />
+      <stop
+         stop-color="#222843"
+         offset=".93359"
+         id="stop1354" />
+      <stop
+         stop-color="#212742"
+         offset=".9375"
+         id="stop1355" />
+      <stop
+         stop-color="#212741"
+         offset=".94141"
+         id="stop1356" />
+      <stop
+         stop-color="#212741"
+         offset=".94531"
+         id="stop1357" />
+      <stop
+         stop-color="#212740"
+         offset=".94922"
+         id="stop1358" />
+      <stop
+         stop-color="#21273f"
+         offset=".95312"
+         id="stop1359" />
+      <stop
+         stop-color="#21263f"
+         offset=".95703"
+         id="stop1360" />
+      <stop
+         stop-color="#21263e"
+         offset=".96094"
+         id="stop1361" />
+      <stop
+         stop-color="#21263e"
+         offset=".96875"
+         id="stop1362" />
+      <stop
+         stop-color="#21263e"
+         offset="1"
+         id="stop1363" />
+    </linearGradient>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-73.818748,-110.86041)">
+    <g
+       transform="matrix(1.1266103,0,0,1.1266103,22.987218,98.642325)"
+       id="g1388">
+      <path
+         d="m 138.82,57.691 c 0,25.875 -20.979,46.846 -46.855,46.846 -25.875,0 -46.846,-20.971 -46.846,-46.846 0,-25.875 20.971,-46.846 46.846,-46.846 25.875,0 46.855,20.971 46.855,46.846"
+         fill="#ffffff"
+         stroke-width="2.0745"
+         id="path1363" />
+      <g
+         transform="matrix(2.0745,0,0,2.0745,-143.5,-1028.6)"
+         id="g1369">
+        <g
+           clip-path="url(#clip59)"
+           id="g1364">
+          <path
+             d="m 104.75,543.86 -12.031,-7.4922 8.4883,-13.625 12.027,7.4922 z"
+             fill="url(#linear0)"
+             id="path1364"
+             style="fill:url(#linear0)" />
+        </g>
+        <g
+           clip-path="url(#clip61)"
+           id="g1365">
+          <path
+             d="m 92.18,501.58 19.543,0.0937 -0.0977,20.742 -19.543,-0.0937 z"
+             fill="url(#linear1)"
+             id="path1365"
+             style="fill:url(#linear1)" />
+        </g>
+        <g
+           clip-path="url(#clip63)"
+           id="g1366">
+          <path
+             d="m 129.84,544.83 -15.691,0.10157 -0.27343,-41.742 15.691,-0.10547 z"
+             fill="url(#radial0)"
+             id="path1366"
+             style="fill:url(#radial0)" />
+        </g>
+        <g
+           clip-path="url(#clip65)"
+           id="g1367">
+          <path
+             d="m 92.566,501.73 24.695,-0.0781 0.12109,37.891 -24.695,0.0781 z"
+             fill="url(#linear2)"
+             id="path1367"
+             style="fill:url(#linear2)" />
+        </g>
+        <g
+           clip-path="url(#clip67)"
+           id="g1368">
+          <path
+             d="m 127.25,516.12 8.3359,-0.082 0.21875,22.676 -8.332,0.0781 z"
+             fill="url(#linear3)"
+             id="path1368"
+             style="fill:url(#linear3)" />
+        </g>
+      </g>
+      <path
+         d="m 76.521,100.47 c 0,0 8.2007,2.3176 17.39,-0.64828 11.118,1.7423 16.677,-0.94 16.677,-0.94 0,0 -5.2997,3.5412 -16.296,4.222 -10.47,0.6564 -17.771,-2.6336 -17.771,-2.6336"
+         fill="#d1d4d1"
+         stroke-width="2.0745"
+         id="path1369" />
+      <path
+         d="m 92.661,12.156 c 0,0 6.3936,-0.25122 12.885,2.2122 0,0 -4.7973,-0.40517 -6.9529,0.20268 0,0 -3.5493,-1.8881 -5.9318,-2.4149"
+         fill="#d1d4d1"
+         stroke-width="2.0745"
+         id="path1370" />
+      <g
+         transform="matrix(2.0745,0,0,2.0745,-143.5,-1028.6)"
+         id="g1377">
+        <g
+           clip-path="url(#clip69)"
+           id="g1371">
+          <path
+             d="m 120.52,519.88 9.2617,-6.9531 7.4531,9.9258 -9.2617,6.9531 z"
+             fill="url(#linear4)"
+             id="path1371"
+             style="fill:url(#linear4)" />
+        </g>
+        <g
+           clip-path="url(#clip71)"
+           id="g1372">
+          <path
+             d="m 120.05,510.21 3.1562,-8.0977 10.086,3.9258 -3.1523,8.0977 z"
+             fill="url(#linear5)"
+             id="path1372"
+             style="fill:url(#linear5)" />
+        </g>
+        <g
+           clip-path="url(#clip73)"
+           id="g1373">
+          <path
+             d="m 134.61,534.37 -11.48,7.3398 -8.0078,-12.523 11.484,-7.3398 z"
+             fill="url(#linear6)"
+             id="path1373"
+             style="fill:url(#linear6)" />
+        </g>
+        <g
+           clip-path="url(#clip75)"
+           id="g1374">
+          <path
+             d="m 107.01,500.29 10.594,8.1602 -8.9492,11.621 -10.594,-8.1602 z"
+             fill="url(#linear7)"
+             id="path1374"
+             style="fill:url(#linear7)" />
+        </g>
+        <g
+           clip-path="url(#clip77)"
+           id="g1375">
+          <path
+             d="m 105.19,512.46 21.312,18.367 -18.734,21.742 -21.313,-18.367 z"
+             fill="url(#linear8)"
+             id="path1375"
+             style="fill:url(#linear8)" />
+        </g>
+        <g
+           clip-path="url(#clip79)"
+           id="g1376">
+          <path
+             d="m 120.12,522.4 v -11.789 h 14.586 V 522.4 Z"
+             fill="url(#linear9)"
+             id="path1376"
+             style="fill:url(#linear9)" />
+        </g>
+      </g>
+      <path
+         d="m 48.115,45.286 c 0,0 -1.6774,8.3546 1.9935,17.293 -0.87519,11.207 2.2365,16.547 2.2365,16.547 0,0 -3.9463,-5.008 -5.486,-15.923 -1.4586,-10.381 1.256,-17.917 1.256,-17.917"
+         fill="#d1d4d1"
+         stroke-width="2.0745"
+         id="path1377" />
+      <g
+         transform="matrix(2.0745,0,0,2.0745,-143.5,-1028.6)"
+         fill="#474a4a"
+         id="g1387">
+        <path
+           d="m 91.16,553.05 v -4.0547 h 1.4219 v 4.1289 c 0,0.67578 0.21484,0.99219 0.87109,0.99219 0.65234,0 0.86719,-0.31641 0.86719,-0.99219 v -4.1289 h 1.4219 v 4.0547 c 0,1.5117 -0.69531,2.3477 -2.2891,2.3477 -1.5977,0 -2.293,-0.83594 -2.293,-2.3477"
+           id="path1378" />
+        <path
+           d="m 98.012,549 1.7461,3.7734 V 549 h 1.3711 v 6.3047 h -1.4375 l -1.7539,-3.6406 v 3.6406 H 96.555 V 549 Z"
+           id="path1379" />
+        <path
+           d="m 103.41,555.3 h -1.4414 v -6.3047 h 1.4414 z"
+           id="path1380" />
+        <path
+           d="m 105.54,555.3 v -5.0234 h -1.4648 v -1.2812 h 4.3711 v 1.2812 h -1.4766 V 555.3 Z"
+           id="path1381" />
+        <path
+           d="m 110.55,551.48 h 1.9766 v 1.2578 H 110.55 v 1.2773 h 2.4102 v 1.2812 h -3.8516 v -6.3047 h 3.7656 v 1.2812 H 110.55 Z"
+           id="path1382" />
+        <path
+           d="m 115.07,550.29 v 3.7305 h 0.58594 c 0.6289,0 0.89453,-0.27734 0.89453,-0.96484 v -1.7969 c 0,-0.6875 -0.26563,-0.96875 -0.88672,-0.96875 z m 2.9883,1.0586 v 1.6328 c 0,1.5312 -0.75391,2.3242 -2.4102,2.3242 h -1.9766 v -6.3047 h 1.9688 c 1.6719,0 2.418,0.79297 2.418,2.3477"
+           id="path1383" />
+        <path
+           d="m 119.59,554.61 h 2.6484 v 0.69531 h -3.4609 v -1.0586 c 0,-2.5977 2.6641,-1.7617 2.6641,-3.6328 0,-0.79687 -0.40625,-1.0508 -1.0273,-1.0508 -0.5625,0 -1.0078,0.28125 -1.0078,1.1562 h -0.69532 c 0,-1.2734 0.65235,-1.8125 1.7305,-1.8125 1.1758,0 1.7774,0.61328 1.7774,1.6719 0,2.3867 -2.6289,1.6953 -2.6289,3.4766 z"
+           id="path1384" />
+        <path
+           d="m 123.77,553.28 c 0,1.082 0.3125,1.4141 1.043,1.4141 0.72656,0 1.043,-0.33203 1.043,-1.4141 v -2.3164 c 0,-1.043 -0.31641,-1.3672 -1.043,-1.3672 -0.73047,0 -1.043,0.32421 -1.043,1.3672 z m 2.8711,-2.3008 v 2.2852 c 0,1.5547 -0.58985,2.1328 -1.8281,2.1328 -1.2344,0 -1.8203,-0.57813 -1.8203,-2.1328 v -2.2852 c 0,-1.5117 0.58594,-2.0859 1.8203,-2.0859 1.2383,0 1.8281,0.57422 1.8281,2.0859"
+           id="path1385" />
+        <path
+           d="m 128.27,554.61 h 2.6484 v 0.69531 h -3.4609 v -1.0586 c 0,-2.5977 2.668,-1.7617 2.668,-3.6328 0,-0.79687 -0.40625,-1.0508 -1.0274,-1.0508 -0.5625,0 -1.0117,0.28125 -1.0117,1.1562 h -0.69531 c 0,-1.2734 0.65625,-1.8125 1.7305,-1.8125 1.1758,0 1.7812,0.61328 1.7812,1.6719 0,2.3867 -2.6328,1.6953 -2.6328,3.4766 z"
+           id="path1386" />
+        <path
+           d="m 132.43,553.51 c 0,0.88672 0.26562,1.2344 1.0586,1.2344 0.69531,0 1.0586,-0.33203 1.0586,-1.2226 v -0.29297 c 0,-0.86719 -0.34765,-1.25 -1.0586,-1.25 -0.59375,0 -1.0586,0.25 -1.0586,1.1094 z m -0.008,-1.668 c 0.25782,-0.32422 0.69532,-0.51563 1.25,-0.51563 0.97657,0 1.6445,0.52344 1.6445,1.8711 v 0.36328 c 0,1.293 -0.69532,1.8359 -1.8438,1.8359 -1.1406,0 -1.8047,-0.4961 -1.8047,-1.8867 v -2.5977 c 0,-1.3476 0.57812,-2.0195 1.8359,-2.0195 1.2031,0 1.7148,0.64844 1.7148,1.6406 h -0.73828 c -0.0156,-0.66407 -0.32031,-0.97657 -0.97656,-0.97657 -0.83594,0 -1.082,0.52735 -1.082,1.3555 z"
+           id="path1387" />
+      </g>
+    </g>
+  </g>
+</svg>
