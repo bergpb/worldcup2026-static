@@ -2,7 +2,7 @@ FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html groups.html bracket.html feedback.html sitemap.xml /usr/share/nginx/html/
-COPY manifest.json sw.js /usr/share/nginx/html/
+COPY manifest.json sw.js favicon.ico /usr/share/nginx/html/
 COPY icons/ /usr/share/nginx/html/icons/
 COPY data.json /usr/share/nginx/html/
 
