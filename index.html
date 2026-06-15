@@ -10,6 +10,7 @@
 <link rel="canonical" href="./">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0A0E1A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="WC 2026">
@@ -5639,7 +5640,20 @@ if (koBtn) koBtn.addEventListener('click', () => {
 
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
+      const sw = reg.installing;
+      sw.addEventListener('statechange', () => {
+        if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+          sw.postMessage({ action: 'skipWaiting' });
+        }
+      });
+    });
+  });
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!refreshing) { refreshing = true; location.reload(); }
+  });
 }
 </script>
 </body>
