@@ -1,20 +1,51 @@
-const CACHE = 'wc2026-v1';
-const ASSETS = ['/', '/index.html', '/groups.html', '/bracket.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
+const CACHE = 'wc2026-v2';
+const PRECACHE = ['/index.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
-  self.skipWaiting();
+  e.waitUntil(
+    caches.open(CACHE).then(c => c.addAll(PRECACHE)).then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))));
-  self.clients.claim();
+  e.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('message', e => {
+  if (e.data?.action === 'skipWaiting') self.skipWaiting();
 });
 
 self.addEventListener('fetch', e => {
-  if (e.request.url.includes('data.json')) {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+  const url = new URL(e.request.url);
+
+  // Never cache: data.json (live scores) and sw.js itself
+  if (url.pathname.startsWith('/data.json') || url.pathname === '/sw.js') return;
+
+  // Network-first for HTML so updates always reach users; fall back to cache when offline
+  if (url.pathname === '/' || url.pathname.endsWith('.html')) {
+    e.respondWith(
+      fetch(e.request)
+        .then(res => {
+          caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+          return res;
+        })
+        .catch(() => caches.match(e.request))
+    );
     return;
   }
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+
+  // Cache-first for static assets (icons, manifest)
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+        return res;
+      });
+    })
+  );
 });
