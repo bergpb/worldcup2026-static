@@ -7,7 +7,6 @@
 <meta name="description" content="All 104 matches with live scores, standings and bracket. Times in your timezone. Free, no ads.">
 <meta name="keywords" content="FIFA World Cup 2026 schedule, World Cup 2026 fixtures, World Cup 2026 times, World Cup 2026 AEST, World Cup 2026 Melbourne, World Cup 2026 Australia, World Cup 2026 group stage, World Cup 2026 knockout">
 <meta name="author" content="bergpb">
-<link rel="canonical" href="./">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0A0E1A">
@@ -15,6 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="WC 2026">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="canonical" href="./">
 
 <!-- Open Graph (for Facebook, Reddit, LinkedIn previews) -->
 <meta property="og:title" content="World Cup 2026 Schedule - Live Scores & Local Times">
@@ -511,7 +511,7 @@
 
   /* ── FOOTER ──────────────────────────────────────────────────────────────── */
   .footer {
-    margin-top: 20px; padding-top: 10px;
+    margin-top: 20px; padding-top: 10px; padding-bottom: 30px;
     border-top: 1px solid var(--border);
     display: flex; justify-content: space-between; flex-shrink: 0;
     flex-wrap: wrap; gap: 4px;
@@ -561,6 +561,75 @@
   .score-label.live { color: #2ECC71; }
   @keyframes pulse-score { 0%,100%{opacity:1} 50%{opacity:0.6} }
   body.print-mode .score-live, body.print-mode .score-ft { font-size: 10px; }
+
+  .team-winner { font-weight: 800; color: var(--text); }
+  .team-loser  { color: var(--text-muted); opacity: 0.55; }
+
+  #score-toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(12px);
+    background: #0F2A12; border: 1.5px solid #2ECC71; border-radius: 8px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px;
+    letter-spacing: 1px; color: #2ECC71;
+    padding: 10px 20px; z-index: 4000;
+    opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none; white-space: nowrap;
+  }
+  #score-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  #offline-banner {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #b91c1c;
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    text-align: center;
+    padding: 8px 16px;
+    z-index: 3000;
+  }
+  #offline-banner.visible { display: block; }
+
+  #share-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 12px;
+    letter-spacing: 1px; text-transform: uppercase;
+    background: none; border: 1.5px solid var(--gold);
+    color: var(--gold); border-radius: 4px;
+    padding: 5px 12px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  #share-btn:active { opacity: 0.7; }
+
+  #ptr-indicator {
+    position: fixed;
+    top: -50px;
+    left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    height: 44px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--gold);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: top 0.2s ease;
+    z-index: 2000;
+    pointer-events: none;
+  }
+  #ptr-indicator.ptr-visible { top: 0; }
+  #ptr-indicator.ptr-refreshing { color: var(--text-muted); }
+  @keyframes ptr-spin { to { transform: rotate(360deg); } }
+  #ptr-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid var(--gold);
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: none;
+    animation: ptr-spin 0.7s linear infinite;
+  }
+  #ptr-indicator.ptr-refreshing #ptr-spinner { display: block; }
+  #ptr-indicator.ptr-refreshing #ptr-arrow { display: none; }
 
   #jump-btn {
     display: none;
@@ -4180,6 +4249,13 @@
   <meta name="twitter:image" content="https://worldcup2026.bergpb.dev/preview.png">
 </head>
 <body>
+<div id="score-toast"></div>
+<div id="offline-banner" role="alert" data-i18n="offline_banner">You're offline — showing cached data</div>
+<div id="ptr-indicator">
+  <span id="ptr-arrow">&#8595; Pull to refresh</span>
+  <div id="ptr-spinner"></div>
+  <span id="ptr-text" style="display:none">Refreshing…</span>
+</div>
 <!-- dark mode is default; .print-mode toggled by JS -->
 <div class="page">
 
@@ -4189,11 +4265,12 @@
       <div class="sub" data-i18n="sub_index">All 104 matches &bull; 11 June &ndash; 19 July &bull; USA / Canada / Mexico</div>
       <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
         <a href="https://www.buymeacoffee.com/coolcato" target="_blank" id="bmc-header">☕ Buy me a coffee</a>
-        <div style="display:flex;gap:8px;flex-wrap:nowrap;">
+        <div style="display:flex;gap:8px;flex-wrap:nowrap;align-items:center;">
           <a href="./" class="nav-btn active" id="nav-schedule">&#128197; Schedule</a>
           <a href="groups.html" class="nav-btn" id="nav-groups">&#128202; Groups</a>
           <a href="bracket.html" class="nav-btn" id="nav-knockout">&#127942; Knockout</a>
           <a href="feedback.html" class="nav-btn" id="feedback-nav">&#128172; Feedback</a>
+          <button id="share-btn" onclick="shareApp()" data-i18n="btn_share">&#128279; Share</button>
         </div>
       </div>
     </div>
@@ -4590,6 +4667,13 @@ const LANGS = {
     knockout_sub:'Round of 32 • R16 • QF • SF • Final',
     schedule_note:'<strong>&#10024; New:</strong> <span style="color:var(--text-sub)">Hide scores &bull; Hide completed matches - preferences persist until changed</span>',
     jump_btn:'&#9660; Today\'s matches',
+    updated_just_now:'updated just now',
+    updated_secs_ago:'updated {n}s ago',
+    updated_mins_ago:'updated {n}m ago',
+    updated_hrs_ago:'updated {n}h ago',
+    offline_banner:'You\'re offline — showing cached data',
+    btn_share:'&#128279; Share',
+    share_copied:'Link copied!',
     footer_source:'Source: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 group stage matches • 12 groups • Top 2 per group + 8 best 3rd place advance',
     no_matches_alert:'No matches match your current filters.',
@@ -4619,6 +4703,13 @@ const LANGS = {
     knockout_sub:'Oitavas • Quartas • Semi • Final',
     schedule_note:'<strong>&#10024; Novo:</strong> <span style="color:var(--text-sub)">Ocultar placar &bull; Ocultar encerrados – preferências salvas automaticamente</span>',
     jump_btn:'&#9660; Jogos de hoje',
+    updated_just_now:'atualizado agora',
+    updated_secs_ago:'atualizado há {n}s',
+    updated_mins_ago:'atualizado há {n}m',
+    updated_hrs_ago:'atualizado há {n}h',
+    offline_banner:'Você está offline — exibindo dados em cache',
+    btn_share:'&#128279; Compartilhar',
+    share_copied:'Link copiado!',
     footer_source:'Fonte: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 jogos na fase de grupos • 12 grupos • Top 2 de cada + 8 melhores 3ºs avançam',
     no_matches_alert:'Nenhum jogo corresponde aos filtros atuais.',
@@ -4649,6 +4740,13 @@ const LANGS = {
     knockout_sub:'Octavos • Cuartos • Semi • Final',
     schedule_note:'<strong>&#10024; Nuevo:</strong> <span style="color:var(--text-sub)">Ocultar marcador &bull; Ocultar terminados – preferencias guardadas automáticamente</span>',
     jump_btn:'&#9660; Partidos de hoy',
+    updated_just_now:'actualizado ahora',
+    updated_secs_ago:'actualizado hace {n}s',
+    updated_mins_ago:'actualizado hace {n}m',
+    updated_hrs_ago:'actualizado hace {n}h',
+    offline_banner:'Estás sin conexión — mostrando datos en caché',
+    btn_share:'&#128279; Compartir',
+    share_copied:'¡Enlace copiado!',
     footer_source:'Fuente: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 partidos en fase de grupos • 12 grupos • Top 2 por grupo + 8 mejores 3eros avanzan',
     no_matches_alert:'Ningún partido coincide con los filtros actuales.',
@@ -4660,6 +4758,26 @@ const LANGS = {
     teams:{'Algeria':'Argelia','Belgium':'Bélgica','Bosnia & Herz.':'Bosnia y Herz.','Brazil':'Brasil','Congo DR':'Congo RD','Croatia':'Croacia','Czechia':'Chequia','Egypt':'Egipto','England':'Inglaterra','France':'Francia','Germany':'Alemania','Ivory Coast':'Costa de Marfil','Japan':'Japón','Mexico':'México','Morocco':'Marruecos','Netherlands':'Países Bajos','New Zealand':'Nueva Zelanda','Norway':'Noruega','Qatar':'Catar','Saudi Arabia':'Arabia Saudita','Scotland':'Escocia','South Africa':'Sudáfrica','South Korea':'Corea del Sur','Spain':'España','Sweden':'Suecia','Switzerland':'Suiza','Tunisia':'Túnez','Turkiye':'Turquía','USA':'EE.UU.','Uzbekistan':'Uzbekistán'},
   },
 };
+
+// Clear stale filters on schema bump — increment SCHEMA_VER to wipe filter prefs
+const SCHEMA_VER = '2';
+try {
+  if (localStorage.getItem('wc2026_schema') !== SCHEMA_VER) {
+    ['wc2026_hidefinished','wc2026_hidescores','wc2026_city','wc2026_groupfilter',
+     'wc2026_teamfilter','wc2026_singlecol','wc2026_highlights'].forEach(k => {
+      localStorage.removeItem(k);
+    });
+    localStorage.setItem('wc2026_schema', SCHEMA_VER);
+  }
+} catch(e) {}
+
+if (location.search.includes('reset')) {
+  ['wc2026_hidefinished','wc2026_hidescores','wc2026_city','wc2026_groupfilter',
+   'wc2026_teamfilter','wc2026_singlecol','wc2026_highlights'].forEach(k => {
+    try { localStorage.removeItem(k); } catch(e) {}
+  });
+  history.replaceState(null,'',location.pathname);
+}
 
 let _lang = 'en';
 try { _lang = localStorage.getItem('wc2026_lang') || 'en'; } catch(e) {}
@@ -5005,7 +5123,7 @@ function render(offset, team) {
     ? `UTC${sign}${Math.floor(offset)}:${Math.abs((offset%1)*60) === 30 ? '30':'00'}`
     : `UTC${sign}${offset}`;
   document.getElementById('footer-tz').innerHTML =
-    `All times ${lbl} \u2022 ${t('footer_source')} \u2022 <span id="version" style="color:var(--text-muted);font-style:italic">v1.38</span>`;
+    `All times ${lbl} \u2022 ${t('footer_source')} \u2022 <span id="version" style="color:var(--text-muted);font-style:italic">v1.38</span> \u2022 <span id="last-updated" style="color:var(--text-muted);font-style:italic"></span>`;
   const fb = document.getElementById('footer-bottom');
   if (fb) fb.textContent = t('footer_groups_idx');
 
@@ -5095,6 +5213,20 @@ function render(offset, team) {
 
   updateNextMatch();
   setInterval(updateNextMatch, 1000);
+
+  function updateLastFetched() {
+    const el = document.getElementById('last-updated');
+    if (!el || !lastFetch) return;
+    const secs = Math.floor((Date.now() - lastFetch) / 1000);
+    let text;
+    if (secs < 10) text = t('updated_just_now');
+    else if (secs < 60) text = t('updated_secs_ago').replace('{n}', secs);
+    else if (secs < 3600) text = t('updated_mins_ago').replace('{n}', Math.floor(secs / 60));
+    else text = t('updated_hrs_ago').replace('{n}', Math.floor(secs / 3600));
+    el.textContent = text;
+  }
+  updateLastFetched();
+  setInterval(updateLastFetched, 1000);
 
   // Update kickoff date label based on timezone
   // First match is Mexico v South Africa: 2026-06-11T19:00:00Z
@@ -5621,6 +5753,90 @@ if (koBtn) koBtn.addEventListener('click', () => {
     const s = getState();
     render(s.offset, s.team);
   }
+
+  // Pull-to-refresh
+  (function() {
+    const THRESHOLD = 70;
+    let startY = 0, pulling = false, refreshing = false;
+    const ind = document.getElementById('ptr-indicator');
+    const arrow = document.getElementById('ptr-arrow');
+    const txt = document.getElementById('ptr-text');
+
+    document.addEventListener('touchstart', e => {
+      if (window.scrollY === 0) {
+        startY = e.touches[0].clientY;
+        pulling = true;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (!pulling || refreshing) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 10) {
+        ind.classList.add('ptr-visible');
+        arrow.textContent = dy >= THRESHOLD ? '↑ Release to refresh' : '↓ Pull to refresh';
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', e => {
+      if (!pulling || refreshing) { pulling = false; return; }
+      const dy = e.changedTouches[0].clientY - startY;
+      pulling = false;
+      if (dy >= THRESHOLD) {
+        refreshing = true;
+        ind.classList.add('ptr-refreshing');
+        arrow.style.display = 'none';
+        txt.style.display = 'inline';
+        loadScores().then(() => {
+          const s = getState();
+          render(s.offset, s.team);
+        }).finally(() => {
+          refreshing = false;
+          ind.classList.remove('ptr-visible', 'ptr-refreshing');
+          arrow.style.display = 'inline';
+          txt.style.display = 'none';
+          arrow.textContent = '↓ Pull to refresh';
+        });
+      } else {
+        ind.classList.remove('ptr-visible');
+        arrow.textContent = '↓ Pull to refresh';
+      }
+    }, { passive: true });
+  })();
+
+  // Offline banner
+  (function() {
+    const banner = document.getElementById('offline-banner');
+    function updateBanner() {
+      banner.textContent = t('offline_banner');
+      banner.classList.toggle('visible', !navigator.onLine);
+    }
+    window.addEventListener('offline', updateBanner);
+    window.addEventListener('online', () => {
+      banner.classList.remove('visible');
+      loadScores().then(() => { const s = getState(); render(s.offset, s.team); });
+    });
+    if (!navigator.onLine) updateBanner();
+  })();
+
+  // Share
+  window.shareApp = function() {
+    const shareData = {
+      title: 'FIFA World Cup 2026',
+      text: 'All 104 matches with live scores and local times',
+      url: location.href,
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(location.href).then(() => {
+        const btn = document.getElementById('share-btn');
+        const orig = btn.innerHTML;
+        btn.textContent = t('share_copied');
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
+      }).catch(() => {});
+    }
+  };
 
   applyLang();
   loadScores().then(() => {
