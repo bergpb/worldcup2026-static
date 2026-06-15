@@ -4852,7 +4852,7 @@ function getScore(teamsStr) {
   }
   if ((s.status === 'IN_PLAY' || s.status === 'PAUSED') && s.home !== null) {
     const minStr = s.minute ? `${s.minute}${s.injuryTime ? '+'+s.injuryTime : ''}'` : '';
-    const cl = CARD_LABELS[_cardLang] || CARD_LABELS.en;
+    const cl = LANGS[_lang] || LANGS.en;
     const label = s.status === 'PAUSED' ? cl.ht_label : (minStr ? '' : cl.live_label);
     return { home: s.home, away: s.away, cls: 'score-live', label, minute: minStr };
   }
