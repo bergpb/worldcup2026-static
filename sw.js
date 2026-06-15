@@ -1,5 +1,5 @@
-const CACHE = 'wc2026-v2';
-const PRECACHE = ['/index.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
+const CACHE = 'wc2026-BUILD_TS';
+const PRECACHE = ['/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -21,6 +21,9 @@ self.addEventListener('message', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
+
+  // Only handle same-origin requests — let cross-origin (analytics, CDNs) pass through
+  if (url.origin !== self.location.origin) return;
 
   // Never cache: data.json (live scores) and sw.js itself
   if (url.pathname.startsWith('/data.json') || url.pathname === '/sw.js') return;

@@ -2,13 +2,15 @@ PROD_HOST   = swarm
 PROD_DIR    = ~/worldcup-2026-static
 VOLUME      = worldcup2026-static_wc-data
 DEV_NGINX   = worldcup2026-static-dev-1
+BUILD_TS    = $(shell date +%Y%m%d%H%M%S)
+BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
 .PHONY: deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
 
-## Deploy to production (rsync + rebuild container)
+## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy:
 	rsync -av --exclude='data.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
-	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod up -d --build prod"
+	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) --build-arg BUILD_TS=$(BUILD_TS) prod && docker compose --profile prod up -d prod"
 
 ## Sync files to prod without rebuilding
 sync:

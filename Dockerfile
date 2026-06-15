@@ -1,10 +1,16 @@
 FROM nginx:alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html groups.html bracket.html feedback.html sitemap.xml /usr/share/nginx/html/
+ARG BUILD_VERSION=dev
+ARG BUILD_TS=dev
+
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY index.html groups.html bracket.html sitemap.xml styles.css /usr/share/nginx/html/
 COPY manifest.json sw.js favicon.ico /usr/share/nginx/html/
 COPY icons/ /usr/share/nginx/html/icons/
 COPY data.json /usr/share/nginx/html/
+
+RUN sed -i "s/vBUILD/v${BUILD_VERSION}/" /usr/share/nginx/html/index.html \
+ && sed -i "s/wc2026-BUILD_TS/wc2026-${BUILD_TS}/" /usr/share/nginx/html/sw.js
 
 EXPOSE 80
 
