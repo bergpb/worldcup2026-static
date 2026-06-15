@@ -62,6 +62,21 @@ print(f\"Patched: {m['homeTeam']['name']} vs {m['awayTeam']['name']} → IN_PLAY
 	@docker run --rm -v $(VOLUME):/data -v /tmp/data_vol.json:/tmp/data_vol.json alpine cp /tmp/data_vol.json /data/data.json
 	@echo "Done — fetcher stopped, check http://192.168.6.110:8080"
 
+## Patch score change: simulate a goal (IN_PLAY 2-0) to test goal flash animation
+patch-goal:
+	@docker cp $(DEV_NGINX):/data/data.json /tmp/data_vol.json
+	@python3 -c "\
+import json; \
+d = json.load(open('/tmp/data_vol.json')); \
+m = next((m for m in d['matches'] if m['homeTeam']['name'] == 'Netherlands' and m['awayTeam']['name'] == 'Japan'), d['matches'][1]); \
+m['status'] = 'IN_PLAY'; \
+m['score']['fullTime'] = {'home': 2, 'away': 0}; \
+json.dump(d, open('/tmp/data_vol.json','w')); \
+print(f\"Patched: {m['homeTeam']['name']} vs {m['awayTeam']['name']} → IN_PLAY 2-0\") \
+"
+	@docker run --rm -v $(VOLUME):/data -v /tmp/data_vol.json:/tmp/data_vol.json alpine cp /tmp/data_vol.json /data/data.json
+	@echo "Done — pull to refresh on the page to see the goal flash"
+
 ## Restore live data (restart fetcher)
 restore:
 	docker compose --profile dev start fetcher
