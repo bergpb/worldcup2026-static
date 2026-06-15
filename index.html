@@ -4865,12 +4865,17 @@ function flagUrl(team) {
   return code ? `https://flagcdn.com/w20/${code}.png` : '';
 }
 
-function teamsHtml(teamsStr) {
+function teamsHtml(teamsStr, score) {
   const parts = teamsStr.split(' v ');
   if (parts.length !== 2) return teamsStr;
   const home = parts[0].trim();
   const away = parts[1].trim();
-  return `${flagImg(home)} ${teamName(home)} <span class="vs">v</span> ${teamName(away)} ${flagImg(away)}`;
+  let homeCls = '', awayCls = '';
+  if (score && score.cls === 'score-ft' && score.home !== score.away) {
+    if (score.home > score.away) { homeCls = ' class="team-winner"'; awayCls = ' class="team-loser"'; }
+    else { homeCls = ' class="team-loser"'; awayCls = ' class="team-winner"'; }
+  }
+  return `<span${homeCls}>${flagImg(home)} ${teamName(home)}</span> <span class="vs">v</span> <span${awayCls}>${teamName(away)} ${flagImg(away)}</span>`;
 }
 
 
@@ -5056,7 +5061,7 @@ function render(offset, team) {
       html += `<div class="match${cls}">
         <span class="grp ${m.grp}">${m.grp}</span>
         <span class="time">${t}</span>
-        <span class="teams">${teamsHtml(m.teams)}</span>
+        <span class="teams">${teamsHtml(m.teams, score)}</span>
         ${scoreHtml}
         <span class="venue">${m.venue}</span>
       </div>`;
