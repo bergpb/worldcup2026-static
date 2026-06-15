@@ -4896,11 +4896,23 @@ function normalise(name) {
 // scoreMap: keyed by "HomeTeam|AwayTeam" -> {home, away, status}
 let scoreMap = {};
 let lastFetch = null;
+let lastMatches = [];
+
+let _toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('score-toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('visible');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('visible'), 5000);
+}
 
 async function loadScores() {
   try {
     const res = await fetch('data.json?t=' + Date.now());
     const data = await res.json();
+    const prevScoreMap = { ...scoreMap };
     scoreMap = {};
     (data.matches || []).forEach(m => {
       if (m.stage !== 'GROUP_STAGE') return;
@@ -4913,8 +4925,22 @@ async function loadScores() {
       const ag = m.score?.fullTime?.away;
       scoreMap[key] = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime };
     });
+    // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
+    if (Object.keys(prevScoreMap).length > 0) {
+      const toasts = [];
+      Object.entries(scoreMap).forEach(([key, s]) => {
+        const prev = prevScoreMap[key];
+        if (!prev || s.home === null || s.away === null) return;
+        if (s.home !== prev.home || s.away !== prev.away) {
+          const [h, a] = key.split('|');
+          toasts.push(`⚽ ${teamName(h)} ${s.home}–${s.away} ${teamName(a)}`);
+        }
+      });
+      if (toasts.length) showToast(toasts.join(' · '));
+    }
     lastFetch = new Date();
-    updateLiveCard(data.matches || []);
+    lastMatches = data.matches || [];
+    updateLiveCard(lastMatches);
   } catch(e) {
     console.log('Could not load scores:', e.message);
   }
