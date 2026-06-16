@@ -9,7 +9,8 @@
 <link rel="canonical" href="groups.html">
 <meta property="og:title" content="World Cup 2026 Group Standings - Live & Updated">
 <meta property="og:description" content="Live standings updated as matches are played. All 12 groups with FIFA tiebreaker logic.">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?vBUILD">
+<script defer src="https://umami.bergpb.dev/script.js" data-website-id="25c731a4-b902-4410-906d-cd57ff413f39"></script>
   <!-- Open Graph / Social sharing -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="World Cup 2026 Schedule">
@@ -35,6 +36,7 @@
         <a href="./" class="nav-btn" id="nav-schedule">&#128197; Schedule</a>
         <a href="groups.html" class="nav-btn active" id="nav-groups">&#128202; Groups</a>
         <a href="bracket.html" class="nav-btn" id="nav-knockout">&#127942; Knockout</a>
+        <a href="scorers.html" class="nav-btn" id="nav-scorers">&#9917; Top Scorers</a>
         <a href="feedback.html" class="nav-btn" id="nav-feedback">&#128172; Feedback</a>
       </div>
     </div>
@@ -138,7 +140,7 @@ const LANGS = {
   en: {
     sub_groups:'Group Stage Draw • 12 Groups • 48 Teams',
     nav_schedule:'&#128197; Schedule', nav_groups:'&#128202; Groups',
-    nav_knockout:'&#127942; Knockout', nav_feedback:'&#128172; Feedback',
+    nav_knockout:'&#127942; Knockout', nav_scorers:'&#9917; Top Scorers', nav_feedback:'&#128172; Feedback',
     lbl_timezone:'Timezone', lbl_highlight:'Highlight', btn_add_team:'+ Add team',
     lbl_group:'Group',
     standings_note:'Groups with a <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> are in play &mdash; standings shown are provisional.',
@@ -152,7 +154,7 @@ const LANGS = {
   pt: {
     sub_groups:'Fase de Grupos • 12 Grupos • 48 Seleções',
     nav_schedule:'&#128197; Jogos', nav_groups:'&#128202; Grupos',
-    nav_knockout:'&#127942; Eliminatórias', nav_feedback:'&#128172; Feedback',
+    nav_knockout:'&#127942; Eliminatórias', nav_scorers:'&#9917; Artilheiros', nav_feedback:'&#128172; Feedback',
     lbl_timezone:'Fuso Horário', lbl_highlight:'Destaque', btn_add_team:'+ Adicionar',
     lbl_group:'Grupo',
     standings_note:'Grupos com <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> em andamento &mdash; classificação provisória.',
@@ -167,7 +169,7 @@ const LANGS = {
   es: {
     sub_groups:'Fase de Grupos • 12 Grupos • 48 Selecciones',
     nav_schedule:'&#128197; Partidos', nav_groups:'&#128202; Grupos',
-    nav_knockout:'&#127942; Eliminatorias', nav_feedback:'&#128172; Comentarios',
+    nav_knockout:'&#127942; Eliminatorias', nav_scorers:'&#9917; Goleadores', nav_feedback:'&#128172; Comentarios',
     lbl_timezone:'Zona Horaria', lbl_highlight:'Destacar', btn_add_team:'+ Agregar',
     lbl_group:'Grupo',
     standings_note:'Grupos con <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> en juego &mdash; clasificación provisional.',
@@ -212,7 +214,7 @@ function applyLang() {
     const val = t(el.dataset.i18n);
     if (val !== undefined) el.innerHTML = val;
   });
-  ['schedule','groups','knockout','feedback'].forEach(k => {
+  ['schedule','groups','knockout','scorers','feedback'].forEach(k => {
     const el = document.getElementById('nav-' + k);
     if (el) el.innerHTML = t('nav_' + k);
   });

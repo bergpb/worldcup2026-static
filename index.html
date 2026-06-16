@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="World Cup 2026 Schedule - Live Scores & Local Times">
 <meta name="twitter:description" content="All 104 matches with live scores, standings and bracket. Times in your timezone. Free, no ads.">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?vBUILD">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -3583,11 +3583,11 @@
   <meta name="twitter:title" content="World Cup 2026 Schedule - Live Scores & Local Times">
   <meta name="twitter:description" content="All 104 matches with live scores, standings and bracket. Times in your timezone. Free, no ads.">
   <meta name="twitter:image" content="https://worldcup2026.bergpb.dev/preview.png">
+  <script defer src="https://umami.bergpb.dev/script.js" data-website-id="25c731a4-b902-4410-906d-cd57ff413f39"></script>
 </head>
 <body>
 <div id="score-toast"></div>
 <div id="offline-banner" role="alert" data-i18n="offline_banner">You're offline — showing cached data</div>
-<div id="update-banner" role="alert" data-i18n="update_banner" onclick="applyUpdate()">🔄 Update available — tap to refresh</div>
 <div id="ptr-indicator">
   <span id="ptr-arrow">&#8595; Pull to refresh</span>
   <div id="ptr-spinner"></div>
@@ -3606,6 +3606,7 @@
           <a href="./" class="nav-btn active" id="nav-schedule">&#128197; Schedule</a>
           <a href="groups.html" class="nav-btn" id="nav-groups">&#128202; Groups</a>
           <a href="bracket.html" class="nav-btn" id="nav-knockout">&#127942; Knockout</a>
+          <a href="scorers.html" class="nav-btn" id="nav-scorers">&#9917; Top Scorers</a>
           <a href="feedback.html" class="nav-btn" id="feedback-nav">&#128172; Feedback</a>
         </div>
       </div>
@@ -3988,7 +3989,7 @@ const LANGS = {
   en: {
     sub_index:'All 104 matches • 11 June – 19 July • USA / Canada / Mexico',
     nav_schedule:'&#128197; Schedule', nav_groups:'&#128202; Groups',
-    nav_knockout:'&#127942; Knockout', nav_feedback:'&#128172; Feedback',
+    nav_knockout:'&#127942; Knockout', nav_scorers:'&#9917; Top Scorers', nav_feedback:'&#128172; Feedback',
     btn_print:'&#9788; Print Mode',
     btn_hide_scores:'Hide Scores', btn_show_scores:'Show Scores',
     btn_hide_finished:'Hide Completed', btn_show_finished:'Show Completed',
@@ -4011,7 +4012,6 @@ const LANGS = {
     updated_mins_ago:'updated {n}m ago',
     updated_hrs_ago:'updated {n}h ago',
     offline_banner:'You\'re offline — showing cached data',
-    update_banner:'🔄 Update available — tap to refresh',
     btn_share:'&#128279; Share',
     share_copied:'Link copied!',
     footer_source:'Source: FIFA / Fox Sports 2026',
@@ -4026,7 +4026,7 @@ const LANGS = {
   pt: {
     sub_index:'Todos os 104 jogos • 11 jun – 19 jul • EUA / Canadá / México',
     nav_schedule:'&#128197; Jogos', nav_groups:'&#128202; Grupos',
-    nav_knockout:'&#127942; Eliminatórias', nav_feedback:'&#128172; Feedback',
+    nav_knockout:'&#127942; Eliminatórias', nav_scorers:'&#9917; Artilheiros', nav_feedback:'&#128172; Feedback',
     btn_print:'&#9788; Modo Impressão',
     btn_hide_scores:'Ocultar Placar', btn_show_scores:'Mostrar Placar',
     btn_hide_finished:'Ocultar Encerrados', btn_show_finished:'Mostrar Encerrados',
@@ -4037,7 +4037,7 @@ const LANGS = {
     lbl_qf:'Quartas de Final', lbl_sf:'Semifinais', lbl_final:'Final',
     btn_clear:'✕ Limpar', btn_calendar:'&#128197; Calendário',
     live_label:'AO VIVO',
-    watch_live:'▶ Assistir ao Vivo no @CazeTV',
+    watch_live:'▶ Assistir ao Vivo na @CazeTV',
     ht_label:'INT',
     next_match:'Próximo Jogo',
     knockout_heading:'Fase Eliminatória',
@@ -4049,7 +4049,6 @@ const LANGS = {
     updated_mins_ago:'atualizado há {n}m',
     updated_hrs_ago:'atualizado há {n}h',
     offline_banner:'Você está offline — exibindo dados em cache',
-    update_banner:'🔄 Atualização disponível — toque para recarregar',
     btn_share:'&#128279; Compartilhar',
     share_copied:'Link copiado!',
     footer_source:'Fonte: FIFA / Fox Sports 2026',
@@ -4065,7 +4064,7 @@ const LANGS = {
   es: {
     sub_index:'Los 104 partidos • 11 jun – 19 jul • EE.UU. / Canadá / México',
     nav_schedule:'&#128197; Partidos', nav_groups:'&#128202; Grupos',
-    nav_knockout:'&#127942; Eliminatorias', nav_feedback:'&#128172; Comentarios',
+    nav_knockout:'&#127942; Eliminatorias', nav_scorers:'&#9917; Goleadores', nav_feedback:'&#128172; Comentarios',
     btn_print:'&#9788; Modo Impresión',
     btn_hide_scores:'Ocultar Marcador', btn_show_scores:'Mostrar Marcador',
     btn_hide_finished:'Ocultar Terminados', btn_show_finished:'Mostrar Terminados',
@@ -4088,7 +4087,6 @@ const LANGS = {
     updated_mins_ago:'actualizado hace {n}m',
     updated_hrs_ago:'actualizado hace {n}h',
     offline_banner:'Estás sin conexión — mostrando datos en caché',
-    update_banner:'🔄 Actualización disponible — toca para recargar',
     btn_share:'&#128279; Compartir',
     share_copied:'¡Enlace copiado!',
     footer_source:'Fuente: FIFA / Fox Sports 2026',
@@ -4163,7 +4161,7 @@ function applyLang() {
     if (val !== undefined) el.innerHTML = val;
   });
   // nav buttons
-  ['schedule','groups','knockout','feedback'].forEach(k => {
+  ['schedule','groups','knockout','scorers','feedback'].forEach(k => {
     const el = document.getElementById('nav-' + k);
     if (el) el.innerHTML = t('nav_' + k);
   });
@@ -4286,7 +4284,6 @@ async function loadScores() {
     lastFetch = new Date();
     lastMatches = data.matches || [];
     updateLiveCard(lastMatches);
-    if (window._swReg) window._swReg.update();
   } catch(e) {
     console.log('Could not load scores:', e.message);
   }
@@ -4298,8 +4295,8 @@ function calcElapsed(utcDate, status) {
   if (elapsed < 0) return '';
   if (status === 'PAUSED') return '';
   if (elapsed <= 45) return elapsed + "'";
-  if (elapsed <= 60) return "45+'";
-  const sh = elapsed - 60; // estimate 2nd half start after ~15min break
+  if (elapsed <= 65) return "45+'"; // HT window: ~5min stoppage + 15min break
+  const sh = elapsed - 65; // 2nd half starts ~65min after scheduled kickoff
   if (sh <= 45) return (45 + sh) + "'";
   return "90+'";
 }
@@ -5251,24 +5248,8 @@ if (!HIDE_BMC) {
 
 <script>
 if ('serviceWorker' in navigator) {
-  let _swWaiting = null;
-  window.applyUpdate = function() {
-    if (_swWaiting) _swWaiting.postMessage({ action: 'skipWaiting' });
-  };
-  navigator.serviceWorker.register('/sw.js').then(reg => {
-    window._swReg = reg;
-    reg.addEventListener('updatefound', () => {
-      const sw = reg.installing;
-      sw.addEventListener('statechange', () => {
-        if (sw.state === 'installed' && navigator.serviceWorker.controller) {
-          _swWaiting = sw;
-          const banner = document.getElementById('update-banner');
-          if (banner) { banner.innerHTML = t('update_banner'); banner.classList.add('visible'); }
-        }
-      });
-    });
-  });
-  navigator.serviceWorker.addEventListener('controllerchange', () => { location.reload(); });
+  navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+  caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
 }
 </script>
 </body>
