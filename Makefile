@@ -10,7 +10,7 @@ BUILD_HASH  = $(shell git rev-parse --short HEAD)
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy:
 	rsync -av --exclude='data.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
-	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) --build-arg BUILD_TS=$(BUILD_TS) prod && docker compose --profile prod up -d prod"
+	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) prod && docker compose --profile prod up -d"
 
 ## Sync files to prod without rebuilding
 sync:
