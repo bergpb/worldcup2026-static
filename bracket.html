@@ -40,6 +40,7 @@
   <div class="hdr-r">
     <div class="ctrl">
       <button id="lang-btn" onclick="cycleLang()" title="Change language" class="nbtn"></button>
+      <button class="nbtn" onclick="shareApp()" title="Share">&#128279;</button>
     </div>
     <div class="ctrl">
       <span class="clbl" data-i18n="lbl_timezone">Timezone</span>
@@ -617,6 +618,11 @@ async function load(){
 
 load();
 setInterval(load,60000);
+function shareApp() {
+  const d = { title: 'FIFA World Cup 2026', url: location.href };
+  if (navigator.share) navigator.share(d).catch(() => {});
+  else navigator.clipboard.writeText(location.href).catch(() => {});
+}
 </script>
 <script>const HIDE_BMC = true; if (HIDE_BMC) document.body.classList.add('hide-bmc');</script>
 </body>

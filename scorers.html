@@ -68,6 +68,7 @@
     <div class="header-right">
       <div class="ctrl-row">
         <button id="lang-btn" onclick="cycleLang()" title="Change language" class="nav-btn ctrl-btn"></button>
+        <button class="nav-btn ctrl-btn" onclick="shareApp()" title="Share">&#128279;</button>
       </div>
     </div>
   </div>
@@ -255,6 +256,11 @@ async function loadScorers() {
 applyLang();
 loadScorers();
 setInterval(loadScorers, 60000);
+function shareApp() {
+  const d = { title: 'FIFA World Cup 2026', url: location.href };
+  if (navigator.share) navigator.share(d).catch(() => {});
+  else navigator.clipboard.writeText(location.href).catch(() => {});
+}
 </script>
 </body>
 </html>
