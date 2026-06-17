@@ -173,8 +173,6 @@ select:focus { outline: 2px solid var(--highlight-bl); }
 .nav-btn:hover, .ctrl-btn:hover { opacity: 0.8; }
 .nav-btn.active { background: var(--gold); color: #0A0E1A; border-color: var(--gold); }
 body.print-mode .nav-btn { display: none; }
-body.hide-bmc #nav-feedback,
-body.hide-bmc #feedback-nav { display: none !important; }
 @media screen and (max-width: 900px) { #feedback-nav { display: none !important; } }
 
 #mode-toggle, #knockout-toggle, #scores-toggle, #finished-toggle {
@@ -243,15 +241,6 @@ body.print-mode #bmc-header { display: none !important; }
 }
 #bmc-mobile a:hover { opacity: 0.8; }
 body.print-mode #bmc-mobile { display: none !important; }
-
-body.hide-bmc #bmc-header,
-body.hide-bmc #bmc-mobile,
-body.hide-bmc #bmc-wbtn,
-body.hide-bmc #bmc-iframe-wrapper,
-body.hide-bmc .bmc-btn-container,
-body.hide-bmc #lnk-notify,
-body.hide-bmc #lnk-feedback,
-body.hide-bmc #lnk-madeby { display: none !important; }
 
 /* ── FOOTER ──────────────────────────────────────────────────────────────── */
 .footer {
@@ -820,4 +809,29 @@ body.print-mode .third-place-section { margin-top: 12px; }
 @media (max-width: 600px) {
   .feedback-table td.date { display: none; }
   .feedback-table th.date { display: none; }
+}
+
+/* ── SCORERS ─────────────────────────────────────────────────────────────── */
+.scorers-table { width: 100%; border-collapse: collapse; }
+.scorers-table th { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 8px 12px; border-bottom: 2px solid var(--border); text-align: center; }
+.scorers-table td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--text); vertical-align: middle; text-align: center; }
+.scorers-table td.goals { font-weight: 800; font-size: 20px; color: var(--gold); }
+.scorers-table td.stat { color: var(--text-sub); font-size: 15px; }
+.scorers-table tr:hover td { background: rgba(255,255,255,0.02); }
+.scorers-table tr:first-child td { background: rgba(201,168,76,0.06); }
+.pos { font-size: 13px; color: var(--text-muted); font-weight: 700; width: 30px; }
+.pos.gold   { color: #FFD700; }
+.pos.silver { color: #C0C0C0; }
+.pos.bronze { color: #CD7F32; }
+.player-name { font-weight: 700; font-size: 17px; text-align: left; }
+.player-team { font-size: 13px; color: var(--text-sub); margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+.player-team img { width: 16px; height: 12px; object-fit: contain; }
+.last-updated { font-size: 12px; color: var(--text-muted); text-align: right; margin-top: 12px; letter-spacing: 1px; }
+.scorers-loading { text-align: center; color: var(--text-muted); font-size: 16px; letter-spacing: 1px; }
+@media (max-width: 600px) {
+  .scorers-table td, .scorers-table th { padding: 8px 4px; }
+  .scorers-table { font-size: 13px; table-layout: fixed; width: 100%; }
+  .player-name { font-size: 13px; }
+  .col-mp { display: none; }
+  .col-player { width: 45%; }
 }

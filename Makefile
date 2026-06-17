@@ -5,20 +5,24 @@ DEV_NGINX   = worldcup2026-static-dev-1
 BUILD_TS    = $(shell date +%Y%m%d%H%M%S)
 BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
-.PHONY: build deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
+.PHONY: build check deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
 
 ## Assemble partials into all pages
 build:
 	node build.js
 
+## Verify pages are up-to-date with partials (exits non-zero if stale)
+check:
+	node build.js --check
+
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy: build
-	rsync -av --exclude='data.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
+	rsync -av --exclude='data.json' --exclude='.git' --exclude='_partials' --exclude='build.js' ./ $(PROD_HOST):$(PROD_DIR)/
 	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) prod && docker compose --profile prod up -d"
 
 ## Sync files to prod without rebuilding
 sync:
-	rsync -av --exclude='data.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
+	rsync -av --exclude='data.json' --exclude='.git' --exclude='_partials' --exclude='build.js' ./ $(PROD_HOST):$(PROD_DIR)/
 
 ## Start local dev server
 dev-up:
