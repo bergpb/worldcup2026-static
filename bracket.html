@@ -25,29 +25,32 @@
 <body>
 <div class="page">
 
-<div class="hdr">
+<div class="header">
   <div>
     <h1>FIFA World Cup 2026</h1>
     <div class="sub" data-i18n="sub_bracket">Knockout · Round of 32 to Final</div>
-    <div class="nav">
-      <a href="./" class="nbtn" id="nav-schedule">📅 Schedule</a>
-      <a href="groups.html" class="nbtn" id="nav-groups">📊 Groups</a>
-      <a href="bracket.html" class="nbtn on" id="nav-knockout">🏆 Knockout</a>
-      <a href="scorers.html" class="nbtn" id="nav-scorers">⚽ Top Scorers</a>
-      <a href="feedback.html" class="nbtn" id="nav-feedback">💬 Feedback</a>
-    </div>
+    <!-- partial:nav -->
+<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+  <a href="./" class="nav-btn" id="nav-schedule">&#128197; Schedule</a>
+  <a href="groups.html" class="nav-btn" id="nav-groups">&#128202; Groups</a>
+  <a href="bracket.html" class="nav-btn active" id="nav-knockout">&#127942; Knockout</a>
+  <a href="scorers.html" class="nav-btn" id="nav-scorers">&#9917; Top Scorers</a>
+  <a href="feedback.html" class="nav-btn" id="nav-feedback">&#128172; Feedback</a>
+</div>
+<!-- /partial:nav -->
   </div>
-  <div class="hdr-r">
-    <div class="ctrl">
-      <button id="lang-btn" onclick="cycleLang()" title="Change language" class="nbtn"></button>
-      <button class="nbtn" onclick="shareApp()" title="Share">&#128279;</button>
+  <div class="header-right">
+    <div class="ctrl-row">
+      <button id="lang-btn" onclick="cycleLang()" title="Change language" class="nav-btn"></button>
+      <button class="nav-btn" onclick="shareApp()" title="Share">&#128279;</button>
     </div>
-    <div class="ctrl">
-      <span class="clbl" data-i18n="lbl_timezone">Timezone</span>
-      <select id="tzsel">
+    <div class="ctrl-row">
+      <span class="ctrl-label" data-i18n="lbl_timezone">Timezone</span>
+      <select id="tz-select">
+        <!-- partial:tz-options -->
           <option value="12">Auckland (NZST, UTC+12)</option>
           <option value="11">Solomon Islands (UTC+11)</option>
-          <option value="10" selected>Melbourne / Sydney (AEST, UTC+10)</option>
+          <option value="10">Melbourne / Sydney (AEST, UTC+10)</option>
           <option value="10">Brisbane (AEST, UTC+10)</option>
           <option value="9.5">Adelaide (ACST, UTC+9:30)</option>
           <option value="9.5">Darwin (ACST, UTC+9:30)</option>
@@ -83,6 +86,7 @@
           <option value="-7">Los Angeles / Vancouver / Baja California (PDT, UTC-7)</option>
           <option value="-8">Anchorage (AKDT, UTC-8)</option>
           <option value="-10">Honolulu (HST, UTC-10)</option>
+<!-- /partial:tz-options -->
         </select>
     </div>
   </div>
@@ -158,6 +162,7 @@ const LANGS = {
   },
 };
 
+<!-- partial:common-js -->
 let _lang = 'en';
 try { _lang = localStorage.getItem('wc2026_lang') || 'en'; } catch(e) {}
 
@@ -166,10 +171,10 @@ function t(key) {
 }
 function teamName(n) { return LANGS[_lang]?.teams?.[n] ?? n; }
 
-const LANG_FLAGS = { en:'us', pt:'br', es:'es' };
+const LANG_FLAGS  = { en:'us', pt:'br', es:'es' };
 const LANG_LABELS = { en:'EN', pt:'PT', es:'ES' };
 function langBtnHTML(lang) {
-  const code = LANG_FLAGS[lang];
+  const code  = LANG_FLAGS[lang];
   const label = LANG_LABELS[lang];
   return `<img src="https://flagcdn.com/w20/${code}.png" alt="${label}" style="width:18px;height:13px;object-fit:cover;border-radius:2px;vertical-align:middle;margin-right:5px;">${label}`;
 }
@@ -179,8 +184,16 @@ function cycleLang() {
   _lang = order[(order.indexOf(_lang) + 1) % order.length];
   try { localStorage.setItem('wc2026_lang', _lang); } catch(e) {}
   applyLang();
-  render();
+  if (typeof window._onLangChange === 'function') window._onLangChange();
 }
+
+function shareApp() {
+  const d = { title: 'FIFA World Cup 2026', url: location.href };
+  if (navigator.share) navigator.share(d).catch(() => {});
+  else navigator.clipboard.writeText(location.href).catch(() => {});
+}
+<!-- /partial:common-js -->
+window._onLangChange = () => render();
 
 function applyLang() {
   const btn = document.getElementById('lang-btn');
@@ -290,7 +303,7 @@ function fmt(utc, off){
   const p=h>=12?'pm':'am', h12=h%12||12;
   return `${d.getUTCDate()} ${mo[d.getUTCMonth()]} ${h12}:${pad(mi)}${p}`;
 }
-function getOff(){ return parseFloat(document.getElementById('tzsel').value); }
+function getOff(){ return parseFloat(document.getElementById('tz-select').value); }
 
 function teams(m){
   const h=m.homeTeam?.shortName||m.homeTeam?.name;
@@ -589,10 +602,10 @@ document.querySelectorAll('.tab').forEach(b=>{
 // Timezone
 try{
   const sv=localStorage.getItem('wc2026_tz');
-  if(sv!==null){const s=document.getElementById('tzsel');const idx=parseInt(sv);if(!isNaN(idx)&&s.options[idx])s.selectedIndex=idx;}
+  if(sv!==null){const s=document.getElementById('tz-select');const idx=parseInt(sv);if(!isNaN(idx)&&s.options[idx])s.selectedIndex=idx;}
 }catch(e){}
-document.getElementById('tzsel').addEventListener('change',()=>{
-  try{localStorage.setItem('wc2026_tz',document.getElementById('tzsel').selectedIndex);}catch(e){}
+document.getElementById('tz-select').addEventListener('change',()=>{
+  try{localStorage.setItem('wc2026_tz',document.getElementById('tz-select').selectedIndex);}catch(e){}
   render();
 });
 
@@ -618,11 +631,6 @@ async function load(){
 
 load();
 setInterval(load,60000);
-function shareApp() {
-  const d = { title: 'FIFA World Cup 2026', url: location.href };
-  if (navigator.share) navigator.share(d).catch(() => {});
-  else navigator.clipboard.writeText(location.href).catch(() => {});
-}
 </script>
 <script>const HIDE_BMC = true; if (HIDE_BMC) document.body.classList.add('hide-bmc');</script>
 </body>

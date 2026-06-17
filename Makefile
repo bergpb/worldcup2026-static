@@ -5,10 +5,14 @@ DEV_NGINX   = worldcup2026-static-dev-1
 BUILD_TS    = $(shell date +%Y%m%d%H%M%S)
 BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
-.PHONY: deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
+.PHONY: build deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
+
+## Assemble partials into all pages
+build:
+	node build.js
 
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
-deploy:
+deploy: build
 	rsync -av --exclude='data.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
 	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) prod && docker compose --profile prod up -d"
 
