@@ -1,8 +1,8 @@
 # worldcup2026-static — CLAUDE.md
 
-Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live scores, group standings, knockout bracket, and top scorers. No build step. Pure static files served via nginx.
+Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live scores, group standings, knockout bracket, and top scorers. Has a partial-based build step (`node build.js`) that assembles pages into `dist/`.
 
-**Live at:** `worldcup2026.bergpb.dev` (Cloudflare-proxied)
+**Live at:** `worldcup.bergpb.dev` (Cloudflare-proxied) — `worldcup2026.bergpb.dev` 308-redirects here
 **Local dev:** `192.168.6.110:8080`
 **Prod server:** `swarm` (192.168.6.101), app lives at `~/worldcup-2026-static/`
 
@@ -10,7 +10,7 @@ Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live sc
 
 ## Pages
 
-| File | Description |
+| Source file | Description |
 |---|---|
 | `index.html` | All 104 matches, live card, group filter, score toggle |
 | `groups.html` | Group stage standings with live provisional standings |
@@ -21,6 +21,8 @@ Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live sc
 | `styles.css` | Consolidated CSS for all pages (cache-busted per deploy via `?vBUILD`) |
 | `sw.js` | Service worker kill switch — unregisters old SW and clears caches |
 | `manifest.json` | PWA manifest |
+
+Source files contain only empty `<!-- partial:name --><!-- /partial:name -->` markers — never edit `dist/` directly.
 
 ---
 
@@ -38,13 +40,45 @@ Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live sc
 
 ---
 
+## Build system
+
+### `build.js`
+
+Reads source files (with empty markers), injects partials, writes fully-assembled HTML to `dist/`. Run before deploying or testing locally.
+
+```bash
+node build.js           # build → dist/
+node build.js --check   # exit 1 if dist/ is stale (CI safety)
+node build.js --strip   # empty all markers in source files (run before committing if needed)
+```
+
+`dist/` is gitignored and self-contained (HTML + CSS + icons + static assets).
+
+### `_partials/`
+
+| File | Injected into |
+|---|---|
+| `head.html` | All pages — `<!DOCTYPE html>` through shared `<head>` tags; uses `{{PAGE_TITLE}}`, `{{PAGE_DESCRIPTION}}`, `{{PAGE_CANONICAL}}` |
+| `nav.html` | All pages — nav buttons; build.js adds `active` class for the current page |
+| `langs.html` | All pages — `<script>` block defining `LANGS_COMMON` (shared nav/timezone/teams translations) |
+| `tz-options.html` | index, groups, bracket — `<option>` list for timezone selector |
+| `common.js` | All pages — `cycleLang()`, `applyLang()`, `langBtnHTML()`, `shareApp()`, localStorage lang persistence |
+| `footer.html` | All pages — `<div class="footer">` with `#footer-line1` and `#footer-line2`; includes credits |
+| `jsonld.html` | index only — JSON-LD structured data (all 104 match events), injected before `</body>` |
+
+**Adding a new HTML page:** add it to the `PAGES` array in `build.js` with `title`, `description`, `canonical`, and `nav` key; add `<!-- partial:X --><!-- /partial:X -->` markers; update the Dockerfile if needed.
+
+---
+
 ## Makefile commands
 
 ```bash
-make deploy        # rsync to swarm + rebuild prod container + start all prod services
+make build         # assemble partials → dist/
+make check         # verify dist/ is up-to-date (exits non-zero if stale)
+make deploy        # build + rsync to swarm + rebuild prod container
 make sync          # rsync only, no rebuild
-make dev-up        # start local dev server + fetcher
-make dev-down      # stop local dev server
+make up            # start local dev (nginx + builder + fetcher)
+make down          # stop local dev
 make fetcher-stop  # freeze live data (for testing)
 make fetcher-start # unfreeze live data
 make patch-ht      # set Netherlands vs Japan → PAUSED 2-1 (half-time test)
@@ -61,13 +95,14 @@ make restore       # restart fetcher, live data back within 60s
 
 ### Docker Compose (`docker-compose.yml`)
 
-Three services sharing the named volume `wc-data`:
+Four services sharing the named volume `wc-data`:
 
-- **`dev`** (profile: `dev`): `nginx:alpine`, mounts local dir + `nginx.conf` + `wc-data:/data:ro`; port `8080`
+- **`dev`** (profile: `dev`): `nginx:alpine`, mounts `dist/` + `nginx.conf` + `wc-data:/data:ro`; port `8080`
+- **`builder`** (profile: `dev`): `node:alpine`, runs `watch.js` — watches source files, rebuilds to `dist/`, serves live-reload SSE on port `35729`
 - **`fetcher`** (profile: `dev` + `prod`): `alpine`, polls API every 60s, writes `data.json` + `scorers.json` to `wc-data:/data`
 - **`prod`** (profile: `prod`): built from `Dockerfile`, mounts `wc-data:/data:ro`; port `8081`
 
-The fetcher writes to the volume; nginx containers mount it read-only and serve live files from `/data`, falling back to the baked copies in the image.
+`make up` starts all three dev services. The browser auto-reloads on any source file change via the builder's SSE server at `:35729`.
 
 ### Dockerfile
 
@@ -75,10 +110,7 @@ The fetcher writes to the volume; nginx containers mount it read-only and serve 
 FROM nginx:alpine
 ARG BUILD_VERSION=dev
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY index.html groups.html bracket.html scorers.html sitemap.xml styles.css /usr/share/nginx/html/
-COPY manifest.json sw.js favicon.ico /usr/share/nginx/html/
-COPY icons/ /usr/share/nginx/html/icons/
-COPY data.json scorers.json /usr/share/nginx/html/
+COPY dist/ /usr/share/nginx/html/
 RUN find /usr/share/nginx/html -name "*.html" -exec sed -i "s/vBUILD/v${BUILD_VERSION}/g" {} +
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
     CMD wget -qO- http://127.0.0.1/ || exit 1
@@ -86,13 +118,13 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 
 **`127.0.0.1` not `localhost`** in healthcheck — busybox wget resolves `localhost` as IPv6 and fails.
 
-**Build version injection:** all `*.html` files have `vBUILD` replaced with the git short hash at build time (e.g. `v99e382b`). Used for cache-busting `styles.css?vBUILD`.
+**Build version injection:** all `*.html` files in `dist/` have `vBUILD` replaced with the git short hash at build time. Used for cache-busting `styles.css?vBUILD`.
 
 ### nginx (both `nginx/default.conf` prod and `nginx.conf` dev)
 
 Key rules:
 - `data.json` and `scorers.json` — served from `/data` volume first, baked image copy as fallback; `no-cache`
-- `sw.js` and `styles.css` — exact-match `location =` blocks with `no-cache` (override the regex block below)
+- `sw.js` and `styles.css` — exact-match `location =` blocks with `no-cache`
 - `*.css|js|png...` — `public, max-age=31536000, immutable`
 - `*.html` and `/` — `private, no-store, no-cache, must-revalidate, no-transform` (prevents Cloudflare caching, returns `DYNAMIC`)
 
@@ -108,7 +140,9 @@ Key rules:
 
 ### Traefik routing
 
-`worldcup2026.bergpb.dev` is Cloudflare-proxied → uses `web` entrypoint (HTTP port 80), NOT `websecure`. Cloudflare handles SSL termination.
+- `worldcup.bergpb.dev` — Cloudflare-proxied → `web` entrypoint (HTTP port 80); serves the site via `worldcup@file`
+- `worldcup2026.bergpb.dev` — 308 permanent redirect to `worldcup.bergpb.dev` via Traefik `redirectregex` middleware
+- Cloudflare handles SSL termination; Traefik uses `web` (not `websecure`) for Cloudflare-proxied domains
 
 ---
 
@@ -121,9 +155,37 @@ Three languages: `en`, `pt`, `es`. Stored in `LANGS` object in each page. Saved 
 - `teamName(n)` translates country names: `LANGS[_lang]?.teams?.[n] ?? n`
 - Nav buttons translated via `['schedule','groups','knockout','scorers','feedback'].forEach(k => ...)` in `applyLang()`
 
-**Team name translations** (`teams:{}` key) live in the `pt` and `es` LANGS blocks in every page that renders team names. When adding a new country, add it to both `pt` and `es` in all relevant pages.
+### `LANGS_COMMON` (shared partial)
+
+Injected by build.js from `_partials/langs.html` before each page's own `<script>`. Defines:
+- `nav_*` keys (nav button labels in all 3 languages)
+- `lbl_timezone` (timezone label)
+- `teams` map in `pt` and `es` (country name translations)
+
+Each page's `LANGS` uses spread to inherit: `en: { ...LANGS_COMMON.en, sub_page: '...', ... }`. Only page-specific keys live in the page source.
+
+**When adding a new country:** add to `teams` map in `_partials/langs.html` for both `pt` and `es`.
 
 **FLAGS lookup** uses country name as key (e.g. `'Brazil':'br'`). The API returns `Curaçao` (with accent) — the FLAGS map must have the accented version as a key.
+
+---
+
+## Footer
+
+All pages use a standardized footer from `_partials/footer.html`:
+
+```html
+<div class="footer">
+  <p id="footer-line1"></p>
+  <p id="footer-line2"></p>
+  <p class="footer-credits">
+    <a href="https://buymeacoffee.com/coolcato">👋 Made by coolcato</a>
+    / <a href="https://github.com/bergpb">✏️ Edited by bergpb</a>
+  </p>
+</div>
+```
+
+Each page's `applyLang()` populates `footer-line1` and `footer-line2` with page-specific content (timezone, source attribution, version span, etc.). The `<span id="version">vBUILD</span>` inside footer JS strings gets replaced by the Dockerfile `sed` at build time.
 
 ---
 
@@ -131,7 +193,7 @@ Three languages: `en`, `pt`, `es`. Stored in `LANGS` object in each page. Saved 
 
 ### Scope structure
 
-- **Global scope**: `LANGS`, `_lang`, `teamName()`, `FLAGS`, `flagImg()`, `flagUrl()`, `normalise()`, `scoreMap`, `lastMatches`, `loadScores()`, `showToast()`, `updateLiveCard()`
+- **Global scope**: `LANGS_COMMON`, `LANGS`, `_lang`, `teamName()`, `FLAGS`, `flagImg()`, `flagUrl()`, `normalise()`, `scoreMap`, `lastMatches`, `loadScores()`, `showToast()`, `updateLiveCard()`
 - **`render()` function**: inner `FLAGS` (duplicate), inner `flagUrl()` (do NOT remove — used internally by render)
 - **IIFE**: page init, `applyLang()`, `restoreAndRender()`
 
@@ -185,9 +247,9 @@ LANGS keys: `live_label`, `ht_label`.
 
 - Fetches `scorers.json` (live from volume, falls back to baked copy)
 - Translates column headers: `col_player`, `col_goals`, `col_assists`, `col_pens`, `col_mp`
-- Translates country names via `teamName()` with `teams:{}` maps in pt/es LANGS
+- Translates country names via `teamName()` with `teams:{}` map from `LANGS_COMMON`
 - FLAGS lookup uses `s.team.shortName` — must match key in FLAGS exactly (including accents)
-- No Feedback nav button or footer on this page (removed intentionally)
+- CSS for scorers table lives in `styles.css` (not inline)
 
 ---
 
@@ -218,7 +280,7 @@ Adds `hide-bmc` to `<body>`. Hides Buy Me a Coffee widgets, `#lnk-notify`, `#lnk
 
 ### Domain
 
-All upstream `kingdoggydog.github.io/worldcup2026` references replaced with `worldcup2026.bergpb.dev`. `<meta name="author">` is `bergpb`.
+Live at `worldcup.bergpb.dev`. `<meta name="author">` is `bergpb`.
 
 ### `styles.css` cache busting
 
@@ -228,13 +290,11 @@ All pages: `<link rel="stylesheet" href="styles.css?vBUILD">`. Dockerfile `sed` 
 
 ## Cloudflare caching
 
-**Diagnosing:** `curl -sI https://worldcup2026.bergpb.dev/sw.js | grep cf-cache-status`
+**Diagnosing:** `curl -sI https://worldcup.bergpb.dev/sw.js | grep cf-cache-status`
 - `HIT` = Cloudflare serving cached copy → purge needed
 - `BYPASS` or `DYNAMIC` = passing through to origin → safe
 
 **Purging:** Cloudflare dashboard → zone → Caching → Purge Everything. Do this after any deploy that changes files previously served with long-lived cache headers.
-
-**TODO:** Add `make cf-purge` using Cloudflare API (needs Zone ID + API token with cache purge permission).
 
 **Header behaviour:**
 - `Cache-Control: private` → Cloudflare returns `DYNAMIC`
@@ -252,7 +312,7 @@ make patch-goal  # Netherlands vs Japan → IN_PLAY 2-0 (test goal toast)
 make restore     # restart fetcher after patching
 ```
 
-Patching writes to the `wc-data` volume via a temp alpine container — dev nginx is read-only so `docker cp` into it won't work.
+Patching writes to the `wc-data` volume via a temp alpine container.
 
 ---
 
@@ -262,10 +322,11 @@ Patching writes to the `wc-data` volume via a temp alpine container — dev ngin
 - `loadScores()` try/catch swallows all errors from `updateLiveCard` — always check console
 - API has no `minute` field — only `status`
 - `CARD_LABELS` / `_cardLang` only exist on `feature/live-match-card`; `personal` uses `LANGS[_lang]` in `getScore()`
-- Dev nginx mounts volume read-only — use a temp alpine container to write to `wc-data`
 - `#feedback-nav` ID on the feedback nav in `index.html` — CSS hide rule depends on this exact ID
 - Curaçao in the API returns as `"Curaçao"` (with accent) — FLAGS map key must match exactly
 - `localhost` in busybox wget resolves as IPv6 → healthcheck must use `127.0.0.1`
 - Cloudflare-proxied services use `web` entrypoint; DNS-only use `websecure`
 - `Cache-Control: private` prevents CF caching (`DYNAMIC`); `no-store` returns `BYPASS`; `public, max-age=...` returns `HIT`
-- When adding a new HTML page: add it to `Dockerfile` COPY, add `scorers.json`-style nginx location if it has dynamic data, add nav translation keys to LANGS in all other pages
+- Traefik redirectregex replacements in Ansible labels use `${1}` (not `$${1}`) — `$$` is Docker Compose syntax, not needed in Ansible `docker_swarm_service` labels
+- When adding a new HTML page: add to `PAGES` array in `build.js`, add markers to source file, update Dockerfile if needed, add nav translation keys to `_partials/langs.html`
+- Source HTML files are committed with **empty markers** — `dist/` is gitignored. Never commit populated marker content.
