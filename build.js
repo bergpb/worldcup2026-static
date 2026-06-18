@@ -55,6 +55,9 @@ for (const { file, nav, canonical, title, description } of PAGES) {
   // Common JS
   html = inject(html, 'common-js', readPartial('common.js'));
 
+  // Footer
+  html = inject(html, 'footer', readPartial('footer.html'));
+
   if (CHECK) {
     if (html !== before) { console.error(`✗ ${file} is stale — run node build.js`); stale = true; }
     else console.log(`✓ ${file}`);

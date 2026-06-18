@@ -52,6 +52,16 @@
   <div id="scorers-container" class="scorers-loading" data-i18n="loading">Loading scorers...</div>
   <div class="last-updated" id="last-updated"></div>
 
+  <!-- partial:footer -->
+<div class="footer">
+  <p id="footer-line1"></p>
+  <p id="footer-line2"></p>
+  <p class="footer-credits">
+    <a href="https://buymeacoffee.com/coolcato" target="_blank" rel="noopener">👋 Made by coolcato</a>
+    / <a href="https://github.com/bergpb" target="_blank" rel="noopener">✏️ Edited by bergpb</a>
+  </p>
+</div>
+<!-- /partial:footer -->
 
 </div>
 
@@ -161,6 +171,11 @@ function applyLang() {
     const el = document.getElementById('nav-' + k);
     if (el) el.innerHTML = t('nav_' + k);
   });
+
+  const fl1 = document.getElementById('footer-line1');
+  if (fl1) fl1.innerHTML = 'FIFA World Cup 2026 &bull; Golden Boot Race &bull; <span id="version">vBUILD</span>';
+  const fl2 = document.getElementById('footer-line2');
+  if (fl2) fl2.textContent = t('sub_scorers');
 }
 
 // ── Scorers ───────────────────────────────────────────────────────────────────

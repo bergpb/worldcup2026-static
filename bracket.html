@@ -115,10 +115,16 @@
   <div class="mround" id="mrfin"></div>
 </div>
 
-<div class="foot">
-  <p id="bracket-footer">Teams TBD until group stage ends 28 Jun 2026 · Updated live</p>
-  <p id="ftz">All times AEST (UTC+10)</p>
+<!-- partial:footer -->
+<div class="footer">
+  <p id="footer-line1"></p>
+  <p id="footer-line2"></p>
+  <p class="footer-credits">
+    <a href="https://buymeacoffee.com/coolcato" target="_blank" rel="noopener">👋 Made by coolcato</a>
+    / <a href="https://github.com/bergpb" target="_blank" rel="noopener">✏️ Edited by bergpb</a>
+  </p>
 </div>
+<!-- /partial:footer -->
 </div>
 
 <!-- partial:langs -->
@@ -221,7 +227,7 @@ function applyLang() {
     const el = document.getElementById('nav-' + k);
     if (el) el.innerHTML = t('nav_' + k);
   });
-  const bf = document.getElementById('bracket-footer');
+  const bf = document.getElementById('footer-line1');
   if (bf) bf.textContent = t('bracket_footer');
 }
 
@@ -599,7 +605,7 @@ function render(){
 
   // Footer
   const s=off>=0?'+':'', frac=off%1!==0;
-  document.getElementById('ftz').textContent=`All times UTC${s}${frac?Math.floor(off)+':30':off}`;
+  document.getElementById('footer-line2').textContent=`All times UTC${s}${frac?Math.floor(off)+':30':off}`;
 }
 
 // Mobile tabs

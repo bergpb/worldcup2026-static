@@ -127,10 +127,16 @@
     </table>
   </div>
 
-  <div class="footer">
-    <p id="footer-top">FIFA World Cup 2026 &bull; USA / Canada / Mexico &bull; <span id="version">v1.22</span></p>
-    <p id="footer-bottom">Top 2 per group + 8 best 3rd place teams advance to Round of 32</p>
-  </div>
+  <!-- partial:footer -->
+<div class="footer">
+  <p id="footer-line1"></p>
+  <p id="footer-line2"></p>
+  <p class="footer-credits">
+    <a href="https://buymeacoffee.com/coolcato" target="_blank" rel="noopener">👋 Made by coolcato</a>
+    / <a href="https://github.com/bergpb" target="_blank" rel="noopener">✏️ Edited by bergpb</a>
+  </p>
+</div>
+<!-- /partial:footer -->
 
 </div>
 
@@ -246,9 +252,9 @@ function applyLang() {
   if (tpt) tpt.textContent = t('third_place_title');
   const tps = document.getElementById('third-place-sub');
   if (tps) tps.textContent = t('third_place_sub');
-  const ft = document.getElementById('footer-top');
-  if (ft) ft.innerHTML = t('footer_top') + ' • <span id="version">v1.22</span>';
-  const fb = document.getElementById('footer-bottom');
+  const ft = document.getElementById('footer-line1');
+  if (ft) ft.innerHTML = t('footer_top') + ' &bull; <span id="version">vBUILD</span>';
+  const fb = document.getElementById('footer-line2');
   if (fb) fb.textContent = t('footer_bottom');
 }
 

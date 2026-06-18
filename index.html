@@ -3604,7 +3604,7 @@
     <div>
       <h1>FIFA World Cup 2026</h1>
       <div class="sub" data-i18n="sub_index">All 104 matches &bull; 11 June &ndash; 19 July &bull; USA / Canada / Mexico</div>
-      <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
         <!-- partial:nav -->
 <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
   <a href="./" class="nav-btn active" id="nav-schedule">&#128197; Schedule</a>
@@ -3830,14 +3830,22 @@
   </div>
   <div class="schedule" id="schedule"></div>
 
-  <div class="footer">
-    <p id="footer-tz">All times AEST (UTC+10) &bull; Source: FIFA / Fox Sports 2026 &bull; <span id="version">vBUILD</span></p>
-    <p id="footer-bottom">72 group stage matches &bull; 12 groups &bull; Top 2 per group + 8 best 3rd place advance</p>
-  </div>
-  <div style="text-align:center;margin-top:12px;">
+  <!-- partial:footer -->
+<div class="footer">
+  <p id="footer-line1"></p>
+  <p id="footer-line2"></p>
+  <p class="footer-credits">
+    <a href="https://buymeacoffee.com/coolcato" target="_blank" rel="noopener">👋 Made by coolcato</a>
+    / <a href="https://github.com/bergpb" target="_blank" rel="noopener">✏️ Edited by bergpb</a>
+  </p>
+</div>
+<!-- /partial:footer -->
+
+  <!-- Edit this to support the creater -->
+  <!-- <div style="text-align:center;margin-top:12px;">
     <a href="#" id="lnk-feedback" data-i18n="lnk_feedback" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;letter-spacing:1px;"></a>
     <a href="#" target="_blank" id="lnk-madeby" data-i18n="lnk_madeby" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--text-muted);text-decoration:none;letter-spacing:1px;">👋 Made by u/coolcato</a>
-  </div>
+  </div> -->
 
 </div>
 
@@ -4531,9 +4539,9 @@ function render(offset, team) {
   const lbl  = frac
     ? `UTC${sign}${Math.floor(offset)}:${Math.abs((offset%1)*60) === 30 ? '30':'00'}`
     : `UTC${sign}${offset}`;
-  document.getElementById('footer-tz').innerHTML =
+  document.getElementById('footer-line1').innerHTML =
     `All times ${lbl} \u2022 ${t('footer_source')} \u2022 <span id="version" style="color:var(--text-muted);font-style:italic">vBUILD</span> \u2022 <span id="last-updated" style="color:var(--text-muted);font-style:italic"></span>`;
-  const fb = document.getElementById('footer-bottom');
+  const fb = document.getElementById('footer-line2');
   if (fb) fb.textContent = t('footer_groups_idx');
 
   // Next match card + countdown
