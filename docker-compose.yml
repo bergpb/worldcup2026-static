@@ -37,21 +37,11 @@ services:
       - prod
 
   fetcher:
-    image: alpine
-    command:
-      - sh
-      - -c
-      - |
-        while true; do
-          wget -qO /tmp/data.json.tmp 'https://fancy-block-fde3.aking116.workers.dev/competitions/WC/matches?season=2026' \
-            && mv /tmp/data.json.tmp /data/data.json \
-            && echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] data.json updated"
-          wget -qO /tmp/scorers.json.tmp 'https://fancy-block-fde3.aking116.workers.dev/competitions/WC/scorers?season=2026&limit=200' \
-            && mv /tmp/scorers.json.tmp /data/scorers.json \
-            && echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] scorers.json updated"
-          sleep 60
-        done
+    image: python:3.12-alpine
+    working_dir: /app
+    command: python3 fetcher.py
     volumes:
+      - .:/app:ro
       - wc-data:/data
     restart: unless-stopped
     profiles:
