@@ -39,7 +39,9 @@ services:
   fetcher:
     image: python:3.12-alpine
     working_dir: /app
-    command: python3 fetcher.py
+    command: python3 -u fetcher.py
+    environment:
+      PYTHONUNBUFFERED: "1"
     volumes:
       - .:/app:ro
       - wc-data:/data
