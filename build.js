@@ -90,4 +90,21 @@ for (const { file, nav, canonical, title, description } of PAGES) {
 }
 
 if (CHECK && stale) process.exit(1);
+
+// Copy static assets to dist/ so it's fully self-contained
+if (!CHECK) {
+  const STATIC_FILES = ['styles.css', 'manifest.json', 'favicon.ico', 'sw.js', 'sitemap.xml', 'data.json', 'scorers.json'];
+  for (const f of STATIC_FILES) {
+    if (fs.existsSync(f)) fs.copyFileSync(f, path.join(DIST, f));
+  }
+  function copyDir(src, dest) {
+    fs.mkdirSync(dest, { recursive: true });
+    for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+      const s = path.join(src, entry.name), d = path.join(dest, entry.name);
+      entry.isDirectory() ? copyDir(s, d) : fs.copyFileSync(s, d);
+    }
+  }
+  if (fs.existsSync('icons')) copyDir('icons', path.join(DIST, 'icons'));
+}
+
 console.log('Build complete.');

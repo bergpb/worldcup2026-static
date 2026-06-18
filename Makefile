@@ -17,21 +17,19 @@ check:
 
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy: build
-	rsync -av --exclude='data.json' --exclude='.git' --exclude='_partials' --exclude='build.js' --exclude='dist' ./ $(PROD_HOST):$(PROD_DIR)/
-	rsync -av dist/ $(PROD_HOST):$(PROD_DIR)/
+	rsync -av --exclude='data.json' --exclude='scorers.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
 	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) prod && docker compose --profile prod up -d"
 
 ## Sync files to prod without rebuilding
 sync:
-	rsync -av --exclude='data.json' --exclude='.git' --exclude='_partials' --exclude='build.js' --exclude='dist' ./ $(PROD_HOST):$(PROD_DIR)/
-	rsync -av dist/ $(PROD_HOST):$(PROD_DIR)/
+	rsync -av --exclude='data.json' --exclude='scorers.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
 
 ## Start local dev server
-dev-up:
+up:
 	docker compose --profile dev up -d
 
 ## Stop local dev server
-dev-down:
+down:
 	docker compose --profile dev down
 
 ## Stop fetcher (freeze live data for testing)
