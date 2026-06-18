@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const DIST = 'dist';
 const PAGES = [
   { file: 'index.html',   nav: 'schedule', canonical: './',            title: 'World Cup 2026 Schedule - Live Scores & Local Times',   description: 'All 104 matches with live scores, standings and bracket. Times in your timezone. Free, no ads.'            },
   { file: 'groups.html',  nav: 'groups',   canonical: 'groups.html',   title: 'World Cup 2026 Group Standings - Live & Updated',        description: 'Live standings updated as matches are played. All 12 groups with FIFA tiebreaker logic.'                   },
@@ -24,12 +25,29 @@ function inject(html, partialName, content) {
   );
 }
 
+// --strip: empty all partial markers in source files (run before committing)
+if (process.argv.includes('--strip')) {
+  for (const { file } of PAGES) {
+    let html = fs.readFileSync(file, 'utf8');
+    html = html.replace(
+      /<!-- partial:[\w-]+ -->[\s\S]*?<!-- \/partial:[\w-]+ -->/g,
+      m => m.replace(/<!-- partial:([\w-]+) -->[\s\S]*?<!-- \/partial:([\w-]+) -->/, '<!-- partial:$1 -->\n<!-- /partial:$2 -->')
+    );
+    fs.writeFileSync(file, html);
+    console.log(`stripped ${file}`);
+  }
+  console.log('Strip complete.');
+  process.exit(0);
+}
+
 const CHECK = process.argv.includes('--check');
 let stale = false;
 
+if (!CHECK) fs.mkdirSync(DIST, { recursive: true });
+
 for (const { file, nav, canonical, title, description } of PAGES) {
-  const before = fs.readFileSync(file, 'utf8');
-  let html = before;
+  const src = fs.readFileSync(file, 'utf8');
+  let html = src;
 
   // Head: inject with per-page variable substitution
   let headHtml = readPartial('head.html')
@@ -58,11 +76,15 @@ for (const { file, nav, canonical, title, description } of PAGES) {
   // Footer
   html = inject(html, 'footer', readPartial('footer.html'));
 
+  // JSON-LD structured data (index.html only)
+  html = inject(html, 'jsonld', readPartial('jsonld.html'));
+
   if (CHECK) {
-    if (html !== before) { console.error(`✗ ${file} is stale — run node build.js`); stale = true; }
+    const built = fs.existsSync(path.join(DIST, file)) ? fs.readFileSync(path.join(DIST, file), 'utf8') : null;
+    if (html !== built) { console.error(`✗ ${file} is stale — run node build.js`); stale = true; }
     else console.log(`✓ ${file}`);
   } else {
-    fs.writeFileSync(file, html);
+    fs.writeFileSync(path.join(DIST, file), html);
     console.log(`✓ ${file}`);
   }
 }
