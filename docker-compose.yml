@@ -10,6 +10,19 @@ services:
       - wc-data:/data:ro
     ports:
       - "8080:80"
+    depends_on:
+      - builder
+    profiles:
+      - dev
+
+  builder:
+    image: node:alpine
+    working_dir: /app
+    command: node watch.js
+    volumes:
+      - .:/app
+    ports:
+      - "35729:35729"
     profiles:
       - dev
 

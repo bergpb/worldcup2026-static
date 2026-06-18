@@ -5,7 +5,7 @@ DEV_NGINX   = worldcup2026-static-dev-1
 BUILD_TS    = $(shell date +%Y%m%d%H%M%S)
 BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
-.PHONY: build check watch deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
+.PHONY: build check deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
 
 ## Assemble partials into all pages
 build:
@@ -14,10 +14,6 @@ build:
 ## Verify pages are up-to-date with partials (exits non-zero if stale)
 check:
 	node build.js --check
-
-## Watch for changes and rebuild + live reload (use alongside make dev-up)
-watch:
-	node watch.js
 
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy: build
