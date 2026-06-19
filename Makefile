@@ -5,7 +5,7 @@ DEV_NGINX   = worldcup2026-static-dev-1
 BUILD_TS    = $(shell date +%Y%m%d%H%M%S)
 BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
-.PHONY: build check deploy sync dev-up dev-down fetcher-stop fetcher-start patch-ht patch-live restore
+.PHONY: build check deploy sync up down logs fetcher-stop fetcher-start patch-ht patch-live restore
 
 ## Assemble partials into all pages
 build:
@@ -31,6 +31,10 @@ up:
 ## Stop local dev server
 down:
 	docker compose --profile dev down
+
+### Logs for dev env
+logs:
+	docker compose --profile dev logs -f
 
 ## Stop fetcher (freeze live data for testing)
 fetcher-stop:
