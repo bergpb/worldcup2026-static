@@ -9,11 +9,11 @@ BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
 ## Assemble partials into all pages
 build:
-	node build.js
+	python3 build.py
 
 ## Verify pages are up-to-date with partials (exits non-zero if stale)
 check:
-	node build.js --check
+	python3 build.py --check
 
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy: build

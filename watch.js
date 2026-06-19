@@ -45,7 +45,7 @@ function injectReloadScript() {
 
 // ── Build + notify ─────────────────────────────────────────────────────────
 function rebuild() {
-  const res = spawnSync('node', ['build.js'], { stdio: 'inherit' });
+  const res = spawnSync('python3', ['build.py'], { stdio: 'inherit' });
   if (res.status !== 0) return;
   injectReloadScript();
   clients.forEach(c => c.write('event: reload\ndata: ok\n\n'));
@@ -54,7 +54,7 @@ function rebuild() {
 
 // ── File watcher ──────────────────────────────────────────────────────────
 const WATCH_EXTS = new Set(['.html', '.css', '.js']);
-const IGNORE = new Set(['watch.js', 'build.js']);
+const IGNORE = new Set(['watch.js', 'build.py']);
 let timer = null;
 
 function onChange(filename) {
