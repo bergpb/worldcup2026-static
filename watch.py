@@ -5,12 +5,13 @@ Run: python3 watch.py
 Open the site at http://192.168.6.110:8080 — the browser reloads automatically on save.
 """
 import os
+import queue
+import socket
 import subprocess
 import sys
 import threading
 import time
 from datetime import datetime
-from http.server import BaseHTTPRequestHandler, HTTPServer
 
 RELOAD_PORT = 35729
 WATCH_EXTS  = {'.html', '.css', '.js', '.py'}
@@ -20,65 +21,88 @@ POLL_MS     = 300
 
 RELOAD_SCRIPT = f"""<script>
 (function(){{
-  var es = new EventSource('http://localhost:{RELOAD_PORT}/__reload');
+  var es = new EventSource('http://' + location.hostname + ':{RELOAD_PORT}/__reload');
   es.addEventListener('reload', function(){{ location.reload(); }});
   es.onerror = function(){{ setTimeout(function(){{ location.reload(); }}, 1000); }};
 }})();
 </script>"""
 
-# ── SSE server ────────────────────────────────────────────────────────────────
+# ── SSE server (raw socket) ───────────────────────────────────────────────────
+# Raw socket avoids BaseHTTPRequestHandler quirks (implicit timeouts, HTTP/1.0
+# close-connection behaviour) that caused the SSE stream to drop immediately.
 
 clients: set = set()
 clients_lock = threading.Lock()
 
 
-class ReloadHandler(BaseHTTPRequestHandler):
-    def log_message(self, *_):
-        pass  # suppress access log
+def _handle_sse_client(conn: socket.socket):
+    try:
+        # Read request headers
+        data = b''
+        while b'\r\n\r\n' not in data:
+            chunk = conn.recv(1024)
+            if not chunk:
+                return
+            data += chunk
 
-    def do_GET(self):
-        if self.path != '/__reload':
-            self.send_response(404)
-            self.end_headers()
+        first_line = data.split(b'\r\n')[0].decode(errors='replace')
+        if '/__reload' not in first_line:
+            conn.sendall(b'HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n')
             return
-        self.send_response(200)
-        self.send_header('Content-Type', 'text/event-stream')
-        self.send_header('Cache-Control', 'no-cache')
-        self.send_header('Connection', 'keep-alive')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        self.wfile.write(b'data: connected\n\n')
-        self.wfile.flush()
+
+        conn.sendall(
+            b'HTTP/1.1 200 OK\r\n'
+            b'Content-Type: text/event-stream\r\n'
+            b'Cache-Control: no-cache\r\n'
+            b'Connection: keep-alive\r\n'
+            b'Access-Control-Allow-Origin: *\r\n'
+            b'\r\n'
+            b'data: connected\n\n'
+        )
+
+        q: queue.Queue = queue.Queue()
         with clients_lock:
-            clients.add(self.wfile)
+            clients.add(q)
         try:
             while True:
-                time.sleep(1)
-                self.wfile.write(b': heartbeat\n\n')
-                self.wfile.flush()
+                try:
+                    msg = q.get(timeout=25)
+                    conn.sendall(msg)
+                except queue.Empty:
+                    conn.sendall(b': heartbeat\n\n')
         except Exception:
             pass
         finally:
             with clients_lock:
-                clients.discard(self.wfile)
+                clients.discard(q)
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
 
 
 def notify_clients():
     with clients_lock:
-        dead = set()
-        for w in clients:
-            try:
-                w.write(b'event: reload\ndata: ok\n\n')
-                w.flush()
-            except Exception:
-                dead.add(w)
-        clients.difference_update(dead)
+        for q in clients:
+            q.put(b'event: reload\ndata: ok\n\n')
 
 
 def start_sse_server():
-    server = HTTPServer(('', RELOAD_PORT), ReloadHandler)
-    t = threading.Thread(target=server.serve_forever, daemon=True)
-    t.start()
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(('', RELOAD_PORT))
+    sock.listen(5)
+
+    def _serve():
+        while True:
+            try:
+                conn, _ = sock.accept()
+                threading.Thread(target=_handle_sse_client, args=(conn,), daemon=True).start()
+            except Exception:
+                break
+
+    threading.Thread(target=_serve, daemon=True).start()
     print(f'Live reload on :{RELOAD_PORT}')
 
 
