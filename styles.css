@@ -258,7 +258,7 @@ body.print-mode .footer { margin-top: 3px; padding-top: 3px; flex-wrap: nowrap; 
 }
 body.print-mode .footer p { font-size: 9px; }
 #version { color: var(--text-muted); font-style: italic; }
-.footer-credits { width: 100%; text-align: center; margin-top: 4px; }
+.footer-credits { width: 100%; text-align: center; margin-top: 4px; margin-bottom: 8px }
 .footer-credits a { color: var(--text-muted); text-decoration: none; transition: opacity 0.2s; }
 .footer-credits a:hover { opacity: 0.7; }
 body.print-mode .footer-credits { display: none; }
