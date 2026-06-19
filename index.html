@@ -783,14 +783,26 @@ function render(offset, team) {
       const hi = hiIdx >= 0;
       const cls = hi ? ` highlighted hi-${hiIdx+1}` : '';
       const score = getScore(m.teams);
-      const scoreHtml = score
-        ? `<span class="${score.cls}">${score.home} - ${score.away}<span class="score-label${score.cls==='score-live'?' live':''}">${score.label}${score.minute?' <span class="live-min">'+score.minute+'</span>':''}</span></span>`
-        : '';
+      const parts = m.teams.split(' v ');
+      const mHome = parts[0]?.trim() || '', mAway = parts[1]?.trim() || '';
+      let hCls = '', aCls = '';
+      if (score && score.cls === 'score-ft' && score.home !== score.away) {
+        if (score.home > score.away) { hCls = ' team-winner'; aCls = ' team-loser'; }
+        else { hCls = ' team-loser'; aCls = ' team-winner'; }
+      }
+      const statusStr = score?.label ? `<span class="score-label${score.cls==='score-live'?' live':''}">${score.label}${score.minute?' <span class="live-min">'+score.minute+'</span>':''}</span>` : '';
+      const teamsEl = score
+        ? `<span class="${score.cls} score-inline">
+            <span class="score-home${hCls}">${flagImg(mHome)} ${teamName(mHome)}</span>
+            <span class="score-nums">${score.home} - ${score.away}</span>
+            <span class="score-away${aCls}">${teamName(mAway)} ${flagImg(mAway)}</span>
+            ${statusStr}
+          </span>`
+        : `<span class="teams">${teamsHtml(m.teams)}</span>`;
       html += `<div class="match${cls}">
         <span class="grp ${m.grp}">${m.grp}</span>
         <span class="time">${t}</span>
-        <span class="teams">${teamsHtml(m.teams, score)}</span>
-        ${scoreHtml}
+        ${teamsEl}
         <span class="venue">${m.venue}</span>
       </div>`;
     });
