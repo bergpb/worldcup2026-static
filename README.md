@@ -1,8 +1,11 @@
 # World Cup 2026 — Live Schedule & Scores
 
-A lightweight static site tracking all 104 matches of the 2026 FIFA World Cup with live scores, group standings, and the knockout bracket — all in your local timezone. No framework, no build step, no ads.
+A lightweight static site tracking all 104 matches of the 2026 FIFA World Cup with live scores, group standings, knockout bracket, and top scorers — all in your local timezone. No framework, no ads.
 
-**Live at:** https://kingdoggydog.github.io/worldcup2026/
+**Live at:** https://worldcup.bergpb.dev  
+**Redirects:** `worldcup2026.bergpb.dev` → 308 → `worldcup.bergpb.dev`
+
+---
 
 ## Pages
 
@@ -11,102 +14,115 @@ A lightweight static site tracking all 104 matches of the 2026 FIFA World Cup wi
 | `index.html` | Full match schedule with live scores, timezone picker, and team highlight filter |
 | `groups.html` | Live group standings for all 12 groups with FIFA tiebreaker logic |
 | `bracket.html` | Knockout bracket from Round of 32 through the Final |
-| `feedback.html` | Feedback form |
+| `scorers.html` | Top scorers / Golden Boot race |
+
+---
 
 ## How it works
 
-Data flows from [football-data.org](https://www.football-data.org/) through a Cloudflare Worker proxy into `data.json`, which is committed directly to the repo by a GitHub Actions cron job every 5 minutes. Each page fetches `data.json` at load time and re-polls every 60 seconds for live updates — no server required.
+Data is fetched from the ESPN public API (no auth required) by a Docker container running `fetcher.py`. It writes `data.json` and `scorers.json` to a shared Docker volume every 120 seconds. nginx serves the live files from the volume, falling back to the baked copy in the image.
 
 ```
-football-data.org API
-       ↓
-Cloudflare Worker (proxy / auth)
-       ↓
-GitHub Actions (every 5 min) → commits data.json
-       ↓
-GitHub Pages (static hosting)
-       ↓
-Browser fetches data.json on load + every 60s
+ESPN public API
+      ↓
+fetcher.py (Docker, every 120s) → /data/data.json + scorers.json
+      ↓
+nginx (volume-first, baked fallback)
+      ↓
+Browser fetches data.json on load + re-polls every 60s
 ```
+
+---
 
 ## Features
 
-- Live scores updated every 5 minutes via CI
-- Automatic timezone detection with manual override (preference saved to `localStorage`)
-- Team highlight filter to track your favourite nation across all matches
-- Dark/light (print) mode toggle
+- Live scores updated every 2 minutes via ESPN API
+- Automatic timezone detection with manual override (saved to `localStorage`)
+- Team highlight filter to follow your nation across all matches
+- i18n: English, Portuguese, Spanish (cycle with the language button)
 - Group standings computed client-side with correct FIFA tiebreaker rules
 - Full knockout bracket rendered from live data
-- Mobile-friendly, no dependencies beyond Google Fonts
+- Top scorers / Golden Boot table
+- Mobile-friendly, no JS framework
+
+---
 
 ## Project structure
 
 ```
 worldcup2026-static/
-├── index.html          # Schedule + live scores
-├── groups.html         # Group standings
-├── bracket.html        # Knockout bracket
-├── feedback.html       # Feedback form
-├── data.json           # Match data (auto-updated by CI)
-├── sitemap.xml
-├── Dockerfile          # Production image (nginx + copied files)
+├── index.html          # Schedule + live scores (source, markers only)
+├── groups.html         # Group standings (source)
+├── bracket.html        # Knockout bracket (source)
+├── scorers.html        # Top scorers (source)
+├── styles.css          # Consolidated CSS for all pages
+├── _partials/          # Shared HTML/JS fragments injected by build.py
+├── build.py            # Assembles partials → dist/
+├── watch.py            # Dev watcher — rebuilds on change + SSE live reload
+├── fetcher.py          # Polls ESPN API, writes data.json + scorers.json
+├── dist/               # Built output (gitignored) — served by nginx
+├── nginx.conf          # Dev nginx config
+├── nginx/default.conf  # Prod nginx config
+├── Dockerfile          # Production image (nginx:alpine)
 ├── docker-compose.yml  # Dev and prod service definitions
-├── nginx.conf          # nginx config (caching, gzip, routing)
-└── .github/
-    └── workflows/
-        └── fetch-scores.yml   # Cron job: fetches & commits data.json
+├── Makefile            # Common commands
+└── sitemap.xml
 ```
+
+---
+
+## Build system
+
+Source HTML files contain only empty `<!-- partial:name --><!-- /partial:name -->` markers. `build.py` injects shared partials (head, nav, footer, langs, etc.) and writes assembled pages to `dist/`.
+
+```bash
+python3 build.py           # build → dist/
+python3 build.py --check   # exit 1 if dist/ is stale
+python3 build.py --strip   # empty all markers in source files (before committing)
+```
+
+Or via Make:
+
+```bash
+make build   # python3 build.py
+make check   # python3 build.py --check
+```
+
+---
 
 ## Running locally
 
-**Without Docker** — no build step needed:
-
 ```bash
-# Python
-python3 -m http.server 8080
-
-# Node
-npx serve .
+make up     # start nginx + builder (live reload) + fetcher
+make down   # stop everything
+make logs   # follow dev logs
 ```
 
-**With Docker** — files are mounted as a volume so any edit is reflected immediately without rebuilding:
+- Site: `http://localhost:8080`
+- Live reload on file save via SSE at `:35729`
+- Works from any machine on the network — live reload uses `location.hostname`
 
-```bash
-docker compose --profile dev up
-```
+### Docker services (dev profile)
 
-Open http://localhost:8080.
+| Service | Image | Role |
+|---|---|---|
+| `dev` | `nginx:alpine` | Serves `dist/` on port 8080 |
+| `builder` | `python:3.12-alpine` | Runs `watch.py` — rebuilds on change, SSE reload on `:35729` |
+| `fetcher` | `python:3.12-alpine` | Polls ESPN every 120s, writes to `wc-data` volume |
+
+---
 
 ## Running in production
 
-The production image copies the static files into an nginx:alpine image (~25 MB). Build and run:
-
 ```bash
-# Build
-docker build -t worldcup2026 .
-
-# Run
-docker compose --profile prod up -d
+make deploy   # build + rsync to swarm + rebuild prod container
 ```
 
-Or using plain Docker:
+The prod image (`Dockerfile`) copies `dist/` into `nginx:alpine`. At build time, all `vBUILD` placeholders in HTML are replaced with the git short hash for CSS cache-busting.
 
-```bash
-docker build -t worldcup2026 .
-docker run -d -p 80:80 --restart unless-stopped worldcup2026
-```
+The `fetcher` service also runs in the prod profile, keeping `data.json` and `scorers.json` live on the `wc-data` volume.
 
-`data.json` is baked into the image at build time. To refresh scores, rebuild the image (or in production just let GitHub Pages serve it directly — the Docker setup is mainly for self-hosting).
-
-## Data pipeline
-
-The GitHub Actions workflow (`.github/workflows/fetch-scores.yml`) runs on a `*/5 * * * *` cron schedule. It:
-
-1. Calls the Cloudflare Worker proxy to fetch all 104 matches
-2. Saves the response to `data.json`
-3. Commits and pushes only if the file changed
-
-The `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` env var ensures the runner uses a current Node version.
+---
 
 ## License
 

@@ -1,6 +1,6 @@
 # worldcup2026-static — CLAUDE.md
 
-Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live scores, group standings, knockout bracket, and top scorers. Has a partial-based build step (`node build.js`) that assembles pages into `dist/`.
+Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live scores, group standings, knockout bracket, and top scorers. Has a partial-based build step (`python3 build.py`) that assembles pages into `dist/`.
 
 **Live at:** `worldcup.bergpb.dev` (Cloudflare-proxied) — `worldcup2026.bergpb.dev` 308-redirects here
 **Local dev:** `192.168.6.110:8080`
@@ -42,14 +42,14 @@ Source files contain only empty `<!-- partial:name --><!-- /partial:name -->` ma
 
 ## Build system
 
-### `build.js`
+### `build.py`
 
 Reads source files (with empty markers), injects partials, writes fully-assembled HTML to `dist/`. Run before deploying or testing locally.
 
 ```bash
-node build.js           # build → dist/
-node build.js --check   # exit 1 if dist/ is stale (CI safety)
-node build.js --strip   # empty all markers in source files (run before committing if needed)
+python3 build.py           # build → dist/
+python3 build.py --check   # exit 1 if dist/ is stale (CI safety)
+python3 build.py --strip   # empty all markers in source files (run before committing if needed)
 ```
 
 `dist/` is gitignored and self-contained (HTML + CSS + icons + static assets).
@@ -59,14 +59,14 @@ node build.js --strip   # empty all markers in source files (run before committi
 | File | Injected into |
 |---|---|
 | `head.html` | All pages — `<!DOCTYPE html>` through shared `<head>` tags; uses `{{PAGE_TITLE}}`, `{{PAGE_DESCRIPTION}}`, `{{PAGE_CANONICAL}}` |
-| `nav.html` | All pages — nav buttons; build.js adds `active` class for the current page |
+| `nav.html` | All pages — nav buttons; build.py adds `active` class for the current page |
 | `langs.html` | All pages — `<script>` block defining `LANGS_COMMON` (shared nav/timezone/teams translations) |
 | `tz-options.html` | index, groups, bracket — `<option>` list for timezone selector |
 | `common.js` | All pages — `cycleLang()`, `applyLang()`, `langBtnHTML()`, `shareApp()`, localStorage lang persistence |
 | `footer.html` | All pages — `<div class="footer">` with `#footer-line1` and `#footer-line2`; includes credits |
 | `jsonld.html` | index only — JSON-LD structured data (all 104 match events), injected before `</body>` |
 
-**Adding a new HTML page:** add it to the `PAGES` array in `build.js` with `title`, `description`, `canonical`, and `nav` key; add `<!-- partial:X --><!-- /partial:X -->` markers; update the Dockerfile if needed.
+**Adding a new HTML page:** add it to the `PAGES` array in `build.py` with `title`, `description`, `canonical`, and `nav` key; add `<!-- partial:X --><!-- /partial:X -->` markers; update the Dockerfile if needed.
 
 ---
 
@@ -98,7 +98,7 @@ make restore       # restart fetcher, live data back within 60s
 Four services sharing the named volume `wc-data`:
 
 - **`dev`** (profile: `dev`): `nginx:alpine`, mounts `dist/` + `nginx.conf` + `wc-data:/data:ro`; port `8080`
-- **`builder`** (profile: `dev`): `node:alpine`, runs `watch.js` — watches source files, rebuilds to `dist/`, serves live-reload SSE on port `35729`
+- **`builder`** (profile: `dev`): `python:3.12-alpine`, runs `watch.py` — watches source files, rebuilds to `dist/`, serves live-reload SSE on port `35729`
 - **`fetcher`** (profile: `dev` + `prod`): `alpine`, polls API every 60s, writes `data.json` + `scorers.json` to `wc-data:/data`
 - **`prod`** (profile: `prod`): built from `Dockerfile`, mounts `wc-data:/data:ro`; port `8081`
 
@@ -132,11 +132,15 @@ Key rules:
 
 ### Data pipeline
 
-1. **Fetcher container**: polls `https://fancy-block-fde3.aking116.workers.dev/competitions/WC/matches?season=2026` and `/scorers?season=2026&limit=200` every 60s, writes to `wc-data` volume
+1. **Fetcher container** (`fetcher.py`): polls ESPN public API (`site.api.espn.com/apis/site/v2/sports/soccer/fifa.world`) every 120s, writes `data.json` + `scorers.json` to `wc-data` volume
 2. nginx serves from volume (live), falls back to baked copy in image
-3. **GitHub Actions** (`.github/workflows/fetch-scores.yml`): runs every 5 min, commits `data.json` to repo if changed (used as baked fallback)
 
-**API has no `minute` field** — only `status` is reliable for live state (`IN_PLAY`, `PAUSED`, `FINISHED`, `TIMED`).
+**ESPN API notes:**
+- No auth required
+- `score` field is a string (`'2'`, not `2`) — `int()` conversion needed
+- Scheduled matches return `score='0'` — fetcher guards with `is_started` check
+- No `minute` field — only `status` is reliable (`IN_PLAY`, `PAUSED`, `FINISHED`, `TIMED`)
+- `shortDisplayName` for Türkiye = `'Türkiye'`, Bosnia = `'Bosnia-Herz'` — both mapped in `API_NAME_MAP`
 
 ### Traefik routing
 
@@ -157,7 +161,7 @@ Three languages: `en`, `pt`, `es`. Stored in `LANGS` object in each page. Saved 
 
 ### `LANGS_COMMON` (shared partial)
 
-Injected by build.js from `_partials/langs.html` before each page's own `<script>`. Defines:
+Injected by build.py from `_partials/langs.html` before each page's own `<script>`. Defines:
 - `nav_*` keys (nav button labels in all 3 languages)
 - `lbl_timezone` (timezone label)
 - `teams` map in `pt` and `es` (country name translations)
@@ -323,10 +327,11 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - API has no `minute` field — only `status`
 - `CARD_LABELS` / `_cardLang` only exist on `feature/live-match-card`; `personal` uses `LANGS[_lang]` in `getScore()`
 - `#feedback-nav` ID on the feedback nav in `index.html` — CSS hide rule depends on this exact ID
-- Curaçao in the API returns as `"Curaçao"` (with accent) — FLAGS map key must match exactly
+- Curaçao in the ESPN API returns as `"Curaçao"` (with accent) — `API_NAME_MAP` maps it to `'Curacao'` for FLAGS lookup
+- ESPN returns `"Türkiye"` (with umlaut) and `"Bosnia-Herz"` as shortDisplayName — both must be in `API_NAME_MAP` in all three pages (`index.html`, `groups.html`, `bracket.html`)
 - `localhost` in busybox wget resolves as IPv6 → healthcheck must use `127.0.0.1`
 - Cloudflare-proxied services use `web` entrypoint; DNS-only use `websecure`
 - `Cache-Control: private` prevents CF caching (`DYNAMIC`); `no-store` returns `BYPASS`; `public, max-age=...` returns `HIT`
 - Traefik redirectregex replacements in Ansible labels use `${1}` (not `$${1}`) — `$$` is Docker Compose syntax, not needed in Ansible `docker_swarm_service` labels
-- When adding a new HTML page: add to `PAGES` array in `build.js`, add markers to source file, update Dockerfile if needed, add nav translation keys to `_partials/langs.html`
+- When adding a new HTML page: add to `PAGES` array in `build.py`, add markers to source file, update Dockerfile if needed, add nav translation keys to `_partials/langs.html`
 - Source HTML files are committed with **empty markers** — `dist/` is gitignored. Never commit populated marker content.
