@@ -35,6 +35,12 @@
   <div class="standings-note" id="standings-note">
     Groups with a <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> are in play &mdash; standings shown are provisional.
   </div>
+  <div class="badge-legend" id="badge-legend">
+    <span class="badge-legend-item"><span class="qual-badge" style="background:#FFD700">1</span> <span data-i18n="badge_1">Group winner</span></span>
+    <span class="badge-legend-item"><span class="qual-badge" style="background:#2ECC71">Q</span> <span data-i18n="badge_q">Qualified (top 2)</span></span>
+    <span class="badge-legend-item"><span class="qual-badge" style="background:#5DADE2">2</span> <span data-i18n="badge_2">Runner-up</span></span>
+    <span class="badge-legend-item"><span class="qual-badge" style="background:#E74C3C">E</span> <span data-i18n="badge_e">Eliminated</span></span>
+  </div>
 
   <div class="groups-grid" id="groups-grid"></div>
   <div class="third-place-section" id="third-place-section" style="display:none;">
@@ -73,6 +79,7 @@ const LANGS = {
     sub_groups:'Group Stage Draw • 12 Groups • 48 Teams',
     lbl_highlight:'Highlight', btn_add_team:'+ Add team', lbl_group:'Group',
     standings_note:'Groups with a <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> are in play &mdash; standings shown are provisional.',
+    badge_1:'Group winner', badge_q:'Qualified (top 2)', badge_2:'Runner-up', badge_e:'Eliminated',
     third_place_title:'Best Third-Place Teams',
     third_place_sub:'Top 8 of 12 advance to Round of 32 • Ranked by: Points → Goal Diff → Goals Scored → Fair Play → FIFA Ranking',
     col_team:'Team', col_pts:'Pts', col_status:'Status',
@@ -84,6 +91,7 @@ const LANGS = {
     sub_groups:'Fase de Grupos • 12 Grupos • 48 Seleções',
     lbl_highlight:'Destaque', btn_add_team:'+ Adicionar', lbl_group:'Grupo',
     standings_note:'Grupos com <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> em andamento &mdash; classificação provisória.',
+    badge_1:'Líder do grupo', badge_q:'Classificado (top 2)', badge_2:'Vice-líder', badge_e:'Eliminado',
     third_place_title:'Melhores Terceiros Colocados',
     third_place_sub:'Os 8 melhores de 12 avançam para as Oitavas • Critérios: Pontos → Saldo de Gols → Gols Marcados → Fair Play → Ranking FIFA',
     col_team:'Seleção', col_pts:'Pts', col_status:'Situação',
@@ -95,6 +103,7 @@ const LANGS = {
     sub_groups:'Fase de Grupos • 12 Grupos • 48 Selecciones',
     lbl_highlight:'Destacar', btn_add_team:'+ Agregar', lbl_group:'Grupo',
     standings_note:'Grupos con <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> en juego &mdash; clasificación provisional.',
+    badge_1:'Líder del grupo', badge_q:'Clasificado (top 2)', badge_2:'Subcampeón', badge_e:'Eliminado',
     third_place_title:'Mejores Terceros Clasificados',
     third_place_sub:'Los 8 mejores de 12 avanzan a Octavos • Criterios: Puntos → Dif. Goles → Goles Marcados → Fair Play → Ranking FIFA',
     col_team:'Selección', col_pts:'Pts', col_status:'Estado',
