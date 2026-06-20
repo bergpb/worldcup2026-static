@@ -16,9 +16,23 @@ from collections import defaultdict
 ESPN     = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world"
 SCORES_URL = f"{ESPN}/scoreboard?dates=20260611-20260719&limit=120"
 SUMMARY_URL = f"{ESPN}/summary?event="
-DATA_OUT    = "/data/data.json"
-SCORERS_OUT = "/data/scorers.json"
-INTERVAL    = 60
+DATA_OUT        = "/data/data.json"
+SCORERS_OUT     = "/data/scorers.json"
+DETAILS_OUT     = "/data/match-details.json"
+WINNERS_OUT     = "/data/group-winners.json"
+INTERVAL        = 60
+
+# ESPN shortDisplayName → our display name (mirrors JS API_NAME_MAP)
+_DISPLAY_MAP = {
+    'Korea Republic': 'South Korea', 'United States': 'USA',
+    'Bosnia-H.': 'Bosnia', 'Bosnia-Herzegovina': 'Bosnia',
+    'Bosnia & Herz.': 'Bosnia', 'Bosnia-Herz': 'Bosnia',
+    'Curaçao': 'Curacao', 'Turkey': 'Turkiye', 'Türkiye': 'Turkiye',
+    'Cape Verde Islands': 'Cape Verde',
+}
+
+def _display(name):
+    return _DISPLAY_MAP.get(name, name)
 
 # ESPN status → period (extra time / penalty / None)
 PERIOD_MAP = {
@@ -56,10 +70,10 @@ STATUS_MAP = {
     "STATUS_POSTPONED":              "TIMED",
 }
 
-# Cache for FINISHED matches: event_id → (ht_home, ht_away, goals[])
+# Cache for FINISHED matches: event_id → (ht_home, ht_away, key_events[])
 _cache = {}
 
-# Live state guard: event_id → {status, h_score, a_score, ht_home, ht_away, goals, duration}
+# Live state guard: event_id → {status, h_score, a_score, ht_home, ht_away, key_events, duration}
 # Prevents ESPN glitches from downgrading an in-play match back to TIMED
 _live_state = {}
 
@@ -71,6 +85,67 @@ def fetch(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=15) as r:
         return json.loads(r.read())
+
+
+def parse_event_clock(display_value):
+    """'45+2'' → (45, 2),  '23'' → (23, None)"""
+    v = (display_value or "").replace("'", "").strip()
+    if "+" in v:
+        base, extra = v.split("+", 1)
+        return (int(base) if base.isdigit() else None,
+                int(extra) if extra.isdigit() else None)
+    return (int(v) if v.isdigit() else None, None)
+
+
+def build_detail_entry(status, h_score, a_score, key_events):
+    """Build a match-details.json entry from raw ESPN keyEvents."""
+    goals_out = []
+    for e in key_events:
+        if not e.get("scoringPlay"):
+            continue
+        etype = (e.get("type") or {}).get("type", "")
+        participants = e.get("participants", [])
+        scorer = participants[0].get("athlete", {}).get("displayName", "") if participants else ""
+        assist = participants[1].get("athlete", {}).get("displayName", "") if len(participants) > 1 else None
+        minute, injury = parse_event_clock((e.get("clock") or {}).get("displayValue", ""))
+        team_name = (e.get("team") or {}).get("displayName", "")
+        goal_type = "OWN" if etype == "own-goal" else ("PENALTY" if etype == "penalty" else None)
+        entry = {
+            "minute": minute,
+            "injuryTime": injury,
+            "type": goal_type,
+            "scorer": {"name": scorer},
+            "team": {"name": team_name},
+        }
+        if assist:
+            entry["assist"] = {"name": assist}
+        goals_out.append(entry)
+
+    bookings_out = []
+    for e in key_events:
+        if e.get("scoringPlay"):
+            continue
+        etype = (e.get("type") or {}).get("type", "")
+        if etype not in ("yellow-card", "red-card", "yellow-red-card"):
+            continue
+        participants = e.get("participants", [])
+        player = participants[0].get("athlete", {}).get("displayName", "") if participants else ""
+        minute, _ = parse_event_clock((e.get("clock") or {}).get("displayValue", ""))
+        team_name = (e.get("team") or {}).get("displayName", "")
+        card = "RED" if etype in ("red-card", "yellow-red-card") else "YELLOW"
+        bookings_out.append({
+            "minute": minute,
+            "card": card,
+            "player": {"name": player},
+            "team": {"name": team_name},
+        })
+
+    return {
+        "status": status,
+        "score": {"fullTime": {"home": h_score, "away": a_score}},
+        "goals": goals_out,
+        "bookings": bookings_out,
+    }
 
 
 def normalize_date(d):
@@ -119,7 +194,7 @@ def fetch_summary(event_id):
     """
     Fetch match summary and return:
       ht_home, ht_away  — first-half scores (or None)
-      goals             — list of scoring play keyEvents (own goals excluded)
+      key_events        — all keyEvents (goals, own goals, cards)
     Uses cache for FINISHED matches.
     """
     if event_id in _cache:
@@ -143,13 +218,9 @@ def fetch_summary(event_id):
                 except ValueError:
                     pass
 
-        # Goal events
-        goals = [
-            e for e in s.get("keyEvents", [])
-            if e.get("scoringPlay") and e.get("type", {}).get("type") != "own-goal"
-        ]
+        key_events = s.get("keyEvents", [])
 
-        return ht_home, ht_away, goals
+        return ht_home, ht_away, key_events
 
     except Exception as e:
         print(f"  warning: summary failed for {event_id}: {e}")
@@ -158,6 +229,7 @@ def fetch_summary(event_id):
 
 def build_matches_and_scorers(events):
     matches = []
+    match_details = {}
     scorer_stats = defaultdict(lambda: {"goals": 0, "assists": 0, "penalties": 0, "matches": set()})
 
     for event in events:
@@ -189,27 +261,27 @@ def build_matches_and_scorers(events):
 
         eid = int(event["id"])
         ht_home = ht_away = None
-        goals = []
+        key_events = []
 
         duration = DURATION_MAP.get(stype["name"], "REGULAR")
 
         # Guard: if ESPN transiently returns TIMED for a match we know is live,
         # keep the last known good state rather than writing null scores
         if status == "TIMED" and eid in _live_state:
-            saved    = _live_state[eid]
-            status   = saved["status"]
-            h_score  = saved["h_score"]
-            a_score  = saved["a_score"]
-            ht_home  = saved["ht_home"]
-            ht_away  = saved["ht_away"]
-            goals    = saved["goals"]
-            duration = saved["duration"]
+            saved      = _live_state[eid]
+            status     = saved["status"]
+            h_score    = saved["h_score"]
+            a_score    = saved["a_score"]
+            ht_home    = saved["ht_home"]
+            ht_away    = saved["ht_away"]
+            key_events = saved["key_events"]
+            duration   = saved["duration"]
             is_started = True
             print(f"  guard: kept {eid} as {status} (ESPN returned TIMED)")
         elif is_started:
-            ht_home, ht_away, goals = fetch_summary(eid)
+            ht_home, ht_away, key_events = fetch_summary(eid)
             if status == "FINISHED":
-                _cache[eid] = (ht_home, ht_away, goals)
+                _cache[eid] = (ht_home, ht_away, key_events)
                 # Preserve duration from live tracking (e.g. ET decided match)
                 if eid in _live_state:
                     duration = _live_state[eid]["duration"]
@@ -220,7 +292,7 @@ def build_matches_and_scorers(events):
         if status in ("IN_PLAY", "PAUSED"):
             _live_state[eid] = {
                 "status": status, "h_score": h_score, "a_score": a_score,
-                "ht_home": ht_home, "ht_away": ht_away, "goals": goals,
+                "ht_home": ht_home, "ht_away": ht_away, "key_events": key_events,
                 "duration": duration,
             }
 
@@ -228,7 +300,12 @@ def build_matches_and_scorers(events):
         if status == "FINISHED" and eid in _duration_cache:
             duration = _duration_cache[eid]
 
-        # Aggregate scorers
+        # Build event card detail entry for started matches
+        if is_started:
+            match_details[str(eid)] = build_detail_entry(status, h_score, a_score, key_events)
+
+        # Aggregate scorers (scoring plays only, own goals excluded)
+        goals = [e for e in key_events if e.get("scoringPlay") and (e.get("type") or {}).get("type") != "own-goal"]
         for g in goals:
             participants = g.get("participants", [])
             team = g.get("team", {}).get("displayName", "")
@@ -287,7 +364,50 @@ def build_matches_and_scorers(events):
             "playedMatches": len(s["matches"]),
         })
 
-    return matches, scorers
+    return matches, scorers, match_details
+
+
+def build_group_winners(matches):
+    """
+    Returns {letter: {first, second}} for groups where all 6 games are FINISHED.
+    Uses pts → GD → GF → alphabetical sort (approximation; H2H edge cases are rare).
+    """
+    pts_map  = defaultdict(lambda: defaultdict(int))
+    gd_map   = defaultdict(lambda: defaultdict(int))
+    gf_map   = defaultdict(lambda: defaultdict(int))
+    finished = defaultdict(int)
+
+    for m in matches:
+        if m.get("stage") != "GROUP_STAGE" or m.get("status") != "FINISHED":
+            continue
+        grp = (m.get("group") or "").replace("GROUP_", "")
+        if not grp:
+            continue
+        hg = m["score"]["fullTime"]["home"]
+        ag = m["score"]["fullTime"]["away"]
+        if hg is None or ag is None:
+            continue
+        home = _display(m["homeTeam"].get("shortName") or m["homeTeam"].get("name", ""))
+        away = _display(m["awayTeam"].get("shortName") or m["awayTeam"].get("name", ""))
+        if not home or not away:
+            continue
+
+        finished[grp] += 1
+        gf_map[grp][home] += hg;  gf_map[grp][away] += ag
+        gd_map[grp][home] += hg - ag;  gd_map[grp][away] += ag - hg
+        if hg > ag:   pts_map[grp][home] += 3
+        elif hg < ag: pts_map[grp][away] += 3
+        else:         pts_map[grp][home] += 1; pts_map[grp][away] += 1
+
+    winners = {}
+    for grp, n in finished.items():
+        if n < 6:
+            continue
+        teams = list({*pts_map[grp].keys(), *gf_map[grp].keys()})
+        teams.sort(key=lambda t: (-pts_map[grp][t], -gd_map[grp][t], -gf_map[grp][t], t))
+        if len(teams) >= 2:
+            winners[grp] = {"first": teams[0], "second": teams[1]}
+    return winners
 
 
 def write_atomic(path, data):
@@ -305,13 +425,20 @@ def run():
             raw = fetch(SCORES_URL)
             events = raw.get("events", [])
 
-            matches, scorers = build_matches_and_scorers(events)
+            matches, scorers, match_details = build_matches_and_scorers(events)
 
             write_atomic(DATA_OUT, {"matches": matches})
             print(f"[{ts}] data.json updated ({len(matches)} matches)")
 
             write_atomic(SCORERS_OUT, {"scorers": scorers})
             print(f"[{ts}] scorers.json updated ({len(scorers)} scorers)")
+
+            write_atomic(DETAILS_OUT, match_details)
+            print(f"[{ts}] match-details.json updated ({len(match_details)} entries)")
+
+            group_winners = build_group_winners(matches)
+            write_atomic(WINNERS_OUT, group_winners)
+            print(f"[{ts}] group-winners.json updated ({len(group_winners)} groups complete)")
 
         except Exception as e:
             print(f"[{ts}] error: {e}")
