@@ -666,6 +666,44 @@ function calcElapsed(utcDate, status) {
   return "90+'";
 }
 
+function buildLiveCardEvents(live) {
+  if (document.body.classList.contains('hide-scores')) return '';
+  const det = matchDetails[String(live.id)];
+  if (!det) return '';
+
+  const homeKey = normalise(live.homeTeam.shortName || live.homeTeam.name || '');
+  const homeEvs = [], awayEvs = [];
+
+  (det.goals || []).forEach(g => {
+    let side = normalise(g.team?.name || '') === homeKey ? 'home' : 'away';
+    const tag = g.type === 'OWN' ? ' (OG)' : g.type === 'PENALTY' ? ' (P)' : '';
+    if (g.type === 'OWN') side = side === 'home' ? 'away' : 'home';
+    const min = `${g.minute || ''}${g.injuryTime ? '+' + g.injuryTime : ''}`;
+    const ev = { sort: (g.minute || 0) + (g.injuryTime || 0) / 100,
+                 html: `&#9917; ${min}' ${g.scorer?.name || ''}${tag}` };
+    (side === 'home' ? homeEvs : awayEvs).push(ev);
+  });
+
+  (det.bookings || []).forEach(b => {
+    if (b.card !== 'RED') return;
+    const side = normalise(b.team?.name || '') === homeKey ? 'home' : 'away';
+    const ev = { sort: b.minute || 0, html: `&#128997; ${b.minute}' ${b.player?.name || ''}` };
+    (side === 'home' ? homeEvs : awayEvs).push(ev);
+  });
+
+  homeEvs.sort((a, b) => a.sort - b.sort);
+  awayEvs.sort((a, b) => a.sort - b.sort);
+  if (!homeEvs.length && !awayEvs.length) return '';
+
+  const hHtml = homeEvs.map(e => `<div>${e.html}</div>`).join('');
+  const aHtml = awayEvs.map(e => `<div>${e.html}</div>`).join('');
+  return `<div style="display:flex;width:100%;font-family:'Barlow Condensed',sans-serif;font-size:12px;line-height:1.7;color:#9AA3C2;padding:2px 8px 0;">
+    <div style="flex:1;text-align:right;">${hHtml}</div>
+    <div style="width:64px;flex-shrink:0;"></div>
+    <div style="flex:1;">${aHtml}</div>
+  </div>`;
+}
+
 function updateLiveCard(matches) {
   const card = document.getElementById('live-match-card');
   if (!card) return;
@@ -708,6 +746,7 @@ function updateLiveCard(matches) {
           <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#E8EAF0;">${teamName(awayKey)}</span>
         </div>
       </div>
+      ${buildLiveCardEvents(live)}
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#7A82A8;text-align:center;">${venueHtml}</div>`;
   });
   document.getElementById('lm-matches').innerHTML = rows.join('');

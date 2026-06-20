@@ -883,6 +883,7 @@ body.print-mode .third-place-section { margin-top: 12px; }
 @media (max-width: 600px) {
   .feedback-table td.date { display: none; }
   .feedback-table th.date { display: none; }
+  #filters-row { display: none !important; }
 }
 
 /* ── SCORERS ─────────────────────────────────────────────────────────────── */
