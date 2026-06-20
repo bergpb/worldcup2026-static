@@ -9,6 +9,14 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
+<div id="changelog-modal">
+  <div id="changelog-card">
+    <button id="changelog-x">&#10005;</button>
+    <h2 id="changelog-title"></h2>
+    <div id="changelog-body"></div>
+    <button id="changelog-btn"></button>
+  </div>
+</div>
 <div id="score-toast"></div>
 <div id="offline-banner" role="alert" data-i18n="offline_banner">You're offline — showing cached data</div>
 <div id="ptr-indicator">
@@ -386,6 +394,9 @@ const LANGS = {
     offline_banner:'You\'re offline — showing cached data',
     btn_share:'&#128279; Share',
     share_copied:'Link copied!',
+    changelog_title:"What's New ✨",
+    changelog_body:'<ul><li>⚽ <strong>Match event card</strong> — hover (desktop) or tap (mobile) any match to see goals, assists &amp; cards</li><li>📺 <strong>Live card details</strong> — the live match banner now shows scorers and red cards in real time</li><li>🏅 <strong>Qualification badges</strong> — groups page shows <strong>1&nbsp;/&nbsp;Q&nbsp;/&nbsp;2&nbsp;/&nbsp;E</strong> once positions are mathematically decided</li></ul>',
+    changelog_btn:'Got it!',
     footer_source:'Source: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 group stage matches • 12 groups • Top 2 per group + 8 best 3rd place advance',
     no_matches_alert:'No matches match your current filters.',
@@ -422,6 +433,9 @@ const LANGS = {
     offline_banner:'Você está offline — exibindo dados em cache',
     btn_share:'&#128279; Compartilhar',
     share_copied:'Link copiado!',
+    changelog_title:'Novidades ✨',
+    changelog_body:'<ul><li>⚽ <strong>Detalhes do jogo</strong> — passe o mouse (desktop) ou toque (celular) em qualquer partida para ver gols, assistências e cartões</li><li>📺 <strong>Card ao vivo</strong> — o banner ao vivo agora mostra artilheiros e cartões vermelhos em tempo real</li><li>🏅 <strong>Badges de classificação</strong> — a página de grupos mostra <strong>1&nbsp;/&nbsp;Q&nbsp;/&nbsp;2&nbsp;/&nbsp;E</strong> quando as posições estão matematicamente definidas</li></ul>',
+    changelog_btn:'Entendi!',
     footer_source:'Fonte: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 jogos na fase de grupos • 12 grupos • Top 2 de cada + 8 melhores 3ºs avançam',
     no_matches_alert:'Nenhum jogo corresponde aos filtros atuais.',
@@ -458,6 +472,9 @@ const LANGS = {
     offline_banner:'Estás sin conexión — mostrando datos en caché',
     btn_share:'&#128279; Compartir',
     share_copied:'¡Enlace copiado!',
+    changelog_title:'Novedades ✨',
+    changelog_body:'<ul><li>⚽ <strong>Detalles del partido</strong> — pasa el cursor (escritorio) o toca (móvil) cualquier partido para ver goles, asistencias y tarjetas</li><li>📺 <strong>Tarjeta en vivo</strong> — el banner en vivo ahora muestra goleadores y tarjetas rojas en tiempo real</li><li>🏅 <strong>Insignias de clasificación</strong> — la página de grupos muestra <strong>1&nbsp;/&nbsp;Q&nbsp;/&nbsp;2&nbsp;/&nbsp;E</strong> cuando las posiciones son matemáticamente decididas</li></ul>',
+    changelog_btn:'¡Entendido!',
     footer_source:'Fuente: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 partidos en fase de grupos • 12 grupos • Top 2 por grupo + 8 mejores 3eros avanzan',
     no_matches_alert:'Ningún partido coincide con los filtros actuales.',
@@ -1726,6 +1743,27 @@ if (koBtn) koBtn.addEventListener('click', () => {
   };
 
   applyLang();
+
+  // ── Changelog popup ──────────────────────────────────────────────────────
+  (function() {
+    const VERSION = '20260620a';
+    const modal = document.getElementById('changelog-modal');
+    if (!modal) return;
+    try { if (localStorage.getItem('wc2026_changelog') === VERSION) return; } catch(e) {}
+    const lbl = LANGS[_lang] || LANGS.en;
+    document.getElementById('changelog-title').textContent = lbl.changelog_title || "What's New ✨";
+    document.getElementById('changelog-body').innerHTML  = lbl.changelog_body  || '';
+    document.getElementById('changelog-btn').textContent = lbl.changelog_btn   || 'Got it!';
+    modal.style.display = 'flex';
+    function close() {
+      modal.style.display = 'none';
+      try { localStorage.setItem('wc2026_changelog', VERSION); } catch(e) {}
+    }
+    document.getElementById('changelog-btn').addEventListener('click', close);
+    document.getElementById('changelog-x').addEventListener('click', close);
+    modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  })();
+
   loadScores().then(() => {
     restoreAndRender();
     function scheduleNextPoll() {
