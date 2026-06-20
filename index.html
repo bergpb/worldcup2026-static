@@ -640,7 +640,6 @@ async function loadScores() {
     }
     lastFetch = new Date();
     lastMatches = data.matches || [];
-    updateLiveCard(lastMatches);
   } catch(e) {
     console.log('Could not load scores:', e.message);
   }
@@ -652,6 +651,7 @@ async function loadScores() {
     const gwRes = await fetch('group-winners.json?t=' + Date.now());
     if (gwRes.ok) groupWinners = await gwRes.json();
   } catch(e) { /* group-winners.json optional — placeholders stay as-is */ }
+  updateLiveCard(lastMatches);
 }
 
 function calcElapsed(utcDate, status) {
