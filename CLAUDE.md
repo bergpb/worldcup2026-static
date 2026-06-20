@@ -18,6 +18,8 @@ Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live sc
 | `scorers.html` | Top scorers / Golden Boot race |
 | `scorers.json` | Scorer data fetched from API (baked fallback + live from volume) |
 | `data.json` | Match data fetched from API (baked fallback + live from volume) |
+| `match-details.json` | Per-match goals, OG, penalties, cards — served from volume only (no baked fallback); used by event card popup and live card details |
+| `group-winners.json` | `{letter: {first, second}}` for fully completed groups — served from volume only; used by `applyGroupWinners()` in knockout section |
 | `styles.css` | Consolidated CSS for all pages (cache-busted per deploy via `?vBUILD`) |
 | `sw.js` | Service worker kill switch — unregisters old SW and clears caches |
 | `manifest.json` | PWA manifest |
@@ -132,8 +134,14 @@ Key rules:
 
 ### Data pipeline
 
-1. **Fetcher container** (`fetcher.py`): polls ESPN public API (`site.api.espn.com/apis/site/v2/sports/soccer/fifa.world`) every 120s, writes `data.json` + `scorers.json` to `wc-data` volume
-2. nginx serves from volume (live), falls back to baked copy in image
+1. **Fetcher container** (`fetcher.py`): polls ESPN public API (`site.api.espn.com/apis/site/v2/sports/soccer/fifa.world`) every 60s, writes four files to `wc-data` volume:
+   - `data.json` — all matches with scores, status, minute, period
+   - `scorers.json` — top scorers / Golden Boot
+   - `match-details.json` — keyed by match ID → `{status, score, goals[], bookings[]}` (own goals, penalties, cards)
+   - `group-winners.json` — keyed by group letter → `{first, second}` (only populated once all 6 group games FINISHED)
+2. nginx serves from volume (live), falls back to baked copy for `data.json`/`scorers.json`; `match-details.json` and `group-winners.json` return 404 if not yet generated (frontend handles gracefully)
+
+**After prod deploy, the fetcher container is NOT automatically restarted.** Must `docker restart worldcup-2026-static-fetcher-1` on `swarm` for `fetcher.py` changes to take effect.
 
 **ESPN API notes:**
 - No auth required
@@ -141,6 +149,8 @@ Key rules:
 - Scheduled matches return `score='0'` — fetcher guards with `is_started` check
 - No `minute` field — only `status` is reliable (`IN_PLAY`, `PAUSED`, `FINISHED`, `TIMED`)
 - `shortDisplayName` for Türkiye = `'Türkiye'`, Bosnia = `'Bosnia-Herz'` — both mapped in `API_NAME_MAP`
+- `keyEvents` on summary endpoint: `type.type` = `"goal"` / `"own-goal"` / `"penalty"` / `"yellow-card"` / `"red-card"` / `"yellow-red-card"`
+- Own goal `team` field = the scorer's own team (not the benefiting team) — side must be flipped in display
 
 ### Traefik routing
 
@@ -197,27 +207,31 @@ Each page's `applyLang()` populates `footer-line1` and `footer-line2` with page-
 
 ### Scope structure
 
-- **Global scope**: `LANGS_COMMON`, `LANGS`, `_lang`, `teamName()`, `FLAGS`, `flagImg()`, `flagUrl()`, `normalise()`, `scoreMap`, `lastMatches`, `loadScores()`, `showToast()`, `updateLiveCard()`
+- **Global scope**: `LANGS_COMMON`, `LANGS`, `_lang`, `teamName()`, `FLAGS`, `flagImg()`, `flagUrl()`, `normalise()`, `scoreMap`, `matchDetails`, `groupWinners`, `lastMatches`, `loadScores()`, `showToast()`, `updateLiveCard()`, `buildLiveCardEvents()`, `getMatchId()`, `buildEventCard()`, `positionEventCard()`, `applyGroupWinners()`
 - **`render()` function**: inner `FLAGS` (duplicate), inner `flagUrl()` (do NOT remove — used internally by render)
-- **IIFE**: page init, `applyLang()`, `restoreAndRender()`
+- **IIFE**: page init, `applyLang()`, `restoreAndRender()`, event card listeners, changelog popup
 
 **`flagUrl()` must exist at global scope** — the copy inside `render()` is not accessible to `updateLiveCard()`. Silent TypeError otherwise (caught by loadScores try/catch — always check console when debugging).
 
 ### Live scores flow
 
-```javascript
-let lastMatches = [];  // cached so live card re-renders on language switch
+`loadScores()` fetches three files sequentially: `data.json` → `match-details.json` → `group-winners.json`. **`updateLiveCard(lastMatches)` is called after ALL three fetches** — if moved inside the `data.json` try block, `matchDetails` won't be populated yet and live card events won't show.
 
-async function loadScores() {
-  const prevScoreMap = { ...scoreMap };
-  // fetch data.json, build scoreMap
-  // detect score changes → showToast(...)
-  lastMatches = data.matches || [];
-  updateLiveCard(lastMatches);
-}
-```
+`scoreMap` includes ALL stages (not just GROUP_STAGE). Each entry has `id: m.id` — required by `getMatchId()` to look up match details.
 
 `cycleLang()` calls `updateLiveCard(lastMatches)` so translations update without a refetch.
+
+### Match event card
+
+`buildEventCard(teamsStr)` shows goals + cards on hover (desktop) / tap (mobile). Returns `null` when: hide-scores active, match not in scoreMap, no `matchDetails` entry, status TIMED, score null, or no events at all. Event listeners use `isTouchDevice = window.matchMedia('(hover: none)').matches`.
+
+### Live card events
+
+`buildLiveCardEvents(live)` appends goals (⚽ with OG/pen tags) and red cards (🟥) to each match row in the live card, split home/away. Only red cards shown — yellow cards omitted.
+
+### Knockout group-winner replacement
+
+`applyGroupWinners(teamsStr)` replaces `Win A`→winner, `2nd A`→runner-up using `groupWinners` dict (A–L letters only, not `Win M73` style). Called before `xlateTeams()` in the knockout render loop.
 
 ### `updateLiveCard(matches)`
 
@@ -276,6 +290,22 @@ Does not register a new SW. Safe to keep permanently.
 
 ---
 
+## groups.html
+
+### Qualification badge engine
+
+`calcGroupBadges(grp, teamNames, finishedResultsMap)` simulates all 3^N remaining fixture outcomes to determine if a team's finish position is mathematically guaranteed. Returns badge per team: `1` (gold, winner), `Q` (green, top-2), `2` (blue, runner-up), `E` (red, eliminated). Only triggers once all 4 teams have played ≥2 games. Capped at 100 scenarios.
+
+**`GROUP_FIXTURES`** — array of all 72 group fixtures used by `getGroupFixtureStatus()`. Required; missing it crashes `render()`.
+
+`calcStandings()` returns `{ groups, results, finishedResults, liveGroups }`:
+- `results` — includes IN_PLAY/PAUSED provisional scores (for H2H tiebreaking in standings)
+- `finishedResults` — FINISHED-only (passed to badge engine to avoid premature badges from provisional scores)
+
+Badge legend (`#badge-legend`) below the standings note explains the four colours. Translated via `data-i18n` in all 3 languages.
+
+---
+
 ## Personal branch customizations
 
 ### `HIDE_BMC = true`
@@ -324,8 +354,13 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 
 - `flagUrl()` must be at global scope — silent TypeError inside loadScores try/catch
 - `loadScores()` try/catch swallows all errors from `updateLiveCard` — always check console
+- `updateLiveCard` must be called AFTER `match-details.json` fetch, not inside the `data.json` try block — otherwise live card events are always one cycle stale
 - API has no `minute` field — only `status`
 - `CARD_LABELS` / `_cardLang` only exist on `feature/live-match-card`; `personal` uses `LANGS[_lang]` in `getScore()`
+- `GROUP_FIXTURES` array must be defined in `groups.html` — missing it causes a `ReferenceError` in the badge engine that crashes `render()` entirely (blank groups page)
+- After prod deploy, fetcher container is NOT restarted automatically — `docker restart worldcup-2026-static-fetcher-1` on `swarm` required for `fetcher.py` changes
+- If new `location =` blocks added to `nginx.conf` while local dev containers are running, run `nginx -s reload` inside the dev container (or `make down && make up`) — otherwise the new JSON files return 404 and the frontend silently gets empty data
+- Changelog popup re-shows for all users when `VERSION` constant in the changelog IIFE is bumped; update all three `changelog_body` strings in LANGS at the same time
 - `#feedback-nav` ID on the feedback nav in `index.html` — CSS hide rule depends on this exact ID
 - Curaçao in the ESPN API returns as `"Curaçao"` (with accent) — `API_NAME_MAP` maps it to `'Curacao'` for FLAGS lookup
 - ESPN returns `"Türkiye"` (with umlaut) and `"Bosnia-Herz"` as shortDisplayName — both must be in `API_NAME_MAP` in all three pages (`index.html`, `groups.html`, `bracket.html`)
