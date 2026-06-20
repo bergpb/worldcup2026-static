@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 WC 2026 data fetcher — sources from ESPN public API (no auth required).
-Writes data.json and scorers.json to /data/ every 120s.
+Writes data.json and scorers.json to /data/ every 60s.
 
 Output schema matches football-data.org so the frontend needs no changes.
 """
@@ -18,7 +18,24 @@ SCORES_URL = f"{ESPN}/scoreboard?dates=20260611-20260719&limit=120"
 SUMMARY_URL = f"{ESPN}/summary?event="
 DATA_OUT    = "/data/data.json"
 SCORERS_OUT = "/data/scorers.json"
-INTERVAL    = 120
+INTERVAL    = 60
+
+# ESPN status → period (extra time / penalty / None)
+PERIOD_MAP = {
+    "STATUS_EXTRA_TIME":             "EXTRA_TIME",
+    "STATUS_EXTRA_TIME_SECOND_HALF": "EXTRA_TIME",
+    "STATUS_EXTRA_TIME_HALF_TIME":   "EXTRA_TIME",
+    "STATUS_PENALTY":                "PENALTY",
+}
+
+# ESPN status → score.duration (football-data.org schema)
+DURATION_MAP = {
+    "STATUS_EXTRA_TIME":             "EXTRA_TIME",
+    "STATUS_EXTRA_TIME_SECOND_HALF": "EXTRA_TIME",
+    "STATUS_EXTRA_TIME_HALF_TIME":   "EXTRA_TIME",
+    "STATUS_PENALTY":                "PENALTY_SHOOTOUT",
+    "STATUS_FINAL_PEN":              "PENALTY_SHOOTOUT",
+}
 
 # ESPN status → football-data.org status
 STATUS_MAP = {
@@ -39,8 +56,15 @@ STATUS_MAP = {
     "STATUS_POSTPONED":              "TIMED",
 }
 
-# Cache for FINISHED matches: event_id → {ht_home, ht_away, goals[]}
+# Cache for FINISHED matches: event_id → (ht_home, ht_away, goals[])
 _cache = {}
+
+# Live state guard: event_id → {status, h_score, a_score, ht_home, ht_away, goals, duration}
+# Prevents ESPN glitches from downgrading an in-play match back to TIMED
+_live_state = {}
+
+# Duration cache for finished matches: event_id → "REGULAR"|"EXTRA_TIME"|"PENALTY_SHOOTOUT"
+_duration_cache = {}
 
 
 def fetch(url):
@@ -82,6 +106,13 @@ def parse_minute(comp):
     clock = comp["status"].get("displayClock", "")
     base = clock.replace("'", "").split("+")[0].strip()
     return int(base) if base.isdigit() else None
+
+def parse_injury_time(comp):
+    clock = comp["status"].get("displayClock", "")
+    if "+" in clock:
+        part = clock.replace("'", "").split("+", 1)[1].strip()
+        return int(part) if part.isdigit() else None
+    return None
 
 
 def fetch_summary(event_id):
@@ -160,11 +191,42 @@ def build_matches_and_scorers(events):
         ht_home = ht_away = None
         goals = []
 
-        if is_started:
+        duration = DURATION_MAP.get(stype["name"], "REGULAR")
+
+        # Guard: if ESPN transiently returns TIMED for a match we know is live,
+        # keep the last known good state rather than writing null scores
+        if status == "TIMED" and eid in _live_state:
+            saved    = _live_state[eid]
+            status   = saved["status"]
+            h_score  = saved["h_score"]
+            a_score  = saved["a_score"]
+            ht_home  = saved["ht_home"]
+            ht_away  = saved["ht_away"]
+            goals    = saved["goals"]
+            duration = saved["duration"]
+            is_started = True
+            print(f"  guard: kept {eid} as {status} (ESPN returned TIMED)")
+        elif is_started:
             ht_home, ht_away, goals = fetch_summary(eid)
             if status == "FINISHED":
                 _cache[eid] = (ht_home, ht_away, goals)
+                # Preserve duration from live tracking (e.g. ET decided match)
+                if eid in _live_state:
+                    duration = _live_state[eid]["duration"]
+                _duration_cache[eid] = duration
+                _live_state.pop(eid, None)
             time.sleep(0.3)  # polite between requests
+
+        if status in ("IN_PLAY", "PAUSED"):
+            _live_state[eid] = {
+                "status": status, "h_score": h_score, "a_score": a_score,
+                "ht_home": ht_home, "ht_away": ht_away, "goals": goals,
+                "duration": duration,
+            }
+
+        # For finished matches seen in previous cycles, restore persisted duration
+        if status == "FINISHED" and eid in _duration_cache:
+            duration = _duration_cache[eid]
 
         # Aggregate scorers
         for g in goals:
@@ -189,8 +251,10 @@ def build_matches_and_scorers(events):
         matches.append({
             "id":      eid,
             "utcDate": normalize_date(event["date"]),
-            "status":  status,
-            "minute":  parse_minute(comp) if status == "IN_PLAY" else None,
+            "status":     status,
+            "period":     PERIOD_MAP.get(stype["name"]),
+            "minute":     parse_minute(comp) if status == "IN_PLAY" else None,
+            "injuryTime": parse_injury_time(comp) if status == "IN_PLAY" else None,
             "stage":   stage,
             "group":   group,
             "homeTeam": {
@@ -205,6 +269,7 @@ def build_matches_and_scorers(events):
             },
             "score": {
                 "winner":   winner,
+                "duration": duration,
                 "fullTime": {"home": h_score, "away": a_score},
                 "halfTime": {"home": ht_home, "away": ht_away},
             },

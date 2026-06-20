@@ -185,19 +185,19 @@
     <a id="lm-watch" href="https://www.youtube.com/@CazeTV/live" target="_blank" rel="noopener" style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#FF0000;text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:2px;">▶ Watch Live on @CazeTV</a>
   </div>
 
-  <div id="next-match-card" style="background:#111827;border:1px solid #1E2840;border-left:3px solid #C9A84C;border-radius:0 6px 6px 0;padding:12px 20px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+  <div id="next-match-card" style="background:#111827;border:1px solid #1E2840;border-left:3px solid #C9A84C;border-radius:0 6px 6px 0;padding:12px 20px;margin-bottom:12px;display:none;align-items:center;gap:12px;">
     <span id="nm-label" style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;white-space:nowrap;" data-i18n="next_match">Next Match</span>
     <div style="display:flex;align-items:center;gap:10px;flex:1;justify-content:center;">
       <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;flex:1;">
         <span id="nm-home" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#E8EAF0;"></span>
-        <img id="nm-home-flag" src="" alt="" style="width:28px;height:20px;object-fit:contain;border-radius:2px;visibility:hidden;">
+        <img id="nm-home-flag" src="" alt="" style="width:40px;height:28px;object-fit:contain;border-radius:2px;visibility:hidden;">
       </div>
       <div style="text-align:center;white-space:nowrap;">
         <div id="nm-kickoff" style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#C9A84C;letter-spacing:1px;line-height:1.1;"></div>
         <div id="nm-countdown" style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:#7A82A8;letter-spacing:1px;line-height:1.1;"></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;justify-content:flex-start;flex:1;">
-        <img id="nm-away-flag" src="" alt="" style="width:28px;height:20px;object-fit:contain;border-radius:2px;visibility:hidden;">
+        <img id="nm-away-flag" src="" alt="" style="width:40px;height:28px;object-fit:contain;border-radius:2px;visibility:hidden;">
         <span id="nm-away" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#E8EAF0;"></span>
       </div>
     </div>
@@ -373,6 +373,7 @@ const LANGS = {
     live_label:'LIVE',
     watch_live:'▶ Watch Live on @CazeTV',
     ht_label:'HT',
+    et_label:'ET', etht_label:'ET HT', pen_label:'PEN',
     next_match:'Next Match',
     knockout_heading:'Knockout Stage',
     knockout_sub:'Round of 32 • R16 • QF • SF • Final',
@@ -408,6 +409,7 @@ const LANGS = {
     live_label:'AO VIVO',
     watch_live:'▶ Assistir ao Vivo na @CazeTV',
     ht_label:'INT',
+    et_label:'PRR', etht_label:'PRR INT', pen_label:'PEN',
     next_match:'Próximo Jogo',
     knockout_heading:'Fase Eliminatória',
     knockout_sub:'Oitavas • Quartas • Semi • Final',
@@ -443,6 +445,7 @@ const LANGS = {
     live_label:'EN VIVO',
     watch_live:'▶ Ver en Vivo en @CazeTV',
     ht_label:'ET',
+    et_label:'TE', etht_label:'TE INT', pen_label:'PEN',
     next_match:'Próximo Partido',
     knockout_heading:'Fase Eliminatoria',
     knockout_sub:'Octavos • Cuartos • Semi • Final',
@@ -546,9 +549,9 @@ function flagImg(team) {
   return `<img class="flag" src="https://flagcdn.com/${size}/${code}.png" alt="">`;
 }
 
-function flagUrl(team) {
+function flagUrl(team, size = 'w20') {
   const code = FLAGS[team] || FLAGS[team.split(' ')[0]];
-  return code ? `https://flagcdn.com/w20/${code}.png` : '';
+  return code ? `https://flagcdn.com/${size}/${code}.png` : '';
 }
 
 function teamsHtml(teamsStr, score) {
@@ -610,7 +613,7 @@ async function loadScores() {
       const status = m.status; // TIMED, IN_PLAY, PAUSED, FINISHED
       const hg = m.score?.fullTime?.home;
       const ag = m.score?.fullTime?.away;
-      scoreMap[key] = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime };
+      scoreMap[key] = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period };
     });
     // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
     if (Object.keys(prevScoreMap).length > 0) {
@@ -663,7 +666,11 @@ function updateLiveCard(matches) {
     const hg = live.score?.fullTime?.home ?? '–';
     const ag = live.score?.fullTime?.away ?? '–';
     const minStr = live.minute ? `${live.minute}${live.injuryTime ? '+' + live.injuryTime : ''}'` : calcElapsed(live.utcDate, live.status);
-    const minute = live.status === 'PAUSED' ? (lbl.ht_label || 'HT') : minStr;
+    const isET = live.period === 'EXTRA_TIME';
+    const isPEN = live.period === 'PENALTY';
+    const minute = live.status === 'PAUSED'
+      ? (isET ? (lbl.etht_label || 'ET HT') : (lbl.ht_label || 'HT'))
+      : (isPEN ? (lbl.pen_label || 'PEN') : (isET ? `${lbl.et_label || 'ET'} ${minStr}`.trim() : minStr));
     const grpMatch = MATCHES.find(m => normalise(m.teams.split(' v ')[0]?.trim()) === homeKey);
     const venueHtml = grpMatch
       ? `<span style="color:${gc[grpMatch.grp]||'#2ECC71'};font-weight:800;">Group ${grpMatch.grp}</span> &middot; ${grpMatch.venue}`
@@ -673,14 +680,14 @@ function updateLiveCard(matches) {
       <div style="display:flex;align-items:center;gap:10px;width:100%;justify-content:center;">
         <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;flex:1;">
           <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#E8EAF0;">${teamName(homeKey)}</span>
-          <img src="${flagUrl(homeKey)}" alt="${homeKey}" style="width:28px;height:20px;object-fit:contain;border-radius:2px;">
+          <img src="${flagUrl(homeKey, 'w40')}" alt="${homeKey}" style="width:40px;height:28px;object-fit:contain;border-radius:2px;">
         </div>
         <div style="text-align:center;white-space:nowrap;">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#2ECC71;letter-spacing:1px;line-height:1.1;">${hg} – ${ag}</div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:#2ECC71;opacity:0.75;letter-spacing:1px;line-height:1.1;">${minute}</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;justify-content:flex-start;flex:1;">
-          <img src="${flagUrl(awayKey)}" alt="${awayKey}" style="width:28px;height:20px;object-fit:contain;border-radius:2px;">
+          <img src="${flagUrl(awayKey, 'w40')}" alt="${awayKey}" style="width:40px;height:28px;object-fit:contain;border-radius:2px;">
           <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#E8EAF0;">${teamName(awayKey)}</span>
         </div>
       </div>
@@ -887,10 +894,10 @@ function render(offset, team) {
     'Turkiye':'tr','Uruguay':'uy','USA':'us','Uzbekistan':'uz'
   };
 
-  function flagUrl(team) {
+  function flagUrl(team, size = 'w20') {
     const normalised = team.replace(/&amp;/g, '&').trim();
     const code = FLAGS[normalised] || FLAGS[normalised.split(' ')[0]];
-    return code ? `https://flagcdn.com/w20/${code}.png` : '';
+    return code ? `https://flagcdn.com/${size}/${code}.png` : '';
   }
 
   function updateNextMatch() {
@@ -913,6 +920,7 @@ function render(offset, team) {
 
     const card = document.getElementById('next-match-card');
     if (!nextMatch) { if (card) card.style.display = 'none'; return; }
+    card.style.display = 'flex';
 
     // Local kickoff time
     const localTime = new Date(nextTime.getTime() + offset * 3600000);
@@ -941,8 +949,8 @@ function render(offset, team) {
     document.getElementById('nm-venue').innerHTML = `<span style="color:${grpColor};font-weight:800;">Group ${nextMatch.grp}</span> · ${nextMatch.venue}`;
     const nmHomeFlag = document.getElementById('nm-home-flag');
     const nmAwayFlag = document.getElementById('nm-away-flag');
-    nmHomeFlag.src = flagUrl(home); nmHomeFlag.alt = home; nmHomeFlag.style.visibility = 'visible';
-    nmAwayFlag.src = flagUrl(away); nmAwayFlag.alt = away; nmAwayFlag.style.visibility = 'visible';
+    nmHomeFlag.src = flagUrl(home, 'w40'); nmHomeFlag.alt = home; nmHomeFlag.style.visibility = 'visible';
+    nmAwayFlag.src = flagUrl(away, 'w40'); nmAwayFlag.alt = away; nmAwayFlag.style.visibility = 'visible';
 
     // Countdown
     const diff = nextTime - now;
@@ -1583,12 +1591,22 @@ if (koBtn) koBtn.addEventListener('click', () => {
   applyLang();
   loadScores().then(() => {
     restoreAndRender();
-    setInterval(() => {
-      loadScores().then(() => {
-        const s = getState();
-        render(s.offset, s.team);
-      });
-    }, 60000);
+    function scheduleNextPoll() {
+      const hasLive = lastMatches.some(m => m.status === 'IN_PLAY' || m.status === 'PAUSED');
+      setTimeout(() => {
+        loadScores().then(() => {
+          const s = getState();
+          render(s.offset, s.team);
+          scheduleNextPoll();
+        });
+      }, hasLive ? 20000 : 60000);
+    }
+    scheduleNextPoll();
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        loadScores().then(() => { const s = getState(); render(s.offset, s.team); });
+      }
+    });
   });
 })();
 </script>
