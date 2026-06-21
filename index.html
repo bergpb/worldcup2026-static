@@ -395,7 +395,7 @@ const LANGS = {
     btn_share:'&#128279; Share',
     share_copied:'Link copied!',
     changelog_title:"What's New ✨",
-    changelog_body:'<ul><li>🟨 <strong>Yellow cards on live banner</strong> — the live match card now shows yellow &amp; red cards alongside goals in real time</li><li>⚽ <strong>Match event card</strong> — hover (desktop) or tap (mobile) any match to see goals, assists &amp; cards</li><li>🏅 <strong>Qualification badges</strong> — groups page shows <strong>1&nbsp;/&nbsp;Q&nbsp;/&nbsp;2&nbsp;/&nbsp;E</strong> once positions are mathematically decided</li></ul>',
+    changelog_body:'<ul><li>⏱ <strong>Half-time score</strong> — match event card now shows a HT separator with the score at the break</li><li>🏷 <strong>AET / PSO badge</strong> — finished matches that went to extra time or penalties now show it next to the score</li><li>🟨 <strong>Yellow cards on live banner</strong> — the live match card now shows yellow &amp; red cards alongside goals in real time</li><li>⚽ <strong>Match event card</strong> — hover (desktop) or tap (mobile) any match to see goals, assists &amp; cards</li></ul>',
     changelog_btn:'Got it!',
     footer_source:'Source: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 group stage matches • 12 groups • Top 2 per group + 8 best 3rd place advance',
@@ -434,7 +434,7 @@ const LANGS = {
     btn_share:'&#128279; Compartilhar',
     share_copied:'Link copiado!',
     changelog_title:'Novidades ✨',
-    changelog_body:'<ul><li>🟨 <strong>Cartões amarelos no banner ao vivo</strong> — o card de jogo ao vivo agora mostra cartões amarelos e vermelhos junto com os gols em tempo real</li><li>⚽ <strong>Detalhes do jogo</strong> — passe o mouse (desktop) ou toque (celular) em qualquer partida para ver gols, assistências e cartões</li><li>🏅 <strong>Badges de classificação</strong> — a página de grupos mostra <strong>1&nbsp;/&nbsp;Q&nbsp;/&nbsp;2&nbsp;/&nbsp;E</strong> quando as posições estão matematicamente definidas</li></ul>',
+    changelog_body:'<ul><li>⏱ <strong>Placar do intervalo</strong> — o card de eventos agora mostra um separador com o placar no intervalo</li><li>🏷 <strong>Badge AET / PSO</strong> — partidas encerradas na prorrogação ou nos pênaltis agora mostram isso ao lado do placar</li><li>🟨 <strong>Cartões amarelos no banner ao vivo</strong> — o card de jogo ao vivo agora mostra cartões amarelos e vermelhos junto com os gols em tempo real</li><li>⚽ <strong>Detalhes do jogo</strong> — passe o mouse (desktop) ou toque (celular) em qualquer partida para ver gols, assistências e cartões</li></ul>',
     changelog_btn:'Entendi!',
     footer_source:'Fonte: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 jogos na fase de grupos • 12 grupos • Top 2 de cada + 8 melhores 3ºs avançam',
@@ -473,7 +473,7 @@ const LANGS = {
     btn_share:'&#128279; Compartir',
     share_copied:'¡Enlace copiado!',
     changelog_title:'Novedades ✨',
-    changelog_body:'<ul><li>🟨 <strong>Tarjetas amarillas en el banner en vivo</strong> — la tarjeta de partido en vivo ahora muestra tarjetas amarillas y rojas junto a los goles en tiempo real</li><li>⚽ <strong>Detalles del partido</strong> — pasa el cursor (escritorio) o toca (móvil) cualquier partido para ver goles, asistencias y tarjetas</li><li>🏅 <strong>Insignias de clasificación</strong> — la página de grupos muestra <strong>1&nbsp;/&nbsp;Q&nbsp;/&nbsp;2&nbsp;/&nbsp;E</strong> cuando las posiciones son matemáticamente decididas</li></ul>',
+    changelog_body:'<ul><li>⏱ <strong>Marcador al descanso</strong> — la tarjeta de eventos ahora muestra un separador con el marcador en el descanso</li><li>🏷 <strong>Badge AET / PSO</strong> — los partidos terminados en prórroga o penaltis ahora lo muestran junto al marcador</li><li>🟨 <strong>Tarjetas amarillas en el banner en vivo</strong> — la tarjeta de partido en vivo ahora muestra tarjetas amarillas y rojas junto a los goles en tiempo real</li><li>⚽ <strong>Detalles del partido</strong> — pasa el cursor (escritorio) o toca (móvil) cualquier partido para ver goles, asistencias y tarjetas</li></ul>',
     changelog_btn:'¡Entendido!',
     footer_source:'Fuente: FIFA / Fox Sports 2026',
     footer_groups_idx:'72 partidos en fase de grupos • 12 grupos • Top 2 por grupo + 8 mejores 3eros avanzan',
@@ -639,7 +639,7 @@ async function loadScores() {
       const status = m.status; // TIMED, IN_PLAY, PAUSED, FINISHED
       const hg = m.score?.fullTime?.home;
       const ag = m.score?.fullTime?.away;
-      scoreMap[key] = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period, id: m.id };
+      scoreMap[key] = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period, id: m.id, duration: m.score?.duration, halfTime: m.score?.halfTime };
     });
     // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
     if (Object.keys(prevScoreMap).length > 0) {
@@ -782,7 +782,7 @@ function getScore(teamsStr) {
   const s = scoreMap[key];
   if (!s) return null;
   if (s.status === 'FINISHED' && s.home !== null && s.away !== null) {
-    return { home: s.home, away: s.away, cls: 'score-ft', label: 'FT' };
+    return { home: s.home, away: s.away, cls: 'score-ft', label: 'FT', duration: s.duration };
   }
   if ((s.status === 'IN_PLAY' || s.status === 'PAUSED') && s.home !== null) {
     const minStr = s.minute ? `${s.minute}${s.injuryTime ? '+'+s.injuryTime : ''}'` : '';
@@ -828,6 +828,10 @@ function buildEventCard(teamsStr) {
   const hg = det.score?.fullTime?.home;
   if (hg === null || hg === undefined) return null;
 
+  const sm = scoreMap[normalise(homeName) + '|' + normalise(awayName)];
+  const ht = sm?.halfTime;
+  const hasHT = ht && ht.home !== null && ht.home !== undefined;
+
   const events = { home: [], away: [] };
 
   (det.goals || []).forEach(g => {
@@ -848,7 +852,7 @@ function buildEventCard(teamsStr) {
 
   (det.bookings || []).forEach(b => {
     const side = b.team?.name === homeName || normalise(b.team?.name) === normalise(homeName) ? 'home' : 'away';
-    const icon = b.card === 'RED' ? '&#128997;' : '&#129000;';
+    const icon = b.card === 'RED' ? '&#128997;' : b.card === 'YELLOW_RED' ? '&#128999;' : '&#129000;';
     events[side].push({
       sortMin: b.minute || 0,
       html: `<span class="ev-icon">${icon}</span> <span class="ev-min">${b.minute}'</span> <span class="ev-player">${b.player.name}</span>`
@@ -860,14 +864,32 @@ function buildEventCard(teamsStr) {
 
   if (!events.home.length && !events.away.length) return null;
 
-  const homeCol = events.home.length
-    ? events.home.map(e => `<div class="ev-row">${e.html}</div>`).join('')
-    : '<div class="ev-empty">No events</div>';
-  const awayCol = events.away.length
-    ? events.away.map(e => `<div class="ev-row">${e.html}</div>`).join('')
-    : '<div class="ev-empty">No events</div>';
+  const renderCol = evs => evs.length
+    ? evs.map(e => `<div class="ev-row">${e.html}</div>`).join('')
+    : '<div class="ev-empty">–</div>';
 
-  return `<div class="event-card"><div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div></div>`;
+  let bodyHtml;
+  if (hasHT) {
+    const home1 = events.home.filter(e => e.sortMin <= 45.99);
+    const home2 = events.home.filter(e => e.sortMin > 45.99);
+    const away1 = events.away.filter(e => e.sortMin <= 45.99);
+    const away2 = events.away.filter(e => e.sortMin > 45.99);
+    const firstHalf = (home1.length || away1.length)
+      ? `<div class="event-card-body"><div class="ev-col">${renderCol(home1)}</div><div class="ev-col">${renderCol(away1)}</div></div>` : '';
+    const secHalf = (home2.length || away2.length)
+      ? `<div class="event-card-body"><div class="ev-col">${renderCol(home2)}</div><div class="ev-col">${renderCol(away2)}</div></div>` : '';
+    bodyHtml = firstHalf + `<div class="ev-ht-row">HT ${ht.home}–${ht.away}</div>` + secHalf;
+  } else {
+    const homeCol = events.home.length
+      ? events.home.map(e => `<div class="ev-row">${e.html}</div>`).join('')
+      : '<div class="ev-empty">No events</div>';
+    const awayCol = events.away.length
+      ? events.away.map(e => `<div class="ev-row">${e.html}</div>`).join('')
+      : '<div class="ev-empty">No events</div>';
+    bodyHtml = `<div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div>`;
+  }
+
+  return `<div class="event-card">${bodyHtml}</div>`;
 }
 
 function positionEventCard(matchEl, card) {
@@ -961,7 +983,9 @@ function render(offset, team) {
         if (score.home > score.away) { hCls = ' team-winner'; aCls = ' team-loser'; }
         else { hCls = ' team-loser'; aCls = ' team-winner'; }
       }
-      const statusStr = score?.label ? `<span class="score-label${score.cls==='score-live'?' live':''}">${score.label}${score.minute?' <span class="live-min">'+score.minute+'</span>':''}</span>` : '';
+      const durationBadge = (score?.cls === 'score-ft' && score.duration && score.duration !== 'REGULAR')
+        ? ` <span class="score-label badge-aet">${score.duration === 'PENALTY_SHOOTOUT' ? 'PSO' : 'AET'}</span>` : '';
+      const statusStr = score?.label ? `<span class="score-label${score.cls==='score-live'?' live':''}">${score.label}${score.minute?' <span class="live-min">'+score.minute+'</span>':''}</span>${durationBadge}` : '';
       const teamsEl = score
         ? `<span class="${score.cls} score-inline">
             <span class="score-home${hCls}">${flagImg(mHome)} ${teamName(mHome)}</span>

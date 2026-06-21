@@ -132,7 +132,7 @@ def build_detail_entry(status, h_score, a_score, key_events):
         player = participants[0].get("athlete", {}).get("displayName", "") if participants else ""
         minute, _ = parse_event_clock((e.get("clock") or {}).get("displayValue", ""))
         team_name = (e.get("team") or {}).get("displayName", "")
-        card = "RED" if etype in ("red-card", "yellow-red-card") else "YELLOW"
+        card = "YELLOW_RED" if etype == "yellow-red-card" else ("RED" if etype == "red-card" else "YELLOW")
         bookings_out.append({
             "minute": minute,
             "card": card,
