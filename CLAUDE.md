@@ -141,7 +141,7 @@ Key rules:
    - `group-winners.json` — keyed by group letter → `{first, second}` (only populated once all 6 group games FINISHED)
 2. nginx serves from volume (live), falls back to baked copy for `data.json`/`scorers.json`; `match-details.json` and `group-winners.json` return 404 if not yet generated (frontend handles gracefully)
 
-**After prod deploy, the fetcher container is NOT automatically restarted.** Must `docker restart worldcup-2026-static-fetcher-1` on `swarm` for `fetcher.py` changes to take effect.
+**`make deploy` uses `--force-recreate`** — all containers including the fetcher are restarted on every deploy, so `fetcher.py` changes take effect automatically.
 
 **ESPN API notes:**
 - No auth required
@@ -367,7 +367,7 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - If new `location =` blocks added to `nginx.conf` while local dev containers are running, run `nginx -s reload` inside the dev container (or `make down && make up`) — otherwise the new JSON files return 404 and the frontend silently gets empty data
 - Changelog popup re-shows for all users when `VERSION` constant in the changelog IIFE is bumped; update all three `changelog_body` strings in LANGS at the same time; use the short git hash of the feature commit as VERSION (not a date string)
 - `score.duration` defaults to `"REGULAR"` for normal-time finishes — AET/PSO badge only shows when it's `"EXTRA_TIME"` or `"PENALTY_SHOOTOUT"`
-- After `fetcher.py` changes, restart the fetcher on swarm: `docker restart worldcup-2026-static-fetcher-1` — the prod container does NOT auto-restart
+- `make deploy` uses `--force-recreate` so all containers (including the fetcher) always restart with the latest code — no manual restart needed
 - `#feedback-nav` ID on the feedback nav in `index.html` — CSS hide rule depends on this exact ID
 - Curaçao in the ESPN API returns as `"Curaçao"` (with accent) — `API_NAME_MAP` maps it to `'Curacao'` for FLAGS lookup
 - ESPN returns `"Türkiye"` (with umlaut) and `"Bosnia-Herz"` as shortDisplayName — both must be in `API_NAME_MAP` in all three pages (`index.html`, `groups.html`, `bracket.html`)
