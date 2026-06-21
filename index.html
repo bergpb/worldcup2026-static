@@ -802,6 +802,15 @@ function getMatchId(teamsStr) {
   return s?.id ?? null;
 }
 
+function hasEventData(teamsStr) {
+  const mid = getMatchId(teamsStr);
+  if (!mid) return false;
+  const det = matchDetails[String(mid)];
+  if (!det) return false;
+  if (!['FINISHED', 'IN_PLAY', 'PAUSED'].includes(det.status)) return false;
+  return (det.goals && det.goals.length > 0) || (det.bookings && det.bookings.length > 0);
+}
+
 function buildEventCard(teamsStr) {
   if (document.body.classList.contains('hide-scores')) return null;
   const mid = getMatchId(teamsStr);
@@ -955,12 +964,12 @@ function render(offset, team) {
       const teamsEl = score
         ? `<span class="${score.cls} score-inline">
             <span class="score-home${hCls}">${flagImg(mHome)} ${teamName(mHome)}</span>
-            <span class="score-nums">${score.home} - ${score.away}</span>
+            <span class="score-nums"><span class="score-number">${score.home} - ${score.away}</span><span class="score-vs-hidden">v</span></span>
             <span class="score-away${aCls}">${teamName(mAway)} ${flagImg(mAway)}</span>
             ${statusStr}
           </span>`
         : `<span class="teams">${teamsHtml(m.teams)}</span>`;
-      html += `<div class="match${cls}" data-teams="${m.teams}">
+      html += `<div class="match${cls}${hasEventData(m.teams)?' has-events':''}" data-teams="${m.teams}">
         <span class="grp ${m.grp}">${m.grp}</span>
         <span class="time">${t}</span>
         ${teamsEl}
@@ -1012,7 +1021,7 @@ function render(offset, team) {
         const hi = hiIdx >= 0;
         const cls = hi ? ` highlighted hi-${hiIdx+1} ko-match` : ' ko-match';
         const grpStyle = `style="color:var(--ko-${m.grp}, #7A82A8)"`;
-        html += `<div class="match${cls}" data-teams="${m.teams}">
+        html += `<div class="match${cls}${hasEventData(m.teams)?' has-events':''}" data-teams="${m.teams}">
           <span style="font-family:'Barlow Condensed',sans-serif;flex-shrink:0;width:80px;color:${koColors[m.grp]||'#7A82A8'}"><span style="font-weight:700;font-size:17px">${m.grp}</span> <span style="font-weight:400;font-size:14px">${m.num}</span></span>
           <span class="time">${t}</span>
           <span class="teams">${xlateTeams(applyGroupWinners(m.teams))}</span>

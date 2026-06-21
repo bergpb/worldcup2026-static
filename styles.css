@@ -400,6 +400,7 @@ body.print-mode .match.highlighted { background: #e0e0e0; border-left-color: #55
 .match.hi-2 { background: rgba(41,182,246,0.18); border-left-color: #29B6F6; }
 .match.hi-3 { background: rgba(155,89,182,0.12); border-left-color: #9B59B6; }
 .match.hi-4 { background: rgba(255,159,64,0.12); border-left-color: #FF9F40; }
+body:not(.hide-scores):not(.print-mode) .match.has-events:hover { box-shadow: 0 0 0 1.5px rgba(255,255,255,0.55), 0 0 12px rgba(255,255,255,0.15); }
 
 .grp {
   font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
@@ -436,8 +437,11 @@ body.print-mode .vs { font-size: 8px; margin: 0 2px; }
 body.print-mode .flag { width: 15px; height: 11px; border-radius: 1px; }
 
 /* ── SCORES ──────────────────────────────────────────────────────────────── */
-body.hide-scores .score-nums,
 body.hide-scores .score-label { visibility: hidden; }
+body.hide-scores .score-nums { min-width: 0; }
+.score-vs-hidden { display: none; }
+body.hide-scores .score-number { display: none; }
+body.hide-scores .score-vs-hidden { display: inline; color: var(--muted); }
 
 .score-inline {
   display: flex; align-items: center; gap: 6px; flex: 1;

@@ -182,6 +182,15 @@ const BASE = [
 
 let matches = BASE.map(m => ({...m}));
 const mnums = {};
+let groupWinners = {};
+
+function applyGroupWinnersBracket(phStr) {
+  const winMatch = phStr.match(/^Win (?:Group )?([A-L])$/);
+  if (winMatch) { const w = groupWinners[winMatch[1]]?.first; return w || phStr; }
+  const secMatch = phStr.match(/^2nd (?:Group )?([A-L])$/);
+  if (secMatch) { const r = groupWinners[secMatch[1]]?.second; return r || phStr; }
+  return phStr;
+}
 
 function norm(n){ return n ? (NAME_MAP[n]||n) : null; }
 function flag(t){
@@ -207,7 +216,7 @@ function teams(m){
   let phh, pha;
   if(m.stage==='LAST_32'){
     const ph=R32_PH[m.id]||['TBD','TBD'];
-    phh=ph[0]; pha=ph[1];
+    phh=applyGroupWinnersBracket(ph[0]); pha=applyGroupWinnersBracket(ph[1]);
   } else {
     const feeders=FEEDERS[m.id];
     if(feeders){
@@ -218,7 +227,9 @@ function teams(m){
       phh='TBD'; pha='TBD';
     }
   }
-  return { h:hn||phh, a:an||pha, hph:!hn, aph:!an };
+  const hConfirmed = !hn && FLAGS[phh];
+  const aConfirmed = !an && FLAGS[pha];
+  return { h:hn||phh, a:an||pha, hph:!hn&&!hConfirmed, aph:!an&&!aConfirmed };
 }
 
 function scoreSuffix(m){
@@ -510,6 +521,10 @@ async function load(){
   applyLang();
   render(); // render immediately with base data
   try{
+    const gwRes=await fetch('group-winners.json?t='+Date.now());
+    groupWinners=await gwRes.json();
+  }catch(e){ groupWinners=groupWinners||{}; }
+  try{
     const r=await fetch('data.json?t='+Date.now());
     const d=await r.json();
     const ko=d.matches.filter(m=>m.stage!=='GROUP_STAGE');
@@ -519,8 +534,8 @@ async function load(){
       BASE.forEach(m=>byId[m.id]={...m});
       ko.forEach(m=>{ if(byId[m.id]) byId[m.id]={...byId[m.id],homeTeam:m.homeTeam,awayTeam:m.awayTeam,score:m.score,status:m.status}; }); // utcDate kept from BASE not API
       matches=BASE.map(m=>byId[m.id]||m);
-      render();
     }
+    render(); // re-render to pick up group winners even if no live KO matches
   }catch(e){ console.log('data.json:',e.message); }
 }
 
