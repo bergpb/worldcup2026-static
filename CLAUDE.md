@@ -77,7 +77,7 @@ python3 build.py --strip   # empty all markers in source files (run before commi
 ```bash
 make build         # assemble partials → dist/
 make check         # verify dist/ is up-to-date (exits non-zero if stale)
-make deploy        # build + rsync to swarm + rebuild prod container
+make deploy        # build + rsync to swarm + rebuild prod container + force-recreate all (fetcher included)
 make sync          # rsync only, no rebuild
 make up            # start local dev (nginx + builder + fetcher)
 make down          # stop local dev
@@ -363,7 +363,6 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - API has no `minute` field — only `status`
 - `CARD_LABELS` / `_cardLang` only exist on `feature/live-match-card`; `personal` uses `LANGS[_lang]` in `getScore()`
 - `GROUP_FIXTURES` array must be defined in `groups.html` — missing it causes a `ReferenceError` in the badge engine that crashes `render()` entirely (blank groups page)
-- After prod deploy, fetcher container is NOT restarted automatically — `docker restart worldcup-2026-static-fetcher-1` on `swarm` required for `fetcher.py` changes
 - If new `location =` blocks added to `nginx.conf` while local dev containers are running, run `nginx -s reload` inside the dev container (or `make down && make up`) — otherwise the new JSON files return 404 and the frontend silently gets empty data
 - Changelog popup re-shows for all users when `VERSION` constant in the changelog IIFE is bumped; update all three `changelog_body` strings in LANGS at the same time; use the short git hash of the feature commit as VERSION (not a date string)
 - `score.duration` defaults to `"REGULAR"` for normal-time finishes — AET/PSO badge only shows when it's `"EXTRA_TIME"` or `"PENALTY_SHOOTOUT"`
