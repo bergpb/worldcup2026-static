@@ -702,9 +702,10 @@ function buildLiveCardEvents(live) {
   });
 
   (det.bookings || []).forEach(b => {
-    if (b.card !== 'RED') return;
+    if (b.card !== 'RED' && b.card !== 'YELLOW' && b.card !== 'YELLOW_RED') return;
     const side = normalise(b.team?.name || '') === homeKey ? 'home' : 'away';
-    const ev = { sort: b.minute || 0, html: `&#128997; ${b.minute}' ${b.player?.name || ''}` };
+    const icon = b.card === 'RED' ? '&#128997;' : b.card === 'YELLOW_RED' ? '&#128999;' : '&#129000;';
+    const ev = { sort: b.minute || 0, html: `${icon} ${b.minute}' ${b.player?.name || ''}` };
     (side === 'home' ? homeEvs : awayEvs).push(ev);
   });
 
