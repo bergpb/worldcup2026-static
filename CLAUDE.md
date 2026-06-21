@@ -137,7 +137,7 @@ Key rules:
 1. **Fetcher container** (`fetcher.py`): polls ESPN public API (`site.api.espn.com/apis/site/v2/sports/soccer/fifa.world`) every 60s, writes four files to `wc-data` volume:
    - `data.json` — all matches with scores, status, minute, period
    - `scorers.json` — top scorers / Golden Boot
-   - `match-details.json` — keyed by match ID → `{status, score, goals[], bookings[]}` (own goals, penalties, cards)
+   - `match-details.json` — keyed by match ID → `{status, score{fullTime}, goals[], bookings[]}` (own goals, penalties, cards; bookings include `YELLOW`, `RED`, `YELLOW_RED`)
    - `group-winners.json` — keyed by group letter → `{first, second}` (only populated once all 6 group games FINISHED)
 2. nginx serves from volume (live), falls back to baked copy for `data.json`/`scorers.json`; `match-details.json` and `group-winners.json` return 404 if not yet generated (frontend handles gracefully)
 
@@ -151,6 +151,9 @@ Key rules:
 - `shortDisplayName` for Türkiye = `'Türkiye'`, Bosnia = `'Bosnia-Herz'` — both mapped in `API_NAME_MAP`
 - `keyEvents` on summary endpoint: `type.type` = `"goal"` / `"own-goal"` / `"penalty"` / `"yellow-card"` / `"red-card"` / `"yellow-red-card"`
 - Own goal `team` field = the scorer's own team (not the benefiting team) — side must be flipped in display
+- `yellow-red-card` maps to `"YELLOW_RED"` in `match-details.json` (distinct from `"RED"`) — displayed as 🟧 in event card and live card
+- `score.duration` in `data.json`: `"REGULAR"` / `"EXTRA_TIME"` / `"PENALTY_SHOOTOUT"` — used for AET/PSO badge on finished match rows
+- `score.halfTime` in `data.json`: stored in `scoreMap` and used by `buildEventCard` to render HT separator with score at the break
 
 ### Traefik routing
 
@@ -217,7 +220,7 @@ Each page's `applyLang()` populates `footer-line1` and `footer-line2` with page-
 
 `loadScores()` fetches three files sequentially: `data.json` → `match-details.json` → `group-winners.json`. **`updateLiveCard(lastMatches)` is called after ALL three fetches** — if moved inside the `data.json` try block, `matchDetails` won't be populated yet and live card events won't show.
 
-`scoreMap` includes ALL stages (not just GROUP_STAGE). Each entry has `id: m.id` — required by `getMatchId()` to look up match details.
+`scoreMap` includes ALL stages (not just GROUP_STAGE). Each entry has `id: m.id` — required by `getMatchId()` to look up match details. Also stores `duration` (`REGULAR`/`EXTRA_TIME`/`PENALTY_SHOOTOUT`) and `halfTime: {home, away}` from `data.json`, used by `getScore()` (AET/PSO badge) and `buildEventCard` (HT separator).
 
 `cycleLang()` calls `updateLiveCard(lastMatches)` so translations update without a refetch.
 
@@ -225,9 +228,11 @@ Each page's `applyLang()` populates `footer-line1` and `footer-line2` with page-
 
 `buildEventCard(teamsStr)` shows goals + cards on hover (desktop) / tap (mobile). Returns `null` when: hide-scores active, match not in scoreMap, no `matchDetails` entry, status TIMED, score null, or no events at all. Event listeners use `isTouchDevice = window.matchMedia('(hover: none)').matches`.
 
+When `scoreMap` has `halfTime` data, events are split into 1st half (≤45') and 2nd half (>45') with an `HT X–Y` separator row between them (`.ev-ht-row`). Falls back to flat list if no halfTime. Card icons: ⚽ goal, 🟨 yellow (`YELLOW`), 🟧 second yellow (`YELLOW_RED`), 🟥 red (`RED`).
+
 ### Live card events
 
-`buildLiveCardEvents(live)` appends goals (⚽ with OG/pen tags) and red cards (🟥) to each match row in the live card, split home/away. Only red cards shown — yellow cards omitted.
+`buildLiveCardEvents(live)` appends goals (⚽ with OG/pen tags) and cards to each match row in the live card, split home/away. Shows 🟨 yellow (`YELLOW`), 🟧 second yellow (`YELLOW_RED`), and 🟥 red (`RED`) cards.
 
 ### Knockout group-winner replacement
 
@@ -360,7 +365,9 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - `GROUP_FIXTURES` array must be defined in `groups.html` — missing it causes a `ReferenceError` in the badge engine that crashes `render()` entirely (blank groups page)
 - After prod deploy, fetcher container is NOT restarted automatically — `docker restart worldcup-2026-static-fetcher-1` on `swarm` required for `fetcher.py` changes
 - If new `location =` blocks added to `nginx.conf` while local dev containers are running, run `nginx -s reload` inside the dev container (or `make down && make up`) — otherwise the new JSON files return 404 and the frontend silently gets empty data
-- Changelog popup re-shows for all users when `VERSION` constant in the changelog IIFE is bumped; update all three `changelog_body` strings in LANGS at the same time
+- Changelog popup re-shows for all users when `VERSION` constant in the changelog IIFE is bumped; update all three `changelog_body` strings in LANGS at the same time; use the short git hash of the feature commit as VERSION (not a date string)
+- `score.duration` defaults to `"REGULAR"` for normal-time finishes — AET/PSO badge only shows when it's `"EXTRA_TIME"` or `"PENALTY_SHOOTOUT"`
+- After `fetcher.py` changes, restart the fetcher on swarm: `docker restart worldcup-2026-static-fetcher-1` — the prod container does NOT auto-restart
 - `#feedback-nav` ID on the feedback nav in `index.html` — CSS hide rule depends on this exact ID
 - Curaçao in the ESPN API returns as `"Curaçao"` (with accent) — `API_NAME_MAP` maps it to `'Curacao'` for FLAGS lookup
 - ESPN returns `"Türkiye"` (with umlaut) and `"Bosnia-Herz"` as shortDisplayName — both must be in `API_NAME_MAP` in all three pages (`index.html`, `groups.html`, `bracket.html`)
