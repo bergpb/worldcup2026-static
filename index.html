@@ -1039,7 +1039,7 @@ function render(offset, team) {
         html += `<div class="match${cls}${hasEventData(m.teams)?' has-events':''}" data-teams="${m.teams}">
           <span style="font-family:'Barlow Condensed',sans-serif;flex-shrink:0;width:80px;color:${koColors[m.grp]||'#7A82A8'}"><span style="font-weight:700;font-size:17px">${m.grp}</span> <span style="font-weight:400;font-size:14px">${m.num}</span></span>
           <span class="time">${t}</span>
-          <span class="teams">${xlateTeams(applyGroupWinners(m.teams))}</span>
+          <span class="teams">${teamsHtml(applyGroupWinners(m.teams), getScore(m.teams))}</span>
           <span class="venue">${m.venue}</span>
         </div>`;
       });
