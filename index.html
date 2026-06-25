@@ -372,7 +372,7 @@ const LANGS = {
     watch_live:'▶ Watch Live on @CazeTV',
     ht_label:'HT',
     et_label:'ET', etht_label:'ET HT', pen_label:'PEN',
-    next_match:'Next Match',
+    next_match:'Next Match', next_matches:'Next Matches',
     knockout_heading:'Knockout Stage',
     knockout_sub:'Round of 32 • R16 • QF • SF • Final',
     schedule_note:'<strong>&#10024; New:</strong> <span style="color:var(--text-sub)">Hide scores &bull; Hide completed matches - preferences persist until changed</span>',
@@ -411,7 +411,7 @@ const LANGS = {
     watch_live:'▶ Assistir ao Vivo na @CazeTV',
     ht_label:'INT',
     et_label:'PRR', etht_label:'PRR INT', pen_label:'PEN',
-    next_match:'Próximo Jogo',
+    next_match:'Próximo Jogo', next_matches:'Próximos Jogos',
     knockout_heading:'Fase Eliminatória',
     knockout_sub:'Oitavas • Quartas • Semi • Final',
     schedule_note:'<strong>&#10024; Novo:</strong> <span style="color:var(--text-sub)">Ocultar placar &bull; Ocultar encerrados – preferências salvas automaticamente</span>',
@@ -450,7 +450,7 @@ const LANGS = {
     watch_live:'▶ Ver en Vivo en @CazeTV',
     ht_label:'ET',
     et_label:'TE', etht_label:'TE INT', pen_label:'PEN',
-    next_match:'Próximo Partido',
+    next_match:'Próximo Partido', next_matches:'Próximos Partidos',
     knockout_heading:'Fase Eliminatoria',
     knockout_sub:'Octavos • Cuartos • Semi • Final',
     schedule_note:'<strong>&#10024; Nuevo:</strong> <span style="color:var(--text-sub)">Ocultar marcador &bull; Ocultar terminados – preferencias guardadas automáticamente</span>',
@@ -1104,6 +1104,10 @@ function render(offset, team) {
       const matchTime = new Date(`${m.date}T${String(utcH).padStart(2,'0')}:${String(utcM).padStart(2,'0')}:00Z`);
       if (matchTime.getTime() === nextTime.getTime()) nextMatches.push(m);
     }
+
+    // Label: singular or plural
+    const nmLabel = document.getElementById('nm-label');
+    if (nmLabel) nmLabel.textContent = nextMatches.length > 1 ? t('next_matches') : t('next_match');
 
     // Local kickoff time (shared)
     const localTime = new Date(nextTime.getTime() + offset * 3600000);
