@@ -20,7 +20,7 @@ DATA_OUT        = "/data/data.json"
 SCORERS_OUT     = "/data/scorers.json"
 DETAILS_OUT     = "/data/match-details.json"
 WINNERS_OUT     = "/data/group-winners.json"
-INTERVAL        = 60
+INTERVAL        = 30
 
 # ESPN shortDisplayName → our display name (mirrors JS API_NAME_MAP)
 _DISPLAY_MAP = {
