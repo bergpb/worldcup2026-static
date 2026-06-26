@@ -312,42 +312,42 @@ const MATCHES = [
 // Round labels: R32=Round of 32, R16=Round of 16, QF=Quarter-final, SF=Semi-final, F=Final
 const KNOCKOUT_MATCHES = [
   // Round of 32 (M73-M88) - Jun 28 - Jul 4
-  { grp:'R32', num:'M73', utc:19,   date:'2026-06-28', teams:'2nd A v 2nd B',         venue:'Los Angeles'   },
-  { grp:'R32', num:'M76', utc:17,   date:'2026-06-29', teams:'Win C v 2nd F',         venue:'Houston'       },
-  { grp:'R32', num:'M74', utc:20.5, date:'2026-06-29', teams:'Win E v 3rd A/B/C/D/F', venue:'Boston'        },
-  { grp:'R32', num:'M75', utc:1,    date:'2026-06-30', teams:'Win F v 2nd C',         venue:'Monterrey'     },
-  { grp:'R32', num:'M78', utc:17,   date:'2026-06-30', teams:'2nd E v 2nd I',         venue:'Dallas'        },
-  { grp:'R32', num:'M77', utc:21,   date:'2026-06-30', teams:'Win I v 3rd C/D/F/G/H', venue:'New York/NJ'   },
-  { grp:'R32', num:'M79', utc:1,    date:'2026-07-01', teams:'Win A v 3rd C/E/F/H/I', venue:'Mexico City'   },
-  { grp:'R32', num:'M80', utc:16,   date:'2026-07-01', teams:'Win L v 3rd E/H/I/J/K', venue:'Atlanta'       },
-  { grp:'R32', num:'M82', utc:20,   date:'2026-07-01', teams:'Win G v 3rd A/E/H/I/J', venue:'Seattle'       },
-  { grp:'R32', num:'M81', utc:0,    date:'2026-07-02', teams:'Win D v 3rd B/E/F/I/J', venue:'San Francisco' },
-  { grp:'R32', num:'M84', utc:19,   date:'2026-07-02', teams:'Win H v 2nd J',         venue:'Los Angeles'   },
-  { grp:'R32', num:'M83', utc:23,   date:'2026-07-02', teams:'2nd K v 2nd L',         venue:'Toronto'       },
-  { grp:'R32', num:'M85', utc:3,    date:'2026-07-03', teams:'Win B v 3rd E/F/G/I/J', venue:'Vancouver'     },
-  { grp:'R32', num:'M86', utc:22,   date:'2026-07-03', teams:'Win J v 2nd H',         venue:'Miami'         },
-  { grp:'R32', num:'M87', utc:1.5,  date:'2026-07-04', teams:'Win K v 3rd D/E/I/J/L', venue:'Kansas City'   },
-  { grp:'R32', num:'M88', utc:18,   date:'2026-07-03', teams:'2nd D v 2nd G',         venue:'Dallas'        },
+  { grp:'R32', num:'M73', id:537417, utc:19,   date:'2026-06-28', teams:'2nd A v 2nd B',         venue:'Los Angeles'   },
+  { grp:'R32', num:'M76', id:537423, utc:17,   date:'2026-06-29', teams:'Win C v 2nd F',         venue:'Houston'       },
+  { grp:'R32', num:'M74', id:537415, utc:20.5, date:'2026-06-29', teams:'Win E v 3rd A/B/C/D/F', venue:'Boston'        },
+  { grp:'R32', num:'M75', id:537418, utc:1,    date:'2026-06-30', teams:'Win F v 2nd C',         venue:'Monterrey'     },
+  { grp:'R32', num:'M78', id:537424, utc:17,   date:'2026-06-30', teams:'2nd E v 2nd I',         venue:'Dallas'        },
+  { grp:'R32', num:'M77', id:537416, utc:21,   date:'2026-06-30', teams:'Win I v 3rd C/D/F/G/H', venue:'New York/NJ'   },
+  { grp:'R32', num:'M79', id:537425, utc:1,    date:'2026-07-01', teams:'Win A v 3rd C/E/F/H/I', venue:'Mexico City'   },
+  { grp:'R32', num:'M80', id:537426, utc:16,   date:'2026-07-01', teams:'Win L v 3rd E/H/I/J/K', venue:'Atlanta'       },
+  { grp:'R32', num:'M82', id:537422, utc:20,   date:'2026-07-01', teams:'Win G v 3rd A/E/H/I/J', venue:'Seattle'       },
+  { grp:'R32', num:'M81', id:537421, utc:0,    date:'2026-07-02', teams:'Win D v 3rd B/E/F/I/J', venue:'San Francisco' },
+  { grp:'R32', num:'M84', id:537420, utc:19,   date:'2026-07-02', teams:'Win H v 2nd J',         venue:'Los Angeles'   },
+  { grp:'R32', num:'M83', id:537419, utc:23,   date:'2026-07-02', teams:'2nd K v 2nd L',         venue:'Toronto'       },
+  { grp:'R32', num:'M85', id:537429, utc:3,    date:'2026-07-03', teams:'Win B v 3rd E/F/G/I/J', venue:'Vancouver'     },
+  { grp:'R32', num:'M86', id:537427, utc:22,   date:'2026-07-03', teams:'Win J v 2nd H',         venue:'Miami'         },
+  { grp:'R32', num:'M87', id:537430, utc:1.5,  date:'2026-07-04', teams:'Win K v 3rd D/E/I/J/L', venue:'Kansas City'   },
+  { grp:'R32', num:'M88', id:537428, utc:18,   date:'2026-07-03', teams:'2nd D v 2nd G',         venue:'Dallas'        },
   // Round of 16 (M89-M96) - Jul 4-8
-  { grp:'R16', num:'M90', utc:21,   date:'2026-07-04', teams:'Win M73 v Win M75',     venue:'Houston'       },
-  { grp:'R16', num:'M89', utc:17,   date:'2026-07-04', teams:'Win M74 v Win M77',     venue:'Philadelphia'  },
-  { grp:'R16', num:'M91', utc:20,   date:'2026-07-05', teams:'Win M76 v Win M78',     venue:'New York/NJ'   },
-  { grp:'R16', num:'M92', utc:0,    date:'2026-07-06', teams:'Win M79 v Win M80',     venue:'Mexico City'   },
-  { grp:'R16', num:'M94', utc:0,    date:'2026-07-07', teams:'Win M81 v Win M82',     venue:'Seattle'       },
-  { grp:'R16', num:'M93', utc:19,   date:'2026-07-06', teams:'Win M83 v Win M84',     venue:'Dallas'        },
-  { grp:'R16', num:'M95', utc:16,   date:'2026-07-07', teams:'Win M86 v Win M88',     venue:'Atlanta'       },
-  { grp:'R16', num:'M96', utc:20,   date:'2026-07-07', teams:'Win M85 v Win M87',     venue:'Vancouver'     },
+  { grp:'R16', num:'M90', id:537376, utc:21,   date:'2026-07-04', teams:'Win M73 v Win M75',     venue:'Houston'       },
+  { grp:'R16', num:'M89', id:537375, utc:17,   date:'2026-07-04', teams:'Win M74 v Win M77',     venue:'Philadelphia'  },
+  { grp:'R16', num:'M91', id:537377, utc:20,   date:'2026-07-05', teams:'Win M76 v Win M78',     venue:'New York/NJ'   },
+  { grp:'R16', num:'M92', id:537378, utc:0,    date:'2026-07-06', teams:'Win M79 v Win M80',     venue:'Mexico City'   },
+  { grp:'R16', num:'M94', id:537380, utc:0,    date:'2026-07-07', teams:'Win M81 v Win M82',     venue:'Seattle'       },
+  { grp:'R16', num:'M93', id:537379, utc:19,   date:'2026-07-06', teams:'Win M83 v Win M84',     venue:'Dallas'        },
+  { grp:'R16', num:'M95', id:537381, utc:16,   date:'2026-07-07', teams:'Win M86 v Win M88',     venue:'Atlanta'       },
+  { grp:'R16', num:'M96', id:537382, utc:20,   date:'2026-07-07', teams:'Win M85 v Win M87',     venue:'Vancouver'     },
   // Quarter-finals (M97-M100) - Jul 9-12
-  { grp:'QF',  num:'M97', utc:20,   date:'2026-07-09', teams:'Win M89 v Win M90',     venue:'Boston'        },
-  { grp:'QF',  num:'M98', utc:19,   date:'2026-07-10', teams:'Win M93 v Win M94',     venue:'Los Angeles'   },
-  { grp:'QF',  num:'M99', utc:21,   date:'2026-07-11', teams:'Win M91 v Win M92',     venue:'Miami'         },
-  { grp:'QF',  num:'M100',utc:1,    date:'2026-07-12', teams:'Win M95 v Win M96',     venue:'Kansas City'   },
+  { grp:'QF',  num:'M97',  id:537383, utc:20,  date:'2026-07-09', teams:'Win M89 v Win M90',     venue:'Boston'        },
+  { grp:'QF',  num:'M98',  id:537384, utc:19,  date:'2026-07-10', teams:'Win M93 v Win M94',     venue:'Los Angeles'   },
+  { grp:'QF',  num:'M99',  id:537385, utc:21,  date:'2026-07-11', teams:'Win M91 v Win M92',     venue:'Miami'         },
+  { grp:'QF',  num:'M100', id:537386, utc:1,   date:'2026-07-12', teams:'Win M95 v Win M96',     venue:'Kansas City'   },
   // Semi-finals (M101-M102) - Jul 14-15
-  { grp:'SF',  num:'M101',utc:19,   date:'2026-07-14', teams:'Win M97 v Win M98',     venue:'Dallas'        },
-  { grp:'SF',  num:'M102',utc:19,   date:'2026-07-15', teams:'Win M99 v Win M100',    venue:'Atlanta'       },
+  { grp:'SF',  num:'M101', id:537387, utc:19,  date:'2026-07-14', teams:'Win M97 v Win M98',          venue:'Dallas'     },
+  { grp:'SF',  num:'M102', id:537388, utc:19,  date:'2026-07-15', teams:'Win M99 v Win M100',         venue:'Atlanta'    },
   // Third place M103 + Final M104
-  { grp:'3rd', num:'M103',utc:21,   date:'2026-07-18', teams:'Loss M101 v Loss M102', venue:'Miami'         },
-  { grp:'Final',num:'M104',utc:19,   date:'2026-07-19', teams:'FINAL: Win M101 v Win M102', venue:'New York/NJ'},
+  { grp:'3rd', num:'M103', id:537389, utc:21,  date:'2026-07-18', teams:'Loss M101 v Loss M102',      venue:'Miami'      },
+  { grp:'Final',num:'M104',id:537390, utc:19,  date:'2026-07-19', teams:'FINAL: Win M101 v Win M102', venue:'New York/NJ'},
 ];
 
 let showKnockout = true;
@@ -506,9 +506,19 @@ function xlateTeams(s) {
   return `${teamName(p[0].trim())} v ${teamName(p[1].trim())}`;
 }
 
-function applyGroupWinners(teamsStr) {
+function applyGroupWinners(teamsStr, id) {
   let s = teamsStr.replace(/\bWin ([A-L])\b/g, (m, letter) => groupWinners[letter]?.first  || m);
   s =          s.replace(/\b2nd ([A-L])\b/g,  (m, letter) => groupWinners[letter]?.second || m);
+  // If the API has already confirmed the teams for this match, use those names
+  if (id && scoreMapById[id]) {
+    const api = scoreMapById[id];
+    const parts = s.split(' v ');
+    if (parts.length === 2) {
+      const home = (api.homeName && api.homeName.length > 0) ? api.homeName : parts[0].trim();
+      const away = (api.awayName && api.awayName.length > 0) ? api.awayName : parts[1].trim();
+      s = `${home} v ${away}`;
+    }
+  }
   return s;
 }
 
@@ -598,6 +608,8 @@ function normalise(name) {
 
 // scoreMap: keyed by "HomeTeam|AwayTeam" -> {home, away, status, id}
 let scoreMap = {};
+// scoreMapById: keyed by ESPN match id -> same entry (for knockout team resolution)
+let scoreMapById = {};
 // matchDetails: keyed by match id (string) -> {status, score, goals[], bookings[]}
 let matchDetails = {};
 // groupWinners: keyed by group letter -> {first, second}
@@ -621,15 +633,18 @@ async function loadScores() {
     const data = await res.json();
     const prevScoreMap = { ...scoreMap };
     scoreMap = {};
+    scoreMapById = {};
     (data.matches || []).forEach(m => {
       const home = normalise(m.homeTeam.shortName || m.homeTeam.name || '');
       const away = normalise(m.awayTeam.shortName || m.awayTeam.name || '');
-      if (!home || !away) return;
-      const key = home + '|' + away;
       const status = m.status; // TIMED, IN_PLAY, PAUSED, FINISHED
       const hg = m.score?.fullTime?.home;
       const ag = m.score?.fullTime?.away;
-      scoreMap[key] = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period, id: m.id, duration: m.score?.duration, halfTime: m.score?.halfTime };
+      const entry = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period, id: m.id, duration: m.score?.duration, halfTime: m.score?.halfTime, homeName: home, awayName: away };
+      if (m.id) scoreMapById[m.id] = entry;
+      if (!home || !away) return;
+      const key = home + '|' + away;
+      scoreMap[key] = entry;
     });
     // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
     if (Object.keys(prevScoreMap).length > 0) {
@@ -761,15 +776,20 @@ function updateLiveCard(matches) {
   card.style.display = 'flex';
 }
 
-function getScore(teamsStr) {
-  const parts = teamsStr.split(' v ');
-  if (parts.length !== 2) return null;
-  // Normalise our display names to match API normalised names
-  const DISPLAY_MAP = { 'Bosnia & Herz.': 'Bosnia' };
-  const home = DISPLAY_MAP[parts[0].trim()] || parts[0].trim();
-  const away = DISPLAY_MAP[parts[1].trim()] || parts[1].trim();
-  const key = home + '|' + away;
-  const s = scoreMap[key];
+function getScore(teamsStr, id) {
+  // Try ID lookup first for knockout matches where the API has confirmed teams
+  let s = id ? scoreMapById[id] : null;
+  // Fall back to name lookup
+  if (!s) {
+    const parts = teamsStr.split(' v ');
+    if (parts.length !== 2) return null;
+    // Normalise our display names to match API normalised names
+    const DISPLAY_MAP = { 'Bosnia & Herz.': 'Bosnia' };
+    const home = DISPLAY_MAP[parts[0].trim()] || parts[0].trim();
+    const away = DISPLAY_MAP[parts[1].trim()] || parts[1].trim();
+    const key = home + '|' + away;
+    s = scoreMap[key];
+  }
   if (!s) return null;
   if (s.status === 'FINISHED' && s.home !== null && s.away !== null) {
     return { home: s.home, away: s.away, cls: 'score-ft', label: 'FT', duration: s.duration };
@@ -1023,7 +1043,7 @@ function render(offset, team) {
       if (groupFilter !== 'all' && !koRounds.includes(groupFilter)) return;
       let koFiltered = cityFilter === 'all' ? koBuckets[k] : koBuckets[k].filter(m => m.venue === cityFilter);
       if (teamFilter !== 'all') koFiltered = koFiltered.filter(m => m.teams.includes(teamFilter));
-      if (hideFinished) koFiltered = koFiltered.filter(m => { const sc = getScore(m.teams); return !sc || sc.cls !== 'score-ft'; });
+      if (hideFinished) koFiltered = koFiltered.filter(m => { const sc = getScore(m.teams, m.id); return !sc || sc.cls !== 'score-ft'; });
       if (groupFilter !== 'all' && koRounds.includes(groupFilter)) koFiltered = koFiltered.filter(m => m.grp === groupFilter);
       if (koFiltered.length === 0) return;
       const hdr = fmtHeader(k);
@@ -1039,7 +1059,7 @@ function render(offset, team) {
         html += `<div class="match${cls}${hasEventData(m.teams)?' has-events':''}" data-teams="${m.teams}">
           <span style="font-family:'Barlow Condensed',sans-serif;flex-shrink:0;width:80px;color:${koColors[m.grp]||'#7A82A8'}"><span style="font-weight:700;font-size:17px">${m.grp}</span> <span style="font-weight:400;font-size:14px">${m.num}</span></span>
           <span class="time">${t}</span>
-          <span class="teams">${teamsHtml(applyGroupWinners(m.teams), getScore(m.teams))}</span>
+          <span class="teams">${teamsHtml(applyGroupWinners(m.teams, m.id), getScore(m.teams, m.id))}</span>
           <span class="venue">${m.venue}</span>
         </div>`;
       });
