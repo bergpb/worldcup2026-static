@@ -684,15 +684,15 @@ function renderThirdPlace(groups, groupStats) {
   if (thirds.length === 0) { section.style.display = 'none'; return; }
   section.style.display = 'block';
 
-  const groupStageComplete = thirds.length === 12 && thirds.every(t => t.p === 3);
+  const groupStageComplete = thirds.length === 12 && thirds.every(row => row.p === 3);
 
-  tbody.innerHTML = thirds.map((t, i) => {
-    const confirmed  = KNOWN_THIRD.has(t.team);
-    const eliminated = KNOWN_ELIMINATED_THIRD.has(t.team);
-    const uncertain  = KNOWN_UNCERTAIN.has(t.team);
+  tbody.innerHTML = thirds.map((row, i) => {
+    const confirmed  = KNOWN_THIRD.has(row.team);
+    const eliminated = KNOWN_ELIMINATED_THIRD.has(row.team);
+    const uncertain  = KNOWN_UNCERTAIN.has(row.team);
     const advances   = groupStageComplete ? i < 8 : (confirmed || (!eliminated && !uncertain && i < 8));
     const cls        = (confirmed || (groupStageComplete && i < 8)) ? 'advances' : '';
-    const gdStr      = t.p > 0 ? (t.gd > 0 ? '+' + t.gd : String(t.gd)) : '-';
+    const gdStr      = row.p > 0 ? (row.gd > 0 ? '+' + row.gd : String(row.gd)) : '-';
 
     let statusCell, posColor;
     if (uncertain) {
@@ -714,14 +714,14 @@ function renderThirdPlace(groups, groupStats) {
 
     return `<tr class="${cls}">
       <td class="pos" style="color:${posColor};">${i+1}</td>
-      <td class="team-name">${flagImg(t.team)}${teamName(t.team)}<span class="grp-badge" style="color:${GROUP_COLORS[t.grp]}">${t.grp}</span></td>
-      <td>${t.p > 0 ? t.p : '-'}</td>
-      <td>${t.p > 0 ? t.w : '-'}</td>
-      <td>${t.p > 0 ? t.d : '-'}</td>
-      <td>${t.p > 0 ? t.l : '-'}</td>
+      <td class="team-name">${flagImg(row.team)}${teamName(row.team)}<span class="grp-badge" style="color:${GROUP_COLORS[row.grp]}">${row.grp}</span></td>
+      <td>${row.p > 0 ? row.p : '-'}</td>
+      <td>${row.p > 0 ? row.w : '-'}</td>
+      <td>${row.p > 0 ? row.d : '-'}</td>
+      <td>${row.p > 0 ? row.l : '-'}</td>
       <td>${gdStr}</td>
-      <td>${t.p > 0 ? t.gf : '-'}</td>
-      <td class="pts">${t.p > 0 ? t.pts : '-'}</td>
+      <td>${row.p > 0 ? row.gf : '-'}</td>
+      <td class="pts">${row.p > 0 ? row.pts : '-'}</td>
       <td style="font-size:13px;color:${posColor};">${statusCell}</td>
     </tr>`;
   }).join('');
