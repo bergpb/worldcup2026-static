@@ -1158,9 +1158,10 @@ function render(offset, team) {
     };
     const nmMatches = document.getElementById('nm-matches');
     nmMatches.innerHTML = nextMatches.map((m, i) => {
-      const parts = m.teams.split(' v ');
+      const resolvedTeams = applyGroupWinners(m.teams, m.id);
+      const parts = resolvedTeams.split(' v ');
       const home = parts[0]?.trim() || '';
-      const away = parts[1]?.trim() || m.teams;
+      const away = parts[1]?.trim() || resolvedTeams;
       const grpColor = gc[m.grp] || '#C9A84C';
       const isGroup = /^[A-L]$/.test(m.grp);
       const grpLabel = isGroup ? `Group ${m.grp}` : m.grp;
