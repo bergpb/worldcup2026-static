@@ -506,9 +506,30 @@ function xlateTeams(s) {
   return `${teamName(p[0].trim())} v ${teamName(p[1].trim())}`;
 }
 
+function buildMatchNumToId() {
+  matchNumToId = {};
+  [...MATCHES, ...KNOCKOUT_MATCHES].forEach(m => { if (m.num && m.id) matchNumToId[m.num] = m.id; });
+}
+
+function resolveKnockoutRef(ref) {
+  const winMatch  = ref.match(/^Win (M\d+)$/);
+  const lossMatch = ref.match(/^Loss (M\d+)$/);
+  const mnum = winMatch ? winMatch[1] : lossMatch ? lossMatch[1] : null;
+  if (!mnum) return ref;
+  const id = matchNumToId[mnum];
+  if (!id) return ref;
+  const s = scoreMapById[id];
+  if (!s || s.status !== 'FINISHED' || s.home === null || s.away === null) return ref;
+  if (s.home > s.away) return winMatch ? s.homeName : s.awayName;
+  if (s.away > s.home) return winMatch ? s.awayName : s.homeName;
+  return ref;
+}
+
 function applyGroupWinners(teamsStr, id) {
   let s = teamsStr.replace(/\bWin ([A-L])\b/g, (m, letter) => groupWinners[letter]?.first  || m);
   s =          s.replace(/\b2nd ([A-L])\b/g,  (m, letter) => groupWinners[letter]?.second || m);
+  // Resolve Win M73 / Loss M73 style refs from finished knockout results
+  s = s.replace(/\b(Win|Loss) (M\d+)\b/g, (match) => resolveKnockoutRef(match));
   // If the API has already confirmed the teams for this match, use those names
   if (id && scoreMapById[id]) {
     const api = scoreMapById[id];
@@ -614,6 +635,8 @@ let scoreMapById = {};
 let matchDetails = {};
 // groupWinners: keyed by group letter -> {first, second}
 let groupWinners = {};
+// matchNumToId: keyed by match num (e.g. 'M73') -> ESPN match id
+let matchNumToId = {};
 let lastFetch = null;
 let lastMatches = [];
 
@@ -646,6 +669,7 @@ async function loadScores() {
       const key = home + '|' + away;
       scoreMap[key] = entry;
     });
+    buildMatchNumToId();
     // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
     if (Object.keys(prevScoreMap).length > 0) {
       const toasts = [];

@@ -655,9 +655,9 @@ function render(highlightTeam, data) {
 
 // ── THIRD PLACE TABLE ────────────────────────────────────────────────────────
 // Hardcoded status for teams mathematically confirmed before all groups finish
-const KNOWN_THIRD            = new Set(['Bosnia','Ecuador','Sweden','Paraguay','Senegal','Ghana','Congo DR']);
-const KNOWN_ELIMINATED_THIRD = new Set(['Uruguay','Scotland','Panama','South Korea','Uzbekistan']);
-const KNOWN_UNCERTAIN        = new Set(['Algeria','Iran']);
+const KNOWN_THIRD            = new Set(['Bosnia','Ecuador','Sweden','Paraguay','Senegal','Ghana','Congo DR','Algeria']);
+const KNOWN_ELIMINATED_THIRD = new Set(['Uruguay','Scotland','Panama','South Korea','Uzbekistan','Iran']);
+const KNOWN_UNCERTAIN        = new Set([]);
 
 function renderThirdPlace(groups, groupStats) {
   const thirds = [];
