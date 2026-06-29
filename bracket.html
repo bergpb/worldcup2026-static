@@ -182,7 +182,9 @@ const BASE = [
 
 let matches = BASE.map(m => ({...m}));
 const mnums = {};
+const mnumToId = {};
 let groupWinners = {};
+let matchDetails = {};
 
 function applyGroupWinnersBracket(phStr) {
   const winMatch = phStr.match(/^Win (?:Group )?([A-L])$/);
@@ -255,7 +257,8 @@ function mbox(m, off){
     <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${teamName(n)}">${teamName(n)}</span>
     ${sc!=null?`<span class="sc">${sc}${w&&suf?suf:''}</span>`:''}
   </div>`;
-  return `<div class="mb${fin?' fin':''}">
+  const hasEv = matchDetails[String(m.id)] && ['FINISHED','IN_PLAY','PAUSED'].includes(matchDetails[String(m.id)]?.status) && ((matchDetails[String(m.id)]?.goals||[]).length>0||(matchDetails[String(m.id)]?.bookings||[]).length>0);
+  return `<div class="mb${fin?' fin':''}${hasEv?' has-events':''}" data-mid="${m.id}" style="position:relative;">
     <div class="mbnum"><span>${num}</span><span class="mbt">${dt}</span></div>
     ${tr(h,hph,hw,fin?hg:null)}
     ${tr(a,aph,aw,fin?ag:null)}
@@ -278,7 +281,8 @@ function mobMatch(m, off){
     <span style="flex:1">${teamName(n)}</span>
     ${sc!=null?`<span class="sc">${sc}${w&&suf?`<span style="font-size:10px;color:#8A93B8;font-weight:600">${suf}</span>`:''}</span>`:''}
   </div>`;
-  return `<div class="mm${fin?' fin':''}">
+  const hasEv = matchDetails[String(m.id)] && ['FINISHED','IN_PLAY','PAUSED'].includes(matchDetails[String(m.id)]?.status) && ((matchDetails[String(m.id)]?.goals||[]).length>0||(matchDetails[String(m.id)]?.bookings||[]).length>0);
+  return `<div class="mm${fin?' fin':''}${hasEv?' has-events':''}" data-mid="${m.id}" style="position:relative;">
     <div class="mmh"><span class="mnum">${num}</span><span>${dt}</span></div>
     ${tr(h,hph,hw,fin?hg:null)}
     ${tr(a,aph,aw,fin?ag:null)}
@@ -290,7 +294,36 @@ function byStage(s){ return matches.filter(m=>m.stage===s).sort((a,b)=>new Date(
 function buildNums(){
   let n=73;
   ['LAST_32','LAST_16','QUARTER_FINALS','SEMI_FINALS','THIRD_PLACE','FINAL'].forEach(s=>{
-    byStage(s).forEach(m=>{ mnums[m.id]='M'+n++; });
+    byStage(s).forEach(m=>{ mnums[m.id]='M'+n; mnumToId['M'+n]=m.id; n++; });
+  });
+}
+
+function resolveWinner(mnum) {
+  const id = mnumToId[mnum];
+  if (!id) return null;
+  const m = matches.find(x => x.id === id);
+  if (!m || m.status !== 'FINISHED') return null;
+  const hg = m.score?.fullTime?.home;
+  const ag = m.score?.fullTime?.away;
+  if (hg === null || ag === null) return null;
+  if (hg > ag) return norm(m.homeTeam?.name) || null;
+  if (ag > hg) return norm(m.awayTeam?.name) || null;
+  return null;
+}
+
+function resolveKnockoutTeams() {
+  matches.forEach(m => {
+    if (!FEEDERS[m.id]) return;
+    if (m.homeTeam?.name && m.awayTeam?.name) return;
+    const [homeMnum, awayMnum] = FEEDERS[m.id];
+    if (!m.homeTeam?.name) {
+      const w = resolveWinner(homeMnum);
+      if (w) m.homeTeam = { name: w, shortName: w };
+    }
+    if (!m.awayTeam?.name) {
+      const w = resolveWinner(awayMnum);
+      if (w) m.awayTeam = { name: w, shortName: w };
+    }
   });
 }
 
@@ -515,6 +548,76 @@ document.getElementById('tz-select').addEventListener('change',()=>{
   render();
 });
 
+function buildEventCard(m){
+  const det = matchDetails[String(m.id)];
+  if (!det) return null;
+  if (!['FINISHED','IN_PLAY','PAUSED'].includes(det.status)) return null;
+  const hg = det.score?.fullTime?.home;
+  if (hg === null || hg === undefined) return null;
+  const homeName = det.homeTeam?.name || det.homeTeam?.shortName || m.homeTeam?.name || '';
+  const events = {home:[],away:[]};
+  (det.goals||[]).forEach(g => {
+    let side = g.team?.name === homeName ? 'home' : 'away';
+    let tag = '';
+    if (g.type==='OWN') { side = side==='home' ? 'away' : 'home'; tag=' (OG)'; }
+    else if (g.type==='PENALTY') tag = ' (pen)';
+    const assist = g.assist ? ` <span class="ev-assist">assist: ${g.assist.name}</span>` : '';
+    events[side].push({
+      sortMin: g.minute + (g.injuryTime ? g.injuryTime/100 : 0),
+      html: `<span class="ev-icon">&#9917;</span> <span class="ev-min">${g.minute}${g.injuryTime?'+'+g.injuryTime:''}'</span> <span class="ev-player ev-scorer">${g.scorer.name}${tag}</span>${assist}`
+    });
+  });
+  (det.bookings||[]).forEach(b => {
+    const side = b.team?.name === homeName ? 'home' : 'away';
+    const icon = b.card==='RED' ? '&#128997;' : '&#129000;';
+    events[side].push({
+      sortMin: b.minute,
+      html: `<span class="ev-icon">${icon}</span> <span class="ev-min">${b.minute}'</span> <span class="ev-player">${b.player.name}</span>`
+    });
+  });
+  events.home.sort((a,b) => a.sortMin - b.sortMin);
+  events.away.sort((a,b) => a.sortMin - b.sortMin);
+  if (!events.home.length && !events.away.length) return null;
+  const homeCol = events.home.length ? events.home.map(e=>`<div class="ev-row">${e.html}</div>`).join('') : '<div class="ev-empty">No events</div>';
+  const awayCol = events.away.length ? events.away.map(e=>`<div class="ev-row">${e.html}</div>`).join('') : '<div class="ev-empty">No events</div>';
+  return `<div class="event-card"><div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div></div>`;
+}
+
+(function(){
+  let activeCard = null;
+  function close(){ if(activeCard){ activeCard.remove(); activeCard=null; } }
+  function show(el){
+    close();
+    const id = parseInt(el.getAttribute('data-mid'));
+    if (!id) return;
+    const m = matches.find(x => x.id === id);
+    if (!m) return;
+    const html = buildEventCard(m);
+    if (!html) return;
+    el.insertAdjacentHTML('beforeend', html);
+    activeCard = el.querySelector('.event-card');
+  }
+  const touch = window.matchMedia('(hover: none)').matches;
+  document.addEventListener('mouseover', e => {
+    if (touch) return;
+    const el = e.target.closest('[data-mid]');
+    if (el && el !== (activeCard && activeCard.closest('[data-mid]'))) show(el);
+  });
+  document.addEventListener('mouseout', e => {
+    if (touch) return;
+    const el = e.target.closest('[data-mid]');
+    if (el && !el.contains(e.relatedTarget)) close();
+  });
+  document.addEventListener('click', e => {
+    if (!touch) return;
+    const el = e.target.closest('[data-mid]');
+    if (el) {
+      if (activeCard && activeCard.closest('[data-mid]') === el) close();
+      else show(el);
+    } else close();
+  });
+})();
+
 // Load data.json and merge over base
 async function load(){
   buildNums();
@@ -534,9 +637,15 @@ async function load(){
       BASE.forEach(m=>byId[m.id]={...m});
       ko.forEach(m=>{ if(byId[m.id]) byId[m.id]={...byId[m.id],homeTeam:m.homeTeam,awayTeam:m.awayTeam,score:m.score,status:m.status}; }); // utcDate kept from BASE not API
       matches=BASE.map(m=>byId[m.id]||m);
+      resolveKnockoutTeams();
     }
-    render(); // re-render to pick up group winners even if no live KO matches
+    render();
   }catch(e){ console.log('data.json:',e.message); }
+  try{
+    const dr=await fetch('match-details.json?t='+Date.now());
+    matchDetails=await dr.json();
+    render(); // re-render so has-events classes are applied
+  }catch(e){ matchDetails=matchDetails||{}; }
 }
 
 load();
