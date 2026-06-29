@@ -670,6 +670,28 @@ async function loadScores() {
       scoreMap[key] = entry;
     });
     buildMatchNumToId();
+    // Bridge hardcoded KNOCKOUT_MATCHES IDs to ESPN's actual IDs by matching date+time.
+    // ESPN reassigns match IDs for the knockout stage, so scoreMapById[hardcodedId] is always
+    // undefined without this. Build a utcDate key → ESPN match entry lookup, then patch
+    // scoreMapById with the hardcoded ID so applyGroupWinners can use API team names.
+    const koByUtc = {};
+    (data.matches || []).filter(m => m.stage !== 'GROUP_STAGE' && m.utcDate).forEach(m => {
+      koByUtc[m.utcDate.substring(0, 16)] = m;
+    });
+    KNOCKOUT_MATCHES.forEach(km => {
+      const utcH = Math.floor(km.utc);
+      const utcM = Math.round((km.utc % 1) * 60);
+      const utcKey = `${km.date}T${String(utcH).padStart(2,'0')}:${String(utcM).padStart(2,'0')}`;
+      const espn = koByUtc[utcKey];
+      if (!espn) return;
+      const home = normalise(espn.homeTeam?.shortName || espn.homeTeam?.name || '');
+      const away = normalise(espn.awayTeam?.shortName || espn.awayTeam?.name || '');
+      if (!home || !away) return;
+      const hg = espn.score?.fullTime?.home;
+      const ag = espn.score?.fullTime?.away;
+      scoreMapById[km.id] = { home: hg, away: ag, status: espn.status, id: km.id,
+        duration: espn.score?.duration, halfTime: espn.score?.halfTime, homeName: home, awayName: away };
+    });
     // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
     if (Object.keys(prevScoreMap).length > 0) {
       const toasts = [];
