@@ -480,7 +480,17 @@ body.hide-scores .score-vs-hidden { display: inline; color: var(--muted); }
   font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
   color: var(--text-muted); margin-left: 3px;
 }
-.score-label.live { color: #2ECC71; }
+.score-label.live {
+  font-size: 0;
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #2ECC71;
+  box-shadow: 0 0 5px #2ECC71;
+  flex-shrink: 0;
+  animation: pulse-score 1.5s ease-in-out infinite;
+  vertical-align: middle;
+}
 @keyframes pulse-score { 0%,100%{opacity:1} 50%{opacity:0.6} }
 body.print-mode .score-live, body.print-mode .score-ft { font-size: 10px; }
 
