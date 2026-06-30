@@ -538,6 +538,9 @@ body.print-mode .event-card { display: none; }
   padding: 3px 0;
 }
 .badge-aet { color: #A569BD; margin-left: 2px; }
+.ko-stage { font-family: 'Barlow Condensed', sans-serif; flex-shrink: 0; width: 80px; }
+.ko-round { font-weight: 700; font-size: 17px; }
+.ko-num   { font-weight: 400; font-size: 14px; }
 
 /* ── CHANGELOG MODAL ────────────────────────────────────────────────────── */
 #changelog-modal {
@@ -692,6 +695,8 @@ body.print-mode .event-card { display: none; }
 /* ── NARROW MOBILE: hide venue to prevent horizontal overflow ─────────────── */
 @media screen and (max-width: 430px) {
   body:not(.print-mode) .venue { display: none; }
+  .ko-stage { width: 50px; }
+  .ko-num   { display: none; }
 }
 
 /* ── PRINT MEDIA ─────────────────────────────────────────────────────────── */

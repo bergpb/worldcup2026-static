@@ -1126,7 +1126,10 @@ function render(offset, team) {
         const ko_pen = ko_mid ? matchDetails[String(ko_mid)]?.score?.penShootout : null;
         const koDurationBadge = (koScore?.cls === 'score-ft' && koScore.duration && koScore.duration !== 'REGULAR')
           ? ` <span class="score-label badge-aet">${koScore.duration === 'PENALTY_SHOOTOUT' ? (ko_pen ? `PEN ${ko_pen.home}–${ko_pen.away}` : 'PSO') : 'AET'}</span>` : '';
-        const koStatusStr = koScore?.label ? `<span class="score-label${koScore.cls==='score-live'?' live':''}">${koScore.label}${koScore.minute?' <span class="live-min">'+koScore.minute+'</span>':''}</span>${koDurationBadge}` : '';
+        const koIsPSO = koScore?.duration === 'PENALTY_SHOOTOUT';
+        const koStatusStr = koScore?.label && !koIsPSO
+          ? `<span class="score-label${koScore.cls==='score-live'?' live':''}">${koScore.label}${koScore.minute?' <span class="live-min">'+koScore.minute+'</span>':''}</span>${koDurationBadge}`
+          : (koIsPSO ? koDurationBadge : '');
         const koTeamsEl = koScore
           ? `<span class="${koScore.cls} score-inline">
               <span class="score-home${koHCls}">${flagImg(koHome)} ${teamName(koHome)}</span>
@@ -1136,7 +1139,7 @@ function render(offset, team) {
             </span>`
           : `<span class="teams">${teamsHtml(resolvedTeams)}</span>`;
         html += `<div class="match${cls}${hasEventData(resolvedTeams)?' has-events':''}" data-teams="${resolvedTeams}">
-          <span style="font-family:'Barlow Condensed',sans-serif;flex-shrink:0;width:80px;color:${koColors[m.grp]||'#7A82A8'}"><span style="font-weight:700;font-size:17px">${m.grp}</span> <span style="font-weight:400;font-size:14px">${m.num}</span></span>
+          <span class="ko-stage" style="color:${koColors[m.grp]||'#7A82A8'}"><span class="ko-round">${m.grp}</span> <span class="ko-num">${m.num}</span></span>
           <span class="time">${t}</span>
           ${koTeamsEl}
           <span class="venue">${m.venue}</span>
