@@ -97,7 +97,7 @@ def parse_event_clock(display_value):
     return (int(v) if v.isdigit() else None, None)
 
 
-def build_detail_entry(status, h_score, a_score, key_events):
+def build_detail_entry(status, h_score, a_score, key_events, pen_home=None, pen_away=None):
     """Build a match-details.json entry from raw ESPN keyEvents."""
     goals_out = []
     for e in key_events:
@@ -140,12 +140,15 @@ def build_detail_entry(status, h_score, a_score, key_events):
             "team": {"name": team_name},
         })
 
-    return {
+    out = {
         "status": status,
         "score": {"fullTime": {"home": h_score, "away": a_score}},
         "goals": goals_out,
         "bookings": bookings_out,
     }
+    if pen_home is not None and pen_away is not None:
+        out["score"]["penShootout"] = {"home": pen_home, "away": pen_away}
+    return out
 
 
 def normalize_date(d):
@@ -194,6 +197,7 @@ def fetch_summary(event_id):
     """
     Fetch match summary and return:
       ht_home, ht_away  — first-half scores (or None)
+      pen_home, pen_away — penalty shootout scores (or None)
       key_events        — all keyEvents (goals, own goals, cards)
     Uses cache for FINISHED matches.
     """
@@ -203,9 +207,11 @@ def fetch_summary(event_id):
     try:
         s = fetch(SUMMARY_URL + str(event_id))
 
-        # Half-time scores from header competitors linescores
+        # Scores from header competitors linescores:
+        # [1H, 2H, ET1, ET2, Pens] — indices 0=HT, -1=penalties when len>=5
         hcomps = s.get("header", {}).get("competitions", [{}])[0].get("competitors", [])
         ht_home = ht_away = None
+        pen_home = pen_away = None
         for hc in hcomps:
             ls = hc.get("linescores", [])
             if ls:
@@ -217,14 +223,24 @@ def fetch_summary(event_id):
                         ht_away = val
                 except ValueError:
                     pass
+                # Penalty shootout score is the last linescore when 5+ periods exist
+                if len(ls) >= 5:
+                    try:
+                        pval = int(ls[-1].get("displayValue", "0"))
+                        if hc.get("homeAway") == "home":
+                            pen_home = pval
+                        else:
+                            pen_away = pval
+                    except ValueError:
+                        pass
 
         key_events = s.get("keyEvents", [])
 
-        return ht_home, ht_away, key_events
+        return ht_home, ht_away, pen_home, pen_away, key_events
 
     except Exception as e:
         print(f"  warning: summary failed for {event_id}: {e}")
-        return None, None, []
+        return None, None, None, None, []
 
 
 def build_matches_and_scorers(events):
@@ -261,6 +277,7 @@ def build_matches_and_scorers(events):
 
         eid = int(event["id"])
         ht_home = ht_away = None
+        pen_home = pen_away = None
         key_events = []
 
         duration = DURATION_MAP.get(stype["name"], "REGULAR")
@@ -274,14 +291,16 @@ def build_matches_and_scorers(events):
             a_score    = saved["a_score"]
             ht_home    = saved["ht_home"]
             ht_away    = saved["ht_away"]
+            pen_home   = saved.get("pen_home")
+            pen_away   = saved.get("pen_away")
             key_events = saved["key_events"]
             duration   = saved["duration"]
             is_started = True
             print(f"  guard: kept {eid} as {status} (ESPN returned TIMED)")
         elif is_started:
-            ht_home, ht_away, key_events = fetch_summary(eid)
+            ht_home, ht_away, pen_home, pen_away, key_events = fetch_summary(eid)
             if status == "FINISHED":
-                _cache[eid] = (ht_home, ht_away, key_events)
+                _cache[eid] = (ht_home, ht_away, pen_home, pen_away, key_events)
                 # Preserve duration from live tracking (e.g. ET decided match)
                 if eid in _live_state:
                     duration = _live_state[eid]["duration"]
@@ -292,8 +311,9 @@ def build_matches_and_scorers(events):
         if status in ("IN_PLAY", "PAUSED"):
             _live_state[eid] = {
                 "status": status, "h_score": h_score, "a_score": a_score,
-                "ht_home": ht_home, "ht_away": ht_away, "key_events": key_events,
-                "duration": duration,
+                "ht_home": ht_home, "ht_away": ht_away,
+                "pen_home": pen_home, "pen_away": pen_away,
+                "key_events": key_events, "duration": duration,
             }
 
         # For finished matches seen in previous cycles, restore persisted duration
@@ -302,7 +322,7 @@ def build_matches_and_scorers(events):
 
         # Build event card detail entry for started matches
         if is_started:
-            match_details[str(eid)] = build_detail_entry(status, h_score, a_score, key_events)
+            match_details[str(eid)] = build_detail_entry(status, h_score, a_score, key_events, pen_home, pen_away)
 
         # Aggregate scorers (scoring plays only, own goals excluded)
         goals = [e for e in key_events if e.get("scoringPlay") and (e.get("type") or {}).get("type") != "own-goal"]

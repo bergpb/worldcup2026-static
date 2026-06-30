@@ -569,7 +569,7 @@ function buildEventCard(m){
   });
   (det.bookings||[]).forEach(b => {
     const side = b.team?.name === homeName ? 'home' : 'away';
-    const icon = b.card==='RED' ? '&#128997;' : '&#129000;';
+    const icon = b.card==='RED' ? '&#128997;' : b.card==='YELLOW_RED' ? '&#128999;' : '&#129000;';
     events[side].push({
       sortMin: b.minute,
       html: `<span class="ev-icon">${icon}</span> <span class="ev-min">${b.minute}'</span> <span class="ev-player">${b.player.name}</span>`
@@ -580,7 +580,9 @@ function buildEventCard(m){
   if (!events.home.length && !events.away.length) return null;
   const homeCol = events.home.length ? events.home.map(e=>`<div class="ev-row">${e.html}</div>`).join('') : '<div class="ev-empty">No events</div>';
   const awayCol = events.away.length ? events.away.map(e=>`<div class="ev-row">${e.html}</div>`).join('') : '<div class="ev-empty">No events</div>';
-  return `<div class="event-card"><div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div></div>`;
+  const pen = det.score?.penShootout;
+  const penRow = pen ? `<div class="ev-pen-row">PEN ${pen.home}–${pen.away}</div>` : '';
+  return `<div class="event-card"><div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div>${penRow}</div>`;
 }
 
 (function(){

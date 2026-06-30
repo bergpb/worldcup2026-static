@@ -358,7 +358,7 @@ body.print-mode .knockout-heading h2 { font-size: 12px; }
 .ko-match .grp { color: var(--text-muted); font-style: italic; width: auto; font-size: 8px; }
 
 /* ── DAY BLOCK ───────────────────────────────────────────────────────────── */
-.day { break-inside: avoid; }
+.day { break-inside: avoid; min-width: 0; }
 .day-header {
   display: flex; align-items: baseline; gap: 6px;
   border-bottom: 1px solid var(--border-day);
@@ -521,6 +521,12 @@ body.print-mode .event-card { display: none; }
   border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
   padding: 3px 0;
 }
+.ev-pen-row {
+  text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: #A569BD; text-transform: uppercase;
+  border-top: 1px solid var(--border);
+  padding: 3px 0;
+}
 .badge-aet { color: #A569BD; margin-left: 2px; }
 
 /* ── CHANGELOG MODAL ────────────────────────────────────────────────────── */
@@ -671,6 +677,11 @@ body.print-mode .event-card { display: none; }
   #next-match-card > span:first-child { width: 100% !important; text-align: center !important; order: 1; }
   #next-match-card > div { order: 2; width: 100% !important; justify-content: center !important; }
   #next-match-card > span#nm-venue { order: 3; width: 100% !important; text-align: center !important; }
+}
+
+/* ── NARROW MOBILE: hide venue to prevent horizontal overflow ─────────────── */
+@media screen and (max-width: 430px) {
+  body:not(.print-mode) .venue { display: none; }
 }
 
 /* ── PRINT MEDIA ─────────────────────────────────────────────────────────── */

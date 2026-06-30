@@ -808,7 +808,7 @@ function updateLiveCard(matches) {
         </div>
         <div style="text-align:center;white-space:nowrap;">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:#2ECC71;letter-spacing:1px;line-height:1.1;">${hg} – ${ag}</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:#2ECC71;opacity:0.75;letter-spacing:1px;line-height:1.1;">${minute}</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:#2ECC71;opacity:0.75;letter-spacing:1px;line-height:1.1;">${minute}${isPEN ? (() => { const ps = matchDetails[String(live.id)]?.score?.penShootout; return ps ? ` <span style="color:#A569BD;">${ps.home}–${ps.away}</span>` : ''; })() : ''}</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;justify-content:flex-start;flex:1;">
           <img src="${flagUrl(awayKey, 'w40')}" alt="${awayKey}" style="width:40px;height:28px;object-fit:contain;border-radius:2px;">
@@ -853,8 +853,8 @@ function getMatchId(teamsStr) {
   const parts = teamsStr.split(' v ');
   if (parts.length !== 2) return null;
   const DISPLAY_MAP = { 'Bosnia & Herz.': 'Bosnia' };
-  const home = DISPLAY_MAP[parts[0].trim()] || parts[0].trim();
-  const away = DISPLAY_MAP[parts[1].trim()] || parts[1].trim();
+  const home = normalise(DISPLAY_MAP[parts[0].trim()] || parts[0].trim());
+  const away = normalise(DISPLAY_MAP[parts[1].trim()] || parts[1].trim());
   const s = scoreMap[home + '|' + away];
   return s?.id ?? null;
 }
@@ -924,6 +924,9 @@ function buildEventCard(teamsStr) {
     ? evs.map(e => `<div class="ev-row">${e.html}</div>`).join('')
     : '<div class="ev-empty">–</div>';
 
+  const pen = det.score?.penShootout;
+  const penRow = pen ? `<div class="ev-pen-row">PEN ${pen.home}–${pen.away}</div>` : '';
+
   let bodyHtml;
   if (hasHT) {
     const home1 = events.home.filter(e => e.sortMin <= 45.99);
@@ -934,7 +937,7 @@ function buildEventCard(teamsStr) {
       ? `<div class="event-card-body"><div class="ev-col">${renderCol(home1)}</div><div class="ev-col">${renderCol(away1)}</div></div>` : '';
     const secHalf = (home2.length || away2.length)
       ? `<div class="event-card-body"><div class="ev-col">${renderCol(home2)}</div><div class="ev-col">${renderCol(away2)}</div></div>` : '';
-    bodyHtml = firstHalf + `<div class="ev-ht-row">HT ${ht.home}–${ht.away}</div>` + secHalf;
+    bodyHtml = firstHalf + `<div class="ev-ht-row">HT ${ht.home}–${ht.away}</div>` + secHalf + penRow;
   } else {
     const homeCol = events.home.length
       ? events.home.map(e => `<div class="ev-row">${e.html}</div>`).join('')
@@ -942,7 +945,7 @@ function buildEventCard(teamsStr) {
     const awayCol = events.away.length
       ? events.away.map(e => `<div class="ev-row">${e.html}</div>`).join('')
       : '<div class="ev-empty">No events</div>';
-    bodyHtml = `<div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div>`;
+    bodyHtml = `<div class="event-card-body"><div class="ev-col">${homeCol}</div><div class="ev-col">${awayCol}</div></div>` + penRow;
   }
 
   return `<div class="event-card">${bodyHtml}</div>`;
@@ -953,12 +956,19 @@ function positionEventCard(matchEl, card) {
   const refRect = (scoreEl || matchEl).getBoundingClientRect();
   const matchRect = matchEl.getBoundingClientRect();
   const cardWidth = card.offsetWidth;
+  const cardHeight = card.offsetHeight;
   const centerX = refRect.left + refRect.width / 2;
   let leftPx = (centerX - matchRect.left) - (cardWidth / 2);
   const margin = 8;
   leftPx = Math.max(margin - matchRect.left, Math.min((window.innerWidth - margin - cardWidth) - matchRect.left, leftPx));
   card.style.left = leftPx + 'px';
   card.style.transform = 'none';
+  // Flip above the row when the card would overflow the viewport bottom
+  const spaceBelow = window.innerHeight - matchRect.bottom;
+  if (cardHeight + 10 > spaceBelow && matchRect.top > cardHeight + 10) {
+    card.style.top = 'auto';
+    card.style.bottom = 'calc(100% + 6px)';
+  }
 }
 
 let DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1039,8 +1049,10 @@ function render(offset, team) {
         if (score.home > score.away) { hCls = ' team-winner'; aCls = ' team-loser'; }
         else { hCls = ' team-loser'; aCls = ' team-winner'; }
       }
+      const _mid = score?.cls === 'score-ft' && score.duration === 'PENALTY_SHOOTOUT' ? getMatchId(m.teams) : null;
+      const _pen = _mid ? matchDetails[String(_mid)]?.score?.penShootout : null;
       const durationBadge = (score?.cls === 'score-ft' && score.duration && score.duration !== 'REGULAR')
-        ? ` <span class="score-label badge-aet">${score.duration === 'PENALTY_SHOOTOUT' ? 'PSO' : 'AET'}</span>` : '';
+        ? ` <span class="score-label badge-aet">${score.duration === 'PENALTY_SHOOTOUT' ? (_pen ? `PEN ${_pen.home}–${_pen.away}` : 'PSO') : 'AET'}</span>` : '';
       const statusStr = score?.label ? `<span class="score-label${score.cls==='score-live'?' live':''}">${score.label}${score.minute?' <span class="live-min">'+score.minute+'</span>':''}</span>${durationBadge}` : '';
       const teamsEl = score
         ? `<span class="${score.cls} score-inline">
@@ -1101,11 +1113,32 @@ function render(offset, team) {
         const hiIdx = _highlightTeams.findIndex(t => t && t !== 'none' && m.teams.includes(t));
         const hi = hiIdx >= 0;
         const cls = hi ? ` highlighted hi-${hiIdx+1} ko-match` : ' ko-match';
-        const grpStyle = `style="color:var(--ko-${m.grp}, #7A82A8)"`;
-        html += `<div class="match${cls}${hasEventData(m.teams)?' has-events':''}" data-teams="${m.teams}">
+        const koScore = getScore(m.teams, m.id);
+        const resolvedTeams = applyGroupWinners(m.teams, m.id);
+        const koParts = resolvedTeams.split(' v ');
+        const koHome = koParts[0]?.trim() || '', koAway = koParts[1]?.trim() || '';
+        let koHCls = '', koACls = '';
+        if (koScore && koScore.cls === 'score-ft' && koScore.home !== koScore.away) {
+          if (koScore.home > koScore.away) { koHCls = ' team-winner'; koACls = ' team-loser'; }
+          else { koHCls = ' team-loser'; koACls = ' team-winner'; }
+        }
+        const ko_mid = koScore?.cls === 'score-ft' && koScore.duration === 'PENALTY_SHOOTOUT' ? getMatchId(resolvedTeams) : null;
+        const ko_pen = ko_mid ? matchDetails[String(ko_mid)]?.score?.penShootout : null;
+        const koDurationBadge = (koScore?.cls === 'score-ft' && koScore.duration && koScore.duration !== 'REGULAR')
+          ? ` <span class="score-label badge-aet">${koScore.duration === 'PENALTY_SHOOTOUT' ? (ko_pen ? `PEN ${ko_pen.home}–${ko_pen.away}` : 'PSO') : 'AET'}</span>` : '';
+        const koStatusStr = koScore?.label ? `<span class="score-label${koScore.cls==='score-live'?' live':''}">${koScore.label}${koScore.minute?' <span class="live-min">'+koScore.minute+'</span>':''}</span>${koDurationBadge}` : '';
+        const koTeamsEl = koScore
+          ? `<span class="${koScore.cls} score-inline">
+              <span class="score-home${koHCls}">${flagImg(koHome)} ${teamName(koHome)}</span>
+              <span class="score-nums"><span class="score-number">${koScore.home} - ${koScore.away}</span><span class="score-vs-hidden">v</span></span>
+              <span class="score-away${koACls}">${teamName(koAway)} ${flagImg(koAway)}</span>
+              ${koStatusStr}
+            </span>`
+          : `<span class="teams">${teamsHtml(resolvedTeams)}</span>`;
+        html += `<div class="match${cls}${hasEventData(resolvedTeams)?' has-events':''}" data-teams="${resolvedTeams}">
           <span style="font-family:'Barlow Condensed',sans-serif;flex-shrink:0;width:80px;color:${koColors[m.grp]||'#7A82A8'}"><span style="font-weight:700;font-size:17px">${m.grp}</span> <span style="font-weight:400;font-size:14px">${m.num}</span></span>
           <span class="time">${t}</span>
-          <span class="teams">${teamsHtml(applyGroupWinners(m.teams, m.id), getScore(m.teams, m.id))}</span>
+          ${koTeamsEl}
           <span class="venue">${m.venue}</span>
         </div>`;
       });
