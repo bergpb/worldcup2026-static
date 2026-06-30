@@ -606,9 +606,15 @@ function render(highlightTeam, data) {
       const isHi = hiIdx >= 0;
       const hiCls = isHi ? ` highlighted hi-${hiIdx+1}` : '';
 
-      const badge = badges[name];
-      const badgeColor = badge === '1' ? '#FFD700' : badge === 'Q' ? '#2ECC71' : badge === '2' ? '#5DADE2' : badge === 'E' ? '#E74C3C' : 'transparent';
-      const badgeHtml = badge ? `<span class="qual-badge" style="background:${badgeColor};" title="${badge==='1'?'Group winner clinched':badge==='Q'?'Qualified (top 2 guaranteed)':badge==='2'?'Runner-up clinched':'Eliminated'}">${badge}</span>` : '';
+      const badge = KNOWN_UNCERTAIN.has(name) ? '' :
+        (KNOWN_ELIMINATED_THIRD.has(name) ? 'E' :
+         KNOWN_THIRD.has(name) ? '3' :
+         KNOWN_FIRST.has(name) ? '1' :
+         KNOWN_QUALIFIED.has(name) ? 'Q' :
+         KNOWN_SECOND.has(name) ? '2' :
+         (badges[name] || ''));
+      const badgeColor = badge === '1' ? '#FFD700' : badge === 'Q' ? '#2ECC71' : badge === '2' ? '#5DADE2' : badge === '3' ? '#F39C12' : badge === 'E' ? '#E74C3C' : 'transparent';
+      const badgeHtml = badge ? `<span class="qual-badge" style="background:${badgeColor};" title="${badge==='1'?'Group winner clinched':badge==='Q'?'Qualified (top 2 guaranteed)':badge==='2'?'Runner-up clinched':badge==='3'?'Qualified as best 3rd place':'Eliminated'}">${badge}</span>` : '';
 
       rows += `<tr class="${hiCls}">
         <td class="stat" style="width:20px;padding-left:8px">${i+1}</td>
@@ -655,6 +661,9 @@ function render(highlightTeam, data) {
 
 // ── THIRD PLACE TABLE ────────────────────────────────────────────────────────
 // Hardcoded status for teams mathematically confirmed before all groups finish
+const KNOWN_FIRST            = new Set(['England','Colombia','Argentina']);
+const KNOWN_SECOND           = new Set(['Egypt','Croatia','Portugal','Austria']);
+const KNOWN_QUALIFIED        = new Set([]);
 const KNOWN_THIRD            = new Set(['Bosnia','Ecuador','Sweden','Paraguay','Senegal','Ghana','Congo DR','Algeria']);
 const KNOWN_ELIMINATED_THIRD = new Set(['Uruguay','Scotland','Panama','South Korea','Uzbekistan','Iran']);
 const KNOWN_UNCERTAIN        = new Set([]);

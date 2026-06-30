@@ -369,6 +369,7 @@ def build_matches_and_scorers(events):
                 "duration": duration,
                 "fullTime": {"home": h_score, "away": a_score},
                 "halfTime": {"home": ht_home, "away": ht_away},
+                "penalties": {"home": pen_home, "away": pen_away} if duration == "PENALTY_SHOOTOUT" and pen_home is not None else None,
             },
             "venue": city,
         })

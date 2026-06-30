@@ -511,6 +511,8 @@ body.print-mode .score-live, body.print-mode .score-ft { font-size: 10px; }
   overflow: hidden;
 }
 body.print-mode .event-card { display: none; }
+[data-side="left"]  .event-card { left: 100%; top: 0; margin-left: 6px; }
+[data-side="right"] .event-card { right: 100%; top: 0; left: auto; margin-right: 6px; }
 .event-card-body { display: flex; }
 .ev-col { flex: 1; padding: 8px 10px; min-width: 0; }
 .ev-col:first-child { border-right: 1px solid var(--border); }
@@ -872,8 +874,10 @@ body.print-mode .third-place-section { margin-top: 12px; }
 /* ── MATCH BOX ───────────────────────────────────────────────────────────── */
 .mb { background:var(--card); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin:2px 0; width:100%; }
 .mb.fin { border-color:var(--win); }
-.mbnum { font-size:11px; font-weight:700; color:var(--gold); padding:4px 7px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; gap:8px; }
-.mbnum .mbt { color:#8A93B8; font-weight:600; text-align:right; }
+.mb.live { border-color:#F39C12; }
+.mm.live { border-color:#F39C12; }
+.mbnum { font-size:11px; font-weight:700; color:var(--gold); padding:4px 7px; border-bottom:1px solid var(--border); display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
+.mbnum .mbt { color:#8A93B8; font-weight:600; white-space:nowrap; margin-left:auto; }
 .mbt2 { display:flex; align-items:center; gap:5px; padding:7px 7px; border-bottom:1px solid var(--border); font-size:14px; font-weight:600; min-height:32px; line-height:1.2; }
 .mbt2:last-of-type { border-bottom:none; }
 .mbt2.w { color:var(--win); background:rgba(46,204,113,.1); }

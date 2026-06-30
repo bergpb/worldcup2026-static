@@ -244,48 +244,74 @@ function scoreSuffix(m){
 function mbox(m, off){
   const {h,a,hph,aph}=teams(m);
   const fin=m.status==='FINISHED';
-  const hg=m.score?.fullTime?.home, ag=m.score?.fullTime?.away;
+  const live=m.status==='IN_PLAY'||m.status==='PAUSED';
+  const paused=m.status==='PAUSED';
   const winner=m.score?.winner;
+  const dur=m.score?.duration||'';
+  const isPSO=dur==='PENALTY_SHOOTOUT';
+  const isET=dur==='EXTRA_TIME';
+  const hg=isPSO||isET?m.score?.regularTime?.home:m.score?.fullTime?.home;
+  const ag=isPSO||isET?m.score?.regularTime?.away:m.score?.fullTime?.away;
+  const penH=isPSO?m.score?.penalties?.home:null;
+  const penA=isPSO?m.score?.penalties?.away:null;
   const hw=fin&&(winner==='HOME_TEAM'||(winner==null&&hg!=null&&hg>ag));
   const aw=fin&&(winner==='AWAY_TEAM'||(winner==null&&ag!=null&&ag>hg));
   const num=mnums[m.id]||'';
   const dt=fmt(m.utcDate,off);
-  const dur=m.score?.duration||'';
-  const suf=dur==='PENALTY_SHOOTOUT'?'p':dur==='EXTRA_TIME'?'aet':'';
+  const suf=isPSO?'p':isET?'aet':'';
   const tr=(n,ph,w,sc)=>`<div class="mbt2${w?' w':''}${ph?' ph':''}">
     ${!ph?flag(n):''}
     <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${teamName(n)}">${teamName(n)}</span>
     ${sc!=null?`<span class="sc">${sc}${w&&suf?suf:''}</span>`:''}
   </div>`;
+  const ftLabel=fin?(isPSO?'PSO':isET?'AET':'FT'):'';
+  const penStr=isPSO&&penH!=null?`(${penH}-${penA} pens)`:'';
+  const minLabel=live?(paused?'HT':m.minute?`${m.minute}${m.injuryTime?'+'+m.injuryTime:''}'`:'LIVE'):ftLabel;
+  const liveHtml=live
+    ?`<span class="live-dot"></span><span style="color:${paused?'var(--gold)':'#2ECC71'};font-size:10px;font-weight:700;margin-left:3px;">${minLabel}</span>`
+    :(fin?`<span style="color:var(--text-muted);font-size:10px;font-weight:700;">${ftLabel} ${penStr}</span>`:'');
   const hasEv = matchDetails[String(m.id)] && ['FINISHED','IN_PLAY','PAUSED'].includes(matchDetails[String(m.id)]?.status) && ((matchDetails[String(m.id)]?.goals||[]).length>0||(matchDetails[String(m.id)]?.bookings||[]).length>0);
-  return `<div class="mb${fin?' fin':''}${hasEv?' has-events':''}" data-mid="${m.id}" style="position:relative;">
-    <div class="mbnum"><span>${num}</span><span class="mbt">${dt}</span></div>
-    ${tr(h,hph,hw,fin?hg:null)}
-    ${tr(a,aph,aw,fin?ag:null)}
+  return `<div class="mb${fin?' fin':''}${live?' live':''}${hasEv?' has-events':''}" data-mid="${m.id}" style="position:relative;">
+    <div class="mbnum"><span>${num}${liveHtml}</span><span class="mbt">${dt}</span></div>
+    ${tr(h,hph,hw,(fin||live)?hg:null)}
+    ${tr(a,aph,aw,(fin||live)?ag:null)}
   </div>`;
 }
 
 function mobMatch(m, off){
   const {h,a,hph,aph}=teams(m);
   const fin=m.status==='FINISHED';
-  const hg=m.score?.fullTime?.home, ag=m.score?.fullTime?.away;
+  const live=m.status==='IN_PLAY'||m.status==='PAUSED';
+  const paused=m.status==='PAUSED';
   const winner=m.score?.winner;
+  const dur=m.score?.duration||'';
+  const isPSO=dur==='PENALTY_SHOOTOUT';
+  const isET=dur==='EXTRA_TIME';
+  const hg=isPSO||isET?m.score?.regularTime?.home:m.score?.fullTime?.home;
+  const ag=isPSO||isET?m.score?.regularTime?.away:m.score?.fullTime?.away;
+  const penH=isPSO?m.score?.penalties?.home:null;
+  const penA=isPSO?m.score?.penalties?.away:null;
   const hw=fin&&(winner==='HOME_TEAM'||(winner==null&&hg!=null&&hg>ag));
   const aw=fin&&(winner==='AWAY_TEAM'||(winner==null&&ag!=null&&ag>hg));
   const num=mnums[m.id]||'';
   const dt=fmt(m.utcDate,off);
-  const dur=m.score?.duration||'';
-  const suf=dur==='PENALTY_SHOOTOUT'?'p':dur==='EXTRA_TIME'?'aet':'';
+  const suf=isPSO?'p':isET?'aet':'';
   const tr=(n,ph,w,sc)=>`<div class="mmt${w?' w':''}${ph?' ph':''}">
     ${!ph?flag(n):''}
     <span style="flex:1">${teamName(n)}</span>
     ${sc!=null?`<span class="sc">${sc}${w&&suf?`<span style="font-size:10px;color:#8A93B8;font-weight:600">${suf}</span>`:''}</span>`:''}
   </div>`;
+  const ftLabel=fin?(isPSO?'PSO':isET?'AET':'FT'):'';
+  const penStr=isPSO&&penH!=null?`(${penH}-${penA} pens)`:'';
+  const minLabel=live?(paused?'HT':m.minute?`${m.minute}${m.injuryTime?'+'+m.injuryTime:''}'`:'LIVE'):ftLabel;
+  const liveHtml=live
+    ?`<span class="live-dot"></span><span style="color:${paused?'var(--gold)':'#2ECC71'};font-size:10px;font-weight:700;margin-left:3px;">${minLabel}</span>`
+    :(fin?`<span style="color:var(--text-muted);font-size:10px;font-weight:700;">${ftLabel} ${penStr}</span>`:'');
   const hasEv = matchDetails[String(m.id)] && ['FINISHED','IN_PLAY','PAUSED'].includes(matchDetails[String(m.id)]?.status) && ((matchDetails[String(m.id)]?.goals||[]).length>0||(matchDetails[String(m.id)]?.bookings||[]).length>0);
-  return `<div class="mm${fin?' fin':''}${hasEv?' has-events':''}" data-mid="${m.id}" style="position:relative;">
-    <div class="mmh"><span class="mnum">${num}</span><span>${dt}</span></div>
-    ${tr(h,hph,hw,fin?hg:null)}
-    ${tr(a,aph,aw,fin?ag:null)}
+  return `<div class="mm${fin?' fin':''}${live?' live':''}${hasEv?' has-events':''}" data-mid="${m.id}" style="position:relative;">
+    <div class="mmh"><span class="mnum">${num}${liveHtml}</span><span>${dt}</span></div>
+    ${tr(h,hph,hw,(fin||live)?hg:null)}
+    ${tr(a,aph,aw,(fin||live)?ag:null)}
   </div>`;
 }
 
@@ -303,11 +329,15 @@ function resolveWinner(mnum) {
   if (!id) return null;
   const m = matches.find(x => x.id === id);
   if (!m || m.status !== 'FINISHED') return null;
+  // API winner field handles AET and PSO correctly
+  if (m.score?.winner === 'HOME_TEAM') return norm(m.homeTeam?.shortName || m.homeTeam?.name) || null;
+  if (m.score?.winner === 'AWAY_TEAM') return norm(m.awayTeam?.shortName || m.awayTeam?.name) || null;
+  // Fallback: compare fullTime goals
   const hg = m.score?.fullTime?.home;
   const ag = m.score?.fullTime?.away;
   if (hg === null || ag === null) return null;
-  if (hg > ag) return norm(m.homeTeam?.name) || null;
-  if (ag > hg) return norm(m.awayTeam?.name) || null;
+  if (hg > ag) return norm(m.homeTeam?.shortName || m.homeTeam?.name) || null;
+  if (ag > hg) return norm(m.awayTeam?.shortName || m.awayTeam?.name) || null;
   return null;
 }
 
@@ -376,7 +406,7 @@ function render(){
   const qfR=[mById(537385),mById(537386)].filter(Boolean); // M99,M100
 
   // Desktop - split left/right
-  const col=(ms,lbl)=>`<div class="bcol">
+  const col=(ms,lbl,side='left')=>`<div class="bcol" data-side="${side}">
     <div class="blbl">${lbl}</div>
     <div class="bmatches">${ms.map(m=>mbox(m,off)).join('')}</div>
   </div>`;
@@ -396,15 +426,15 @@ function render(){
   </div>`;
 
   document.getElementById('bdesk').innerHTML =
-    col(r32L,t('col_r32')) +
-    col(r16L,t('col_r16')) +
-    col(qfL,t('col_qf')) +
-    col(sf.slice(0,1),t('col_sf')) +
+    col(r32L,t('col_r32'),'left') +
+    col(r16L,t('col_r16'),'left') +
+    col(qfL,t('col_qf'),'left') +
+    col(sf.slice(0,1),t('col_sf'),'left') +
     fcol +
-    col(sf.slice(1),t('col_sf')) +
-    col(qfR,t('col_qf')) +
-    col(r16R,t('col_r16')) +
-    col(r32R,t('col_r32'));
+    col(sf.slice(1),t('col_sf'),'right') +
+    col(qfR,t('col_qf'),'right') +
+    col(r16R,t('col_r16'),'right') +
+    col(r32R,t('col_r32'),'right');
 
   // Mobile
   // R32 - render as pairs that feed same R16 match
@@ -634,11 +664,15 @@ async function load(){
     const d=await r.json();
     const ko=d.matches.filter(m=>m.stage!=='GROUP_STAGE');
     if(ko.length>0){
-      // Merge: API data wins, but keep base for any missing
-      const byId={};
-      BASE.forEach(m=>byId[m.id]={...m});
-      ko.forEach(m=>{ if(byId[m.id]) byId[m.id]={...byId[m.id],homeTeam:m.homeTeam,awayTeam:m.awayTeam,score:m.score,status:m.status}; }); // utcDate kept from BASE not API
-      matches=BASE.map(m=>byId[m.id]||m);
+      // ESPN reassigns IDs for knockout stage — bridge by utcDate (first 16 chars = date+hour+minute)
+      const byUtc={};
+      ko.forEach(m=>{ if(m.utcDate) byUtc[m.utcDate.substring(0,16)]=m; });
+      matches=BASE.map(m=>{
+        const key=m.utcDate.substring(0,16);
+        const api=byUtc[key];
+        if(!api) return m;
+        return {...m, homeTeam:api.homeTeam, awayTeam:api.awayTeam, score:api.score, status:api.status};
+      });
       resolveKnockoutTeams();
     }
     render();
