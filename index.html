@@ -318,7 +318,7 @@ const KNOCKOUT_MATCHES = [
   { grp:'R32', num:'M75', id:537418, utc:1,    date:'2026-06-30', teams:'Win F v 2nd C',         venue:'Monterrey'     },
   { grp:'R32', num:'M78', id:537424, utc:17,   date:'2026-06-30', teams:'2nd E v 2nd I',         venue:'Dallas'        },
   { grp:'R32', num:'M77', id:537416, utc:21,   date:'2026-06-30', teams:'Win I v 3rd C/D/F/G/H', venue:'New York/NJ'   },
-  { grp:'R32', num:'M79', id:537425, utc:1,    date:'2026-07-01', teams:'Win A v 3rd C/E/F/H/I', venue:'Mexico City'   },
+  { grp:'R32', num:'M79', id:537425, utc:2,    date:'2026-07-01', teams:'Win A v 3rd C/E/F/H/I', venue:'Mexico City'   },
   { grp:'R32', num:'M80', id:537426, utc:16,   date:'2026-07-01', teams:'Win L v 3rd E/H/I/J/K', venue:'Atlanta'       },
   { grp:'R32', num:'M82', id:537422, utc:20,   date:'2026-07-01', teams:'Win G v 3rd A/E/H/I/J', venue:'Seattle'       },
   { grp:'R32', num:'M81', id:537421, utc:0,    date:'2026-07-02', teams:'Win D v 3rd B/E/F/I/J', venue:'San Francisco' },
@@ -672,17 +672,22 @@ async function loadScores() {
     buildMatchNumToId();
     // Bridge hardcoded KNOCKOUT_MATCHES IDs to ESPN's actual IDs by matching date+time.
     // ESPN reassigns match IDs for the knockout stage, so scoreMapById[hardcodedId] is always
-    // undefined without this. Build a utcDate key → ESPN match entry lookup, then patch
-    // scoreMapById with the hardcoded ID so applyGroupWinners can use API team names.
-    const koByUtc = {};
+    // undefined without this. Group ESPN knockout matches by date, then pick the closest
+    // kickoff time within ±4 hours — tolerates postponements without breaking resolution.
+    // (Same-day knockout matches are always 3+ hours apart so there's no ambiguity.)
+    const koByDate = {};
     (data.matches || []).filter(m => m.stage !== 'GROUP_STAGE' && m.utcDate).forEach(m => {
-      koByUtc[m.utcDate.substring(0, 16)] = m;
+      const dateKey = m.utcDate.substring(0, 10);
+      (koByDate[dateKey] = koByDate[dateKey] || []).push(m);
     });
     KNOCKOUT_MATCHES.forEach(km => {
-      const utcH = Math.floor(km.utc);
-      const utcM = Math.round((km.utc % 1) * 60);
-      const utcKey = `${km.date}T${String(utcH).padStart(2,'0')}:${String(utcM).padStart(2,'0')}`;
-      const espn = koByUtc[utcKey];
+      const candidates = koByDate[km.date] || [];
+      let espn = null, bestDiff = 4;
+      candidates.forEach(m => {
+        const espnH = parseInt(m.utcDate.substring(11, 13)) + parseInt(m.utcDate.substring(14, 16)) / 60;
+        const diff = Math.abs(espnH - km.utc);
+        if (diff < bestDiff) { bestDiff = diff; espn = m; }
+      });
       if (!espn) return;
       const home = normalise(espn.homeTeam?.shortName || espn.homeTeam?.name || '');
       const away = normalise(espn.awayTeam?.shortName || espn.awayTeam?.name || '');
@@ -1100,7 +1105,7 @@ function render(offset, team) {
       // If group filter is a group stage letter, skip knockout stage
       if (groupFilter !== 'all' && !koRounds.includes(groupFilter)) return;
       let koFiltered = cityFilter === 'all' ? koBuckets[k] : koBuckets[k].filter(m => m.venue === cityFilter);
-      if (teamFilter !== 'all') koFiltered = koFiltered.filter(m => m.teams.includes(teamFilter));
+      if (teamFilter !== 'all') koFiltered = koFiltered.filter(m => applyGroupWinners(m.teams, m.id).includes(teamFilter));
       if (hideFinished) koFiltered = koFiltered.filter(m => { const sc = getScore(m.teams, m.id); return !sc || sc.cls !== 'score-ft'; });
       if (groupFilter !== 'all' && koRounds.includes(groupFilter)) koFiltered = koFiltered.filter(m => m.grp === groupFilter);
       if (koFiltered.length === 0) return;
@@ -1110,11 +1115,11 @@ function render(offset, team) {
       let html = `<div class="day-header"><span class="day-name">${hdr.name}</span><span class="day-date">${hdr.date}</span></div>`;
       koFiltered.forEach(m => {
         const t  = formatTime(m.utc + offset);
-        const hiIdx = _highlightTeams.findIndex(t => t && t !== 'none' && m.teams.includes(t));
+        const resolvedTeams = applyGroupWinners(m.teams, m.id);
+        const hiIdx = _highlightTeams.findIndex(t => t && t !== 'none' && resolvedTeams.includes(t));
         const hi = hiIdx >= 0;
         const cls = hi ? ` highlighted hi-${hiIdx+1} ko-match` : ' ko-match';
         const koScore = getScore(m.teams, m.id);
-        const resolvedTeams = applyGroupWinners(m.teams, m.id);
         const koParts = resolvedTeams.split(' v ');
         const koHome = koParts[0]?.trim() || '', koAway = koParts[1]?.trim() || '';
         let koHCls = '', koACls = '';

@@ -164,7 +164,7 @@ const BASE = [
   {id:537417,stage:'LAST_32',utcDate:'2026-06-28T19:00:00Z'},{id:537423,stage:'LAST_32',utcDate:'2026-06-29T17:00:00Z'},
   {id:537415,stage:'LAST_32',utcDate:'2026-06-29T20:30:00Z'},{id:537418,stage:'LAST_32',utcDate:'2026-06-30T01:00:00Z'},
   {id:537424,stage:'LAST_32',utcDate:'2026-06-30T17:00:00Z'},{id:537416,stage:'LAST_32',utcDate:'2026-06-30T21:00:00Z'},
-  {id:537425,stage:'LAST_32',utcDate:'2026-07-01T01:00:00Z'},{id:537426,stage:'LAST_32',utcDate:'2026-07-01T16:00:00Z'},
+  {id:537425,stage:'LAST_32',utcDate:'2026-07-01T02:00:00Z'},{id:537426,stage:'LAST_32',utcDate:'2026-07-01T16:00:00Z'},
   {id:537422,stage:'LAST_32',utcDate:'2026-07-01T20:00:00Z'},{id:537421,stage:'LAST_32',utcDate:'2026-07-02T00:00:00Z'},
   {id:537420,stage:'LAST_32',utcDate:'2026-07-02T19:00:00Z'},{id:537419,stage:'LAST_32',utcDate:'2026-07-02T23:00:00Z'},
   {id:537429,stage:'LAST_32',utcDate:'2026-07-03T03:00:00Z'},{id:537428,stage:'LAST_32',utcDate:'2026-07-03T18:00:00Z'},
@@ -664,12 +664,16 @@ async function load(){
     const d=await r.json();
     const ko=d.matches.filter(m=>m.stage!=='GROUP_STAGE');
     if(ko.length>0){
-      // ESPN reassigns IDs for knockout stage — bridge by utcDate (first 16 chars = date+hour+minute)
-      const byUtc={};
-      ko.forEach(m=>{ if(m.utcDate) byUtc[m.utcDate.substring(0,16)]=m; });
+      // ESPN reassigns IDs for knockout stage — bridge by date + closest kickoff time (±4h).
+      // Tolerates postponements: same-day matches are always 3+ hours apart so no ambiguity.
+      const byDate={};
+      ko.forEach(m=>{ if(m.utcDate){ const d=m.utcDate.substring(0,10); (byDate[d]=byDate[d]||[]).push(m); } });
       matches=BASE.map(m=>{
-        const key=m.utcDate.substring(0,16);
-        const api=byUtc[key];
+        const date=m.utcDate.substring(0,10);
+        const baseH=parseInt(m.utcDate.substring(11,13))+parseInt(m.utcDate.substring(14,16))/60;
+        const candidates=byDate[date]||[];
+        let api=null,bestDiff=4;
+        candidates.forEach(c=>{ const h=parseInt(c.utcDate.substring(11,13))+parseInt(c.utcDate.substring(14,16))/60; const diff=Math.abs(h-baseH); if(diff<bestDiff){bestDiff=diff;api=c;} });
         if(!api) return m;
         return {...m, homeTeam:api.homeTeam, awayTeam:api.awayTeam, score:api.score, status:api.status};
       });
