@@ -104,24 +104,7 @@ function applyLang() {
   if (bf) bf.textContent = t('bracket_footer');
 }
 
-const NAME_MAP = {
-  'Korea Republic':'South Korea','United States':'USA',
-  'Bosnia-H.':'Bosnia','Bosnia-Herzegovina':'Bosnia',
-  'Curaçao':'Curacao','Turkey':'Turkiye','Türkiye':'Turkiye',
-  'Bosnia-Herz':'Bosnia','Cape Verde Islands':'Cape Verde'
-};
-const FLAGS = {
-  'Algeria':'dz','Argentina':'ar','Australia':'au','Austria':'at','Belgium':'be',
-  'Bosnia':'ba','Brazil':'br','Canada':'ca','Cape Verde':'cv','Colombia':'co',
-  'Congo DR':'cd','Croatia':'hr','Curacao':'cw','Czechia':'cz','Ecuador':'ec',
-  'Egypt':'eg','England':'gb-eng','France':'fr','Germany':'de','Ghana':'gh',
-  'Haiti':'ht','Iran':'ir','Iraq':'iq','Ivory Coast':'ci','Japan':'jp',
-  'Jordan':'jo','Mexico':'mx','Morocco':'ma','Netherlands':'nl','New Zealand':'nz',
-  'Norway':'no','Panama':'pa','Paraguay':'py','Portugal':'pt','Qatar':'qa',
-  'Saudi Arabia':'sa','Scotland':'gb-sct','Senegal':'sn','South Africa':'za',
-  'South Korea':'kr','Spain':'es','Sweden':'se','Switzerland':'ch','Tunisia':'tn',
-  'Turkiye':'tr','Uruguay':'uy','USA':'us','Uzbekistan':'uz'
-};
+// NAME_MAP / FLAGS are shared from _partials/common.js (as API_NAME_MAP / FLAGS)
 const FEEDERS = {
   537376:['M74','M77'],537375:['M73','M75'],537377:['M76','M78'],537378:['M79','M80'],
   537379:['M83','M84'],537380:['M81','M82'],537381:['M86','M88'],537382:['M85','M87'],
@@ -194,7 +177,7 @@ function applyGroupWinnersBracket(phStr) {
   return phStr;
 }
 
-function norm(n){ return n ? (NAME_MAP[n]||n) : null; }
+function norm(n){ return n ? normalise(n) : null; }
 function flag(t){
   if(!t) return '';
   const c=FLAGS[t]||FLAGS[norm(t)];

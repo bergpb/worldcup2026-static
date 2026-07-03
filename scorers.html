@@ -90,19 +90,7 @@ function applyLang() {
 }
 
 // ── Scorers ───────────────────────────────────────────────────────────────────
-const FLAGS = {
-  'Algeria':'dz','Argentina':'ar','Australia':'au','Austria':'at','Belgium':'be',
-  'Bosnia-H.':'ba','Bosnia':'ba','Bosnia-Herzegovina':'ba','Brazil':'br','Canada':'ca',
-  'Cape Verde':'cv','Colombia':'co','Congo DR':'cd','Croatia':'hr','Curacao':'cw','Curaçao':'cw',
-  'Czechia':'cz','Ecuador':'ec','Egypt':'eg','England':'gb-eng','France':'fr',
-  'Germany':'de','Ghana':'gh','Haiti':'ht','Iran':'ir','Iraq':'iq','Ivory Coast':'ci',
-  'Japan':'jp','Jordan':'jo','Mexico':'mx','Morocco':'ma','Netherlands':'nl',
-  'New Zealand':'nz','Norway':'no','Panama':'pa','Paraguay':'py','Portugal':'pt',
-  'Qatar':'qa','Saudi Arabia':'sa','Scotland':'gb-sct','Senegal':'sn',
-  'South Africa':'za','Korea Republic':'kr','South Korea':'kr','Spain':'es',
-  'Sweden':'se','Switzerland':'ch','Tunisia':'tn','Turkey':'tr','Turkiye':'tr',
-  'USA':'us','United States':'us','Uruguay':'uy','Uzbekistan':'uz',
-};
+// FLAGS is shared from _partials/common.js
 
 function flagImg(shortName) {
   const code = FLAGS[shortName];

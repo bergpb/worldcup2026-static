@@ -201,34 +201,7 @@ const GROUP_COLORS = {
   I:'#FF7043', J:'#26C6DA', K:'#9CCC65', L:'#FFA726',
 };
 
-// API name -> our display name mapping
-const API_NAME_MAP = {
-  'Korea Republic':'South Korea','United States':'USA',
-  'Bosnia-H.':'Bosnia','Bosnia-Herzegovina':'Bosnia','Bosnia & Herz.':'Bosnia',
-  'Curaçao':'Curacao','Turkey':'Turkiye','Türkiye':'Turkiye',
-  'Bosnia-Herz':'Bosnia',
-  'Cape Verde Islands':'Cape Verde',
-};
-
-function normalise(name) {
-  return API_NAME_MAP[name] || name;
-}
-
-const FLAGS = {
-  'Algeria':'dz','Argentina':'ar','Australia':'au','Austria':'at',
-  'Belgium':'be','Bosnia':'ba','Brazil':'br','Canada':'ca',
-  'Cape Verde':'cv','Colombia':'co','Congo DR':'cd','Croatia':'hr',
-  'Curacao':'cw','Czechia':'cz','Ecuador':'ec','Egypt':'eg',
-  'England':'gb-eng','France':'fr','Germany':'de','Ghana':'gh',
-  'Haiti':'ht','Iran':'ir','Iraq':'iq','Ivory Coast':'ci',
-  'Japan':'jp','Jordan':'jo','Mexico':'mx','Morocco':'ma',
-  'Netherlands':'nl','New Zealand':'nz','Norway':'no','Panama':'pa',
-  'Paraguay':'py','Portugal':'pt','Qatar':'qa','Saudi Arabia':'sa',
-  'Scotland':'gb-sct','Senegal':'sn','South Africa':'za',
-  'South Korea':'kr','Spain':'es','Sweden':'se','Switzerland':'ch',
-  'Tunisia':'tn','Turkiye':'tr','Uruguay':'uy','USA':'us',
-  'Uzbekistan':'uz',
-};
+// API_NAME_MAP, normalise(), and FLAGS are shared from _partials/common.js
 
 function flagImg(team) {
   const code = FLAGS[team];

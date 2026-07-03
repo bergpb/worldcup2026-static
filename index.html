@@ -570,21 +570,7 @@ function applyLang() {
   if (Array.isArray(m)) MONTHS.splice(0, 12, ...m);
 }
 
-// ISO 3166-1 alpha-2 codes for flagcdn.com
-const FLAGS = {
-  'Algeria':'dz','Argentina':'ar','Australia':'au','Austria':'at',
-  'Belgium':'be','Bosnia':'ba','Bosnia & Herz.':'ba','Brazil':'br',
-  'Canada':'ca','Cape Verde':'cv','Colombia':'co','Congo DR':'cd',
-  'Croatia':'hr','Curacao':'cw','Czechia':'cz','Ecuador':'ec',
-  'Egypt':'eg','England':'gb-eng','France':'fr','Germany':'de',
-  'Ghana':'gh','Haiti':'ht','Iran':'ir','Iraq':'iq',
-  'Ivory Coast':'ci','Japan':'jp','Jordan':'jo','Mexico':'mx',
-  'Morocco':'ma','Netherlands':'nl','New Zealand':'nz','Norway':'no',
-  'Panama':'pa','Paraguay':'py','Portugal':'pt','Qatar':'qa',
-  'Saudi Arabia':'sa','Scotland':'gb-sct','Senegal':'sn',
-  'South Africa':'za','South Korea':'kr','S. Korea':'kr',  'Spain':'es','Sweden':'se','Switzerland':'ch','Tunisia':'tn',
-  'Turkiye':'tr','Uruguay':'uy','USA':'us','Uzbekistan':'uz',
-};
+// FLAGS map is shared from _partials/common.js
 
 function flagImg(team) {
   const code = FLAGS[team];
@@ -613,19 +599,7 @@ function teamsHtml(teamsStr, score) {
 
 
 // ── LIVE SCORES FROM data.json ────────────────────────────────────────────────
-// Maps API shortName/name values to our display names in MATCHES array
-const API_NAME_MAP = {
-  'Korea Republic':'South Korea', 'United States':'USA',
-  'Bosnia-H.':'Bosnia','Bosnia-Herzegovina':'Bosnia','Bosnia & Herz.':'Bosnia',
-  'Curaçao':'Curacao', 'Turkey':'Turkiye', 'Türkiye':'Turkiye',
-  'Bosnia-Herz':'Bosnia',
-  'Cape Verde Islands':'Cape Verde', 'Cape Verde':'Cape Verde',
-  'Congo DR':'Congo DR', 'Ivory Coast':'Ivory Coast',
-};
-
-function normalise(name) {
-  return API_NAME_MAP[name] || name;
-}
+// API_NAME_MAP / normalise() are shared from _partials/common.js
 
 // scoreMap: keyed by "HomeTeam|AwayTeam" -> {home, away, status, id}
 let scoreMap = {};
