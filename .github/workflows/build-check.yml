@@ -1,0 +1,40 @@
+name: Build Check
+
+on:
+  push:
+    branches: [personal]
+  pull_request:
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run build
+        run: python3 build.py
+
+      - name: Verify source files have empty partial markers
+        run: |
+          python3 -c "
+          import re, sys
+          pages = ['index.html', 'groups.html', 'bracket.html', 'scorers.html']
+          stale = False
+          for page in pages:
+              with open(page, encoding='utf-8') as f:
+                  html = f.read()
+              for m in re.finditer(r'<!-- partial:(\w+) -->(.*?)<!-- /partial:\1 -->', html, re.S):
+                  if m.group(2).strip():
+                      print(f'✗ {page} has populated marker \"{m.group(1)}\" — run python3 build.py --strip before committing')
+                      stale = True
+          if stale:
+              sys.exit(1)
+          print('✓ all partial markers are empty')
+          "
