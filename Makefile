@@ -5,7 +5,7 @@ DEV_NGINX   = worldcup2026-static-dev-1
 BUILD_TS    = $(shell date +%Y%m%d%H%M%S)
 BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
-.PHONY: build check deploy sync up down logs fetcher-stop fetcher-start patch-ht patch-live restore
+.PHONY: build check test install-hooks deploy sync up down logs fetcher-stop fetcher-start patch-ht patch-live restore
 
 ## Assemble partials into all pages
 build:
@@ -14,6 +14,16 @@ build:
 ## Verify pages are up-to-date with partials (exits non-zero if stale)
 check:
 	python3 build.py --check
+
+## Run JS + Python unit tests
+test:
+	npm test
+	python3 -m unittest discover -s tests
+
+## Point git at the checked-in hooks (run once per clone)
+install-hooks:
+	git config core.hooksPath .githooks
+	@echo "pre-commit hook installed — runs build + tests before every commit"
 
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
 deploy: build
