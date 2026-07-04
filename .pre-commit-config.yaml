@@ -1,0 +1,26 @@
+repos:
+  - repo: local
+    hooks:
+      - id: build-check
+        name: build check
+        entry: python3 build.py
+        language: system
+        pass_filenames: false
+
+      - id: empty-markers
+        name: partial markers must stay empty in committed source
+        entry: python3 scripts/check_empty_markers.py
+        language: system
+        pass_filenames: false
+
+      - id: js-tests
+        name: JS unit tests
+        entry: npm test --silent
+        language: system
+        pass_filenames: false
+
+      - id: python-tests
+        name: Python unit tests
+        entry: python3 -m unittest discover -s tests
+        language: system
+        pass_filenames: false

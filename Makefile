@@ -20,9 +20,9 @@ test:
 	npm test
 	python3 -m unittest discover -s tests
 
-## Point git at the checked-in hooks (run once per clone)
+## Install the pre-commit hook (run once per clone; requires `pip install pre-commit`)
 install-hooks:
-	git config core.hooksPath .githooks
+	pre-commit install
 	@echo "pre-commit hook installed — runs build + tests before every commit"
 
 ## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)

@@ -77,7 +77,9 @@ python3 build.py --strip   # empty all markers in source files (run before commi
 ```bash
 make build         # assemble partials → dist/
 make check         # verify dist/ is up-to-date (exits non-zero if stale)
-make deploy        # build + rsync to swarm + rebuild prod container + force-recreate all (fetcher included)
+make test          # run JS (npm test) + Python (unittest) test suites
+make install-hooks # install the pre-commit git hook (run once per clone)
+make deploy        # build + rsync to $(PROD_HOST) + rebuild prod container + force-recreate all (fetcher included)
 make sync          # rsync only, no rebuild
 make up            # start local dev (nginx + builder + fetcher)
 make down          # stop local dev
@@ -89,7 +91,35 @@ make patch-goal    # set Netherlands vs Japan → IN_PLAY 2-0 (simulate goal fla
 make restore       # restart fetcher, live data back within 60s
 ```
 
-**Always ask before running `make deploy`.** Show what changed first, then wait for go-ahead.
+`PROD_HOST` defaults to `swarm` (from `~/.ssh/config`, LAN-only) but is overridable — CI passes `PROD_HOST=bergpb@<tailscale-ip>` since GitHub-hosted runners aren't on the LAN (see CI/CD section below).
+
+**Manual `make deploy` runs still require asking first** — show what changed, then wait for go-ahead. This doesn't apply to the CI pipeline, which auto-deploys on every push to `personal` once tests pass — that's the explicitly agreed-upon automated replacement for this path.
+
+---
+
+## Testing & pre-commit hooks
+
+`tests/` holds two independent suites, both exercising real logic extracted from the page source (not reimplementations):
+
+- **JS** (`tests/*.test.js`, run via `node --test tests/`): uses `tests/helpers/extract.js` to pull named `function`/`const` declarations out of `index.html` / `groups.html` / `bracket.html` / `_partials/common.js` and evaluate them in a `node:vm` sandbox — no DOM, no headless browser. Covers `normalise()`/`FLAGS` coverage, `calcGroupBadges()`/`sortTeams()`, `getScore()` (AET/PSO/live/PAUSED/knockout-by-id/name-alias logic), `scoreSuffix()`, and the own-goal attribution fix in `buildLiveCardEvents`.
+  - `vm.runInContext` gotcha: top-level `const`/`function` don't attach to the sandbox object the way `var` does — `extract.js` appends explicit `globalThis.NAME = NAME;` lines to work around it.
+  - Use plain `node:assert` (not `node:assert/strict`) — `deepStrictEqual` false-fails comparing vm-sandbox-created objects/arrays against plain literals (cross-realm prototype mismatch).
+- **Python** (`tests/test_fetcher.py`, run via `python3 -m unittest discover -s tests`): imports `fetcher.py` directly, covers `STATUS_MAP`/`DURATION_MAP`/`PERIOD_MAP` (including regression tests for real incidents — AET, `STATUS_OVERTIME`, `STATUS_HALFTIME_ET`), `_display()` aliasing, `parse_event_clock()`, `normalize_date()`, `build_detail_entry()`.
+
+### Pre-commit hook
+
+Uses the [pre-commit](https://pre-commit.com/) framework (`.pre-commit-config.yaml`, local hooks — no external repo dependencies). Runs on every `git commit`:
+
+1. `python3 build.py` — build must succeed
+2. `python3 scripts/check_empty_markers.py` — committed source files must keep markers empty (never commit populated `dist/`-style content)
+3. `npm test --silent` — JS suite
+4. `python3 -m unittest discover -s tests` — Python suite
+
+**Setup per clone:** `pip install pre-commit && make install-hooks` (the target runs `pre-commit install`, writing to `.git/hooks/pre-commit`). Requires Node (`.tool-versions` pins `nodejs 20.11.1` for asdf) and Python 3.12+.
+
+Run manually without committing: `pre-commit run --all-files`.
+
+CI (`build-check` job below) runs the exact same `pre-commit run --all-files` — local and CI checks can't drift out of sync.
 
 ---
 
@@ -160,6 +190,37 @@ Key rules:
 - `worldcup.bergpb.dev` — Cloudflare-proxied → `web` entrypoint (HTTP port 80); serves the site via `worldcup@file`
 - `worldcup2026.bergpb.dev` — 308 permanent redirect to `worldcup.bergpb.dev` via Traefik `redirectregex` middleware
 - Cloudflare handles SSL termination; Traefik uses `web` (not `websecure`) for Cloudflare-proxied domains
+
+---
+
+## CI/CD (`.github/workflows/build-check.yml`)
+
+Two jobs, triggered on push to `personal` and on pull requests:
+
+### `build-check`
+
+Checks out the repo, sets up Python 3.12 + Node 20, installs `pre-commit`, then runs `pre-commit run --all-files` — the exact same hooks defined in `.pre-commit-config.yaml` (build, empty-marker check, JS tests, Python tests). Local and CI checks share one definition, so they can't drift.
+
+### `deploy`
+
+Runs only `if: github.ref == 'refs/heads/personal' && github.event_name == 'push'` (never on PRs, never on other branches), and only `needs: build-check` (won't run if tests fail).
+
+1. **Connect to tailnet** — `tailscale/github-action@v3` joins the GitHub-hosted runner to the tailnet as an ephemeral, tagged (`tag:ci`) node, authenticated via a Tailscale OAuth client (`secrets.TS_OAUTH_CLIENT_ID` / `TS_OAUTH_CLIENT_SECRET`). This is what lets a runner with no prior relationship to the network reach `swarm-prod` directly — no self-hosted runner or public-facing webhook needed.
+2. **Set up deploy SSH key** — decodes `secrets.SWARM_SSH_PRIVATE_KEY_B64` (base64-encoded — see gotcha below) into `~/.ssh/id_ed25519`, then `ssh-keyscan`s `secrets.SWARM_TAILSCALE_IP`.
+3. **Deploy to swarm-prod** — `make deploy PROD_HOST=bergpb@${{ secrets.SWARM_TAILSCALE_IP }}`, the same `make deploy` used for manual deploys, just pointed at the tailnet IP instead of the LAN hostname.
+
+**Required GitHub repo secrets** (Settings → Secrets and variables → Actions):
+- `TS_OAUTH_CLIENT_ID`, `TS_OAUTH_CLIENT_SECRET` — Tailscale OAuth client scoped to create devices tagged `tag:ci`
+- `SWARM_SSH_PRIVATE_KEY_B64` — base64 of a **dedicated** deploy-only SSH keypair (never reuse a personal key) authorized in `swarm-prod`'s `~/.ssh/authorized_keys`
+- `SWARM_TAILSCALE_IP` — swarm-prod's tailnet IP; kept as a secret rather than hardcoded in the workflow, by request
+
+**Tailscale OAuth client setup — the non-obvious part:** the client needs scopes across *two separate categories*, both required:
+- `Devices → Core → Write`, with `tag:ci` added under that scope's own Tags picker (governs managing devices)
+- `Keys → Auth Keys → Write` (governs the `POST /tailnet/-/keys` call the GitHub Action actually uses to provision the ephemeral node) — **this one is easy to miss**; having only Devices scope produces a `403: "calling actor does not have enough permissions to perform this function"` on every `tailscale up` attempt inside the action, silently, because the action's retry loop doesn't propagate that failure as the step's exit code (the step shows green even though the tailnet join never succeeded). If `deploy` fails at "Set up deploy SSH key" (an unrelated-looking step) with no real error, check the "Connect to tailnet" step's raw log for repeated `Attempt N... 403` lines — that's the real failure, one step upstream.
+- The tailnet ACL also needs `tag:ci` defined under `tagOwners` (e.g. `"tagOwners": {"tag:ci": ["autogroup:admin"]}`).
+- To debug OAuth scope issues directly (bypassing the action's swallowed errors): exchange the client credentials for an access token (`POST https://api.tailscale.com/api/v2/oauth/token`), then attempt the same key-creation call the action makes (`POST https://api.tailscale.com/api/v2/tailnet/-/keys`) — Tailscale's own error message is more specific than what surfaces in the Action log.
+
+**Never paste private key or secret content back into chat/logs** — view it in your own terminal and copy directly into the target secret UI. (This project had a real incident: a private key pasted into a chat transcript required immediate rotation — dedicated deploy keys make this low-blast-radius, but still requires generating a fresh keypair and updating `authorized_keys` + the GitHub secret.)
 
 ---
 
@@ -376,3 +437,5 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - Traefik redirectregex replacements in Ansible labels use `${1}` (not `$${1}`) — `$$` is Docker Compose syntax, not needed in Ansible `docker_swarm_service` labels
 - When adding a new HTML page: add to `PAGES` array in `build.py`, add markers to source file, update Dockerfile if needed, add nav translation keys to `_partials/langs.html`
 - Source HTML files are committed with **empty markers** — `dist/` is gitignored. Never commit populated marker content.
+- Multi-line secrets (e.g. an SSH private key) pasted into a GitHub Actions text-box secret can suffer newline corruption — store as base64 (`base64 -w0 keyfile`) and decode in the workflow step instead
+- Tailscale OAuth client for CI needs BOTH `Devices → Core → Write` (with `tag:ci` under its Tags picker) AND `Keys → Auth Keys → Write` — missing the latter causes a silent `403` inside `tailscale/github-action` that doesn't fail the step (see CI/CD section above)
