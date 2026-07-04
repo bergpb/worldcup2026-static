@@ -18,8 +18,19 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Run build
         run: python3 build.py
+
+      - name: Run JS unit tests
+        run: npm test
+
+      - name: Run Python unit tests
+        run: python3 -m unittest discover -s tests -v
 
       - name: Verify source files have empty partial markers
         run: |

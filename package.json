@@ -1,0 +1,7 @@
+{
+  "name": "worldcup2026-static",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/"
+  }
+}
