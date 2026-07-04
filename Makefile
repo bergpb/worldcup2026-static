@@ -1,4 +1,4 @@
-PROD_HOST   = swarm
+PROD_HOST  ?= swarm
 PROD_DIR    = ~/worldcup-2026-static
 VOLUME      = worldcup2026-static_wc-data
 DEV_NGINX   = worldcup2026-static-dev-1

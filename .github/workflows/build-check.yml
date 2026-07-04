@@ -34,3 +34,29 @@ jobs:
 
       - name: Verify source files have empty partial markers
         run: python3 scripts/check_empty_markers.py
+
+  deploy:
+    needs: build-check
+    if: github.ref == 'refs/heads/personal' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Connect to tailnet
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+          tags: tag:ci
+
+      - name: Set up deploy SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SWARM_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.SWARM_TAILSCALE_IP }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy to swarm-prod
+        run: make deploy PROD_HOST=bergpb@${{ secrets.SWARM_TAILSCALE_IP }}
