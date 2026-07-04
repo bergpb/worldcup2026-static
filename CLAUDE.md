@@ -150,7 +150,7 @@ Key rules:
 - No `minute` field — only `status` is reliable (`IN_PLAY`, `PAUSED`, `FINISHED`, `TIMED`)
 - `shortDisplayName` for Türkiye = `'Türkiye'`, Bosnia = `'Bosnia-Herz'` — both mapped in `API_NAME_MAP`
 - `keyEvents` on summary endpoint: `type.type` = `"goal"` / `"own-goal"` / `"penalty"` / `"yellow-card"` / `"red-card"` / `"yellow-red-card"`
-- Own goal `team` field = the scorer's own team (not the benefiting team) — side must be flipped in display
+- Own goal `team` field is already the **benefiting** team (verified against real match: Argentina 3-2 Cape Verde, OG scored by a Cape Verde player raised Argentina's tally and `team.name` read `"Argentina"`) — do NOT flip side in display; a previous version of this doc had it backwards, which caused the OG to render under the wrong team's column
 - `yellow-red-card` maps to `"YELLOW_RED"` in `match-details.json` (distinct from `"RED"`) — displayed as 🟧 in event card and live card
 - `score.duration` in `data.json`: `"REGULAR"` / `"EXTRA_TIME"` / `"PENALTY_SHOOTOUT"` — used for AET/PSO badge on finished match rows
 - `score.halfTime` in `data.json`: stored in `scoreMap` and used by `buildEventCard` to render HT separator with score at the break

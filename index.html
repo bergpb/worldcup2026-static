@@ -722,9 +722,9 @@ function buildLiveCardEvents(live) {
   const homeEvs = [], awayEvs = [];
 
   (det.goals || []).forEach(g => {
-    let side = normalise(g.team?.name || '') === homeKey ? 'home' : 'away';
+    // g.team is the ESPN own-goal event's credited (benefiting) side already - no flip needed
+    const side = normalise(g.team?.name || '') === homeKey ? 'home' : 'away';
     const tag = g.type === 'OWN' ? ' (OG)' : g.type === 'PENALTY' ? ' (P)' : '';
-    if (g.type === 'OWN') side = side === 'home' ? 'away' : 'home';
     const min = `${g.minute || ''}${g.injuryTime ? '+' + g.injuryTime : ''}`;
     const ev = { sort: (g.minute || 0) + (g.injuryTime || 0) / 100,
                  html: `&#9917; ${min}' ${g.scorer?.name || ''}${tag}` };
@@ -870,10 +870,10 @@ function buildEventCard(teamsStr) {
   const events = { home: [], away: [] };
 
   (det.goals || []).forEach(g => {
-    let side = g.team?.name === homeName || normalise(g.team?.name) === normalise(homeName) ? 'home' : 'away';
+    // g.team is the ESPN own-goal event's credited (benefiting) side already - no flip needed
+    const side = g.team?.name === homeName || normalise(g.team?.name) === normalise(homeName) ? 'home' : 'away';
     let tag = '';
     if (g.type === 'OWN') {
-      side = side === 'home' ? 'away' : 'home';
       tag = ' (OG)';
     } else if (g.type === 'PENALTY') {
       tag = ' (pen)';

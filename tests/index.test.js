@@ -22,6 +22,25 @@ function makeSandbox() {
   return sandbox;
 }
 
+const commonCode = extractSymbols(
+  path.join(__dirname, '..', '_partials', 'common.js'),
+  ['API_NAME_MAP', 'normalise']
+);
+const buildLiveCardEventsCode = extractSymbols(
+  path.join(__dirname, '..', 'index.html'),
+  ['buildLiveCardEvents']
+);
+
+function makeLiveCardSandbox(matchDetails) {
+  const sandbox = {
+    document: { body: { classList: { contains: () => false } } },
+    matchDetails,
+  };
+  vm.createContext(sandbox);
+  vm.runInContext(`${commonCode}\n${buildLiveCardEventsCode}`, sandbox);
+  return sandbox;
+}
+
 test('getScore: FINISHED regular-time match carries no AET/PSO duration', () => {
   const sandbox = makeSandbox();
   sandbox.scoreMap['Brazil|Argentina'] = { status: 'FINISHED', home: 2, away: 1, duration: 'REGULAR' };
@@ -77,4 +96,35 @@ test('getScore: "Bosnia & Herz." display name maps to the API\'s "Bosnia" score 
   sandbox.scoreMap['Bosnia|Austria'] = { status: 'FINISHED', home: 1, away: 0, duration: 'REGULAR' };
   const score = sandbox.getScore('Bosnia & Herz. v Austria', null);
   assert.equal(score.home, 1);
+});
+
+test('buildLiveCardEvents: own goal is credited to the benefiting team, not flipped', () => {
+  // Regression: g.team on an own-goal keyEvent is ESPN's credited (benefiting)
+  // side already. A previous version of this code flipped it, assuming it was
+  // the scorer's own team - which moved the benefiting team's goal into the
+  // opponent's column. Verified live: Argentina 3-2 Cape Verde, where a Cape
+  // Verde player's own goal raised Argentina's own tally (team.name: "Argentina").
+  const sandbox = makeLiveCardSandbox({
+    '760500': {
+      status: 'IN_PLAY',
+      goals: [
+        { minute: 29, type: null, scorer: { name: 'Lionel Messi' }, team: { name: 'Argentina' } },
+        { minute: 92, type: null, scorer: { name: 'Lisandro Martinez' }, team: { name: 'Argentina' } },
+        { minute: 111, type: 'OWN', scorer: { name: 'Diney Borges' }, team: { name: 'Argentina' } },
+        { minute: 59, type: null, scorer: { name: 'Deroy Duarte' }, team: { name: 'Cape Verde' } },
+      ],
+      bookings: [],
+    },
+  });
+  const html = sandbox.buildLiveCardEvents({
+    id: 760500,
+    homeTeam: { name: 'Argentina' },
+    awayTeam: { name: 'Cape Verde' },
+  });
+  const [homeCol, awayCol] = html.split('width:64px;flex-shrink:0;');
+  assert.match(homeCol, /Lionel Messi/);
+  assert.match(homeCol, /Lisandro Martinez/);
+  assert.match(homeCol, /Diney Borges \(OG\)/);
+  assert.doesNotMatch(awayCol, /Diney Borges/);
+  assert.match(awayCol, /Deroy Duarte/);
 });
