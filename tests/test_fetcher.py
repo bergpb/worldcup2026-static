@@ -26,6 +26,16 @@ class StatusMapTests(unittest.TestCase):
         self.assertEqual(fetcher.STATUS_MAP['STATUS_FINAL_PEN'], 'FINISHED')
         self.assertEqual(fetcher.DURATION_MAP['STATUS_FINAL_PEN'], 'PENALTY_SHOOTOUT')
 
+    def test_overtime_maps_to_in_play_and_extra_time(self):
+        # ESPN uses STATUS_OVERTIME (not STATUS_EXTRA_TIME) for at least some
+        # live knockout matches. Missing this entry caused the live-state guard
+        # to freeze a match's score/goals at its pre-extra-time state for the
+        # entire duration of extra time (Argentina 1-1 Cape Verde stuck while
+        # the real match had gone to 2-2 with two more goals scored in ET).
+        self.assertEqual(fetcher.STATUS_MAP['STATUS_OVERTIME'], 'IN_PLAY')
+        self.assertEqual(fetcher.DURATION_MAP['STATUS_OVERTIME'], 'EXTRA_TIME')
+        self.assertEqual(fetcher.PERIOD_MAP['STATUS_OVERTIME'], 'EXTRA_TIME')
+
     def test_normal_full_time_has_no_duration_override(self):
         # Regular-time finishes should NOT appear in DURATION_MAP - the frontend
         # treats a missing entry as "REGULAR" and only shows AET/PSO badges

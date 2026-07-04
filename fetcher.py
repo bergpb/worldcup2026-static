@@ -39,6 +39,7 @@ PERIOD_MAP = {
     "STATUS_EXTRA_TIME":             "EXTRA_TIME",
     "STATUS_EXTRA_TIME_SECOND_HALF": "EXTRA_TIME",
     "STATUS_EXTRA_TIME_HALF_TIME":   "EXTRA_TIME",
+    "STATUS_OVERTIME":               "EXTRA_TIME",
     "STATUS_PENALTY":                "PENALTY",
 }
 
@@ -47,6 +48,7 @@ DURATION_MAP = {
     "STATUS_EXTRA_TIME":             "EXTRA_TIME",
     "STATUS_EXTRA_TIME_SECOND_HALF": "EXTRA_TIME",
     "STATUS_EXTRA_TIME_HALF_TIME":   "EXTRA_TIME",
+    "STATUS_OVERTIME":               "EXTRA_TIME",
     "STATUS_FINAL_AET":              "EXTRA_TIME",
     "STATUS_PENALTY":                "PENALTY_SHOOTOUT",
     "STATUS_FINAL_PEN":              "PENALTY_SHOOTOUT",
@@ -63,6 +65,7 @@ STATUS_MAP = {
     "STATUS_EXTRA_TIME":             "IN_PLAY",
     "STATUS_EXTRA_TIME_SECOND_HALF": "IN_PLAY",
     "STATUS_EXTRA_TIME_HALF_TIME":   "PAUSED",
+    "STATUS_OVERTIME":               "IN_PLAY",
     "STATUS_PENALTY":                "IN_PLAY",
     "STATUS_FULL_TIME":              "FINISHED",
     "STATUS_FINAL":                  "FINISHED",
