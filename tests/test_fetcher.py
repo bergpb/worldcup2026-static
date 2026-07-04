@@ -36,12 +36,39 @@ class StatusMapTests(unittest.TestCase):
         self.assertEqual(fetcher.DURATION_MAP['STATUS_OVERTIME'], 'EXTRA_TIME')
         self.assertEqual(fetcher.PERIOD_MAP['STATUS_OVERTIME'], 'EXTRA_TIME')
 
+    def test_halftime_et_maps_to_paused_and_extra_time(self):
+        # ESPN's break between extra-time halves came through as STATUS_HALFTIME_ET,
+        # a third distinct string (alongside STATUS_EXTRA_TIME_HALF_TIME) for the
+        # same real-world event. Missing this one dropped the match straight to
+        # null scores because the fetcher's live-state cache had just been reset
+        # by a container restart, so there was no stale state to fall back on.
+        self.assertEqual(fetcher.STATUS_MAP['STATUS_HALFTIME_ET'], 'PAUSED')
+        self.assertEqual(fetcher.DURATION_MAP['STATUS_HALFTIME_ET'], 'EXTRA_TIME')
+        self.assertEqual(fetcher.PERIOD_MAP['STATUS_HALFTIME_ET'], 'EXTRA_TIME')
+
     def test_normal_full_time_has_no_duration_override(self):
         # Regular-time finishes should NOT appear in DURATION_MAP - the frontend
         # treats a missing entry as "REGULAR" and only shows AET/PSO badges
         # when the map says otherwise.
         self.assertNotIn('STATUS_FULL_TIME', fetcher.DURATION_MAP)
         self.assertNotIn('STATUS_FINAL', fetcher.DURATION_MAP)
+
+
+class StateFallbackTests(unittest.TestCase):
+    """Regression coverage for the STATUS_HALFTIME_ET incident: an unrecognised
+    ESPN status name used to default straight to TIMED (null scores). Now it
+    falls back to ESPN's generic lifecycle state (type.state: in/post/pre) so
+    a live match stays live even before we've explicitly mapped its exact
+    status string."""
+
+    def test_in_state_falls_back_to_in_play(self):
+        self.assertEqual(fetcher._STATE_FALLBACK['in'], 'IN_PLAY')
+
+    def test_post_state_falls_back_to_finished(self):
+        self.assertEqual(fetcher._STATE_FALLBACK['post'], 'FINISHED')
+
+    def test_pre_state_falls_back_to_timed(self):
+        self.assertEqual(fetcher._STATE_FALLBACK['pre'], 'TIMED')
 
 
 class DisplayNameTests(unittest.TestCase):

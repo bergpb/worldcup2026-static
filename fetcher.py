@@ -40,6 +40,7 @@ PERIOD_MAP = {
     "STATUS_EXTRA_TIME_SECOND_HALF": "EXTRA_TIME",
     "STATUS_EXTRA_TIME_HALF_TIME":   "EXTRA_TIME",
     "STATUS_OVERTIME":               "EXTRA_TIME",
+    "STATUS_HALFTIME_ET":            "EXTRA_TIME",
     "STATUS_PENALTY":                "PENALTY",
 }
 
@@ -49,6 +50,7 @@ DURATION_MAP = {
     "STATUS_EXTRA_TIME_SECOND_HALF": "EXTRA_TIME",
     "STATUS_EXTRA_TIME_HALF_TIME":   "EXTRA_TIME",
     "STATUS_OVERTIME":               "EXTRA_TIME",
+    "STATUS_HALFTIME_ET":            "EXTRA_TIME",
     "STATUS_FINAL_AET":              "EXTRA_TIME",
     "STATUS_PENALTY":                "PENALTY_SHOOTOUT",
     "STATUS_FINAL_PEN":              "PENALTY_SHOOTOUT",
@@ -66,6 +68,7 @@ STATUS_MAP = {
     "STATUS_EXTRA_TIME_SECOND_HALF": "IN_PLAY",
     "STATUS_EXTRA_TIME_HALF_TIME":   "PAUSED",
     "STATUS_OVERTIME":               "IN_PLAY",
+    "STATUS_HALFTIME_ET":            "PAUSED",
     "STATUS_PENALTY":                "IN_PLAY",
     "STATUS_FULL_TIME":              "FINISHED",
     "STATUS_FINAL":                  "FINISHED",
@@ -75,6 +78,12 @@ STATUS_MAP = {
     "STATUS_CANCELED":               "TIMED",
     "STATUS_POSTPONED":              "TIMED",
 }
+
+# ESPN's status.type.state ("in"/"post"/"pre") is a generic lifecycle signal
+# independent of the specific status name - used as a fallback for status
+# strings we haven't seen/mapped yet, so an unrecognised name during a live
+# match doesn't collapse it to null scores.
+_STATE_FALLBACK = {"in": "IN_PLAY", "post": "FINISHED", "pre": "TIMED"}
 
 # Cache for FINISHED matches: event_id → (ht_home, ht_away, key_events[])
 _cache = {}
@@ -257,7 +266,14 @@ def build_matches_and_scorers(events):
     for event in events:
         comp    = event["competitions"][0]
         stype   = comp["status"]["type"]
-        status  = STATUS_MAP.get(stype["name"], "TIMED")
+        status  = STATUS_MAP.get(stype["name"])
+        if status is None:
+            # Unrecognised ESPN status name (new one shows up occasionally, e.g.
+            # STATUS_OVERTIME / STATUS_HALFTIME_ET). Fall back to ESPN's generic
+            # lifecycle state so an in-progress match doesn't drop to null scores
+            # just because we haven't added its specific status string yet.
+            status = _STATE_FALLBACK.get(stype.get("state"), "TIMED")
+            print(f"  unmapped status '{stype['name']}' (state={stype.get('state')}) -> {status}")
         group, stage = parse_group_and_stage(event, comp)
 
         comps  = comp.get("competitors", [])
