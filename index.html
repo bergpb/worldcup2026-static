@@ -519,7 +519,9 @@ function resolveKnockoutRef(ref) {
   const id = matchNumToId[mnum];
   if (!id) return ref;
   const s = scoreMapById[id];
-  if (!s || s.status !== 'FINISHED' || s.home === null || s.away === null) return ref;
+  if (!s || s.status !== 'FINISHED') return ref;
+  if (s.winner === 'HOME_TEAM') return winMatch ? s.homeName : s.awayName;
+  if (s.winner === 'AWAY_TEAM') return winMatch ? s.awayName : s.homeName;
   if (s.home > s.away) return winMatch ? s.homeName : s.awayName;
   if (s.away > s.home) return winMatch ? s.awayName : s.homeName;
   return ref;
@@ -637,7 +639,7 @@ async function loadScores() {
       const status = m.status; // TIMED, IN_PLAY, PAUSED, FINISHED
       const hg = m.score?.fullTime?.home;
       const ag = m.score?.fullTime?.away;
-      const entry = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period, id: m.id, duration: m.score?.duration, halfTime: m.score?.halfTime, homeName: home, awayName: away };
+      const entry = { home: hg, away: ag, status, minute: m.minute, injuryTime: m.injuryTime, period: m.period, id: m.id, duration: m.score?.duration, halfTime: m.score?.halfTime, winner: m.score?.winner, homeName: home, awayName: away };
       if (m.id) scoreMapById[m.id] = entry;
       if (!home || !away) return;
       const key = home + '|' + away;
@@ -669,7 +671,7 @@ async function loadScores() {
       const hg = espn.score?.fullTime?.home;
       const ag = espn.score?.fullTime?.away;
       scoreMapById[km.id] = { home: hg, away: ag, status: espn.status, id: km.id,
-        duration: espn.score?.duration, halfTime: espn.score?.halfTime, homeName: home, awayName: away };
+        duration: espn.score?.duration, halfTime: espn.score?.halfTime, winner: espn.score?.winner, homeName: home, awayName: away };
     });
     // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
     if (Object.keys(prevScoreMap).length > 0) {
