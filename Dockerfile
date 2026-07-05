@@ -2,7 +2,7 @@ FROM nginx:alpine
 
 ARG BUILD_VERSION=dev
 
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/prod.conf /etc/nginx/conf.d/default.conf
 COPY dist/ /usr/share/nginx/html/
 
 RUN find /usr/share/nginx/html -name "*.html" -exec sed -i "s/vBUILD/v${BUILD_VERSION}/g" {} +

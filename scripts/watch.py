@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Dev watcher — rebuilds on file changes and triggers live reload in the browser.
-Run: python3 watch.py
+Run: python3 scripts/watch.py
 Open the site at http://192.168.6.110:8080 — the browser reloads automatically on save.
 """
 import os
@@ -15,7 +15,6 @@ from datetime import datetime
 
 RELOAD_PORT = 35729
 WATCH_EXTS  = {'.html', '.css', '.js', '.py'}
-IGNORE      = {'watch.py', 'build.py'}
 WATCH_DIRS  = ['.', '_partials']
 POLL_MS     = 300
 
@@ -123,7 +122,7 @@ def inject_reload_script():
 
 
 def rebuild():
-    result = subprocess.run([sys.executable, 'build.py'])
+    result = subprocess.run([sys.executable, 'scripts/build.py'])
     if result.returncode != 0:
         return
     inject_reload_script()
@@ -143,8 +142,6 @@ def snapshot():
                 continue
             _, ext = os.path.splitext(entry.name)
             if ext not in WATCH_EXTS:
-                continue
-            if entry.name in IGNORE:
                 continue
             mtimes[entry.path] = entry.stat().st_mtime
     return mtimes

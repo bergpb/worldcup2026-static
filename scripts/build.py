@@ -79,7 +79,7 @@ def build_page(page, check=False):
         except FileNotFoundError:
             built = None
         if html != built:
-            print(f'✗ {file} is stale — run python3 build.py')
+            print(f'✗ {file} is stale — run python3 scripts/build.py')
             return False
         print(f'✓ {file}')
         return True

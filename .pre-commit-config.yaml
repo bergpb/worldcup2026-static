@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: build-check
         name: build check
-        entry: python3 build.py
+        entry: python3 scripts/build.py
         language: system
         pass_filenames: false
 

@@ -1,6 +1,6 @@
 # worldcup2026-static — CLAUDE.md
 
-Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live scores, group standings, knockout bracket, and top scorers. Has a partial-based build step (`python3 build.py`) that assembles pages into `dist/`.
+Static HTML/CSS/JS site showing all 104 FIFA World Cup 2026 matches with live scores, group standings, knockout bracket, and top scorers. Has a partial-based build step (`python3 scripts/build.py`) that assembles pages into `dist/`.
 
 **Live at:** `worldcup.bergpb.dev` (Cloudflare-proxied) — `worldcup2026.bergpb.dev` 308-redirects here
 **Local dev:** `192.168.6.110:8080`
@@ -44,14 +44,14 @@ Source files contain only empty `<!-- partial:name --><!-- /partial:name -->` ma
 
 ## Build system
 
-### `build.py`
+### `scripts/build.py`
 
-Reads source files (with empty markers), injects partials, writes fully-assembled HTML to `dist/`. Run before deploying or testing locally.
+Reads source files (with empty markers), injects partials, writes fully-assembled HTML to `dist/`. Run before deploying or testing locally. Lives in `scripts/` alongside `fetcher.py`, `watch.py`, and `check_empty_markers.py`; all path handling inside these scripts is relative to the **current working directory** (repo root), not the script's own location — always invoke them from the repo root (every Makefile target, Docker Compose service, and CI/pre-commit step already does this).
 
 ```bash
-python3 build.py           # build → dist/
-python3 build.py --check   # exit 1 if dist/ is stale (CI safety)
-python3 build.py --strip   # empty all markers in source files (run before committing if needed)
+python3 scripts/build.py           # build → dist/
+python3 scripts/build.py --check   # exit 1 if dist/ is stale (CI safety)
+python3 scripts/build.py --strip   # empty all markers in source files (run before committing if needed)
 ```
 
 `dist/` is gitignored and self-contained (HTML + CSS + icons + static assets).
@@ -61,14 +61,14 @@ python3 build.py --strip   # empty all markers in source files (run before commi
 | File | Injected into |
 |---|---|
 | `head.html` | All pages — `<!DOCTYPE html>` through shared `<head>` tags; uses `{{PAGE_TITLE}}`, `{{PAGE_DESCRIPTION}}`, `{{PAGE_CANONICAL}}` |
-| `nav.html` | All pages — nav buttons; build.py adds `active` class for the current page |
+| `nav.html` | All pages — nav buttons; `scripts/build.py` adds `active` class for the current page |
 | `langs.html` | All pages — `<script>` block defining `LANGS_COMMON` (shared nav/timezone/teams translations) |
 | `tz-options.html` | index, groups, bracket — `<option>` list for timezone selector |
 | `common.js` | All pages — `cycleLang()`, `applyLang()`, `langBtnHTML()`, `shareApp()`, localStorage lang persistence |
 | `footer.html` | All pages — `<div class="footer">` with `#footer-line1` and `#footer-line2`; includes credits |
 | `jsonld.html` | index only — JSON-LD structured data (all 104 match events), injected before `</body>` |
 
-**Adding a new HTML page:** add it to the `PAGES` array in `build.py` with `title`, `description`, `canonical`, and `nav` key; add `<!-- partial:X --><!-- /partial:X -->` markers; update the Dockerfile if needed.
+**Adding a new HTML page:** add it to the `PAGES` array in `scripts/build.py` with `title`, `description`, `canonical`, and `nav` key; add `<!-- partial:X --><!-- /partial:X -->` markers; update the Dockerfile if needed.
 
 ---
 
@@ -104,13 +104,13 @@ make restore       # restart fetcher, live data back within 60s
 - **JS** (`tests/*.test.js`, run via `node --test tests/`): uses `tests/helpers/extract.js` to pull named `function`/`const` declarations out of `index.html` / `groups.html` / `bracket.html` / `_partials/common.js` and evaluate them in a `node:vm` sandbox — no DOM, no headless browser. Covers `normalise()`/`FLAGS` coverage, `calcGroupBadges()`/`sortTeams()`, `getScore()` (AET/PSO/live/PAUSED/knockout-by-id/name-alias logic), `scoreSuffix()`, and the own-goal attribution fix in `buildLiveCardEvents`.
   - `vm.runInContext` gotcha: top-level `const`/`function` don't attach to the sandbox object the way `var` does — `extract.js` appends explicit `globalThis.NAME = NAME;` lines to work around it.
   - Use plain `node:assert` (not `node:assert/strict`) — `deepStrictEqual` false-fails comparing vm-sandbox-created objects/arrays against plain literals (cross-realm prototype mismatch).
-- **Python** (`tests/test_fetcher.py`, run via `python3 -m unittest discover -s tests`): imports `fetcher.py` directly, covers `STATUS_MAP`/`DURATION_MAP`/`PERIOD_MAP` (including regression tests for real incidents — AET, `STATUS_OVERTIME`, `STATUS_HALFTIME_ET`), `_display()` aliasing, `parse_event_clock()`, `normalize_date()`, `build_detail_entry()`.
+- **Python** (`tests/test_fetcher.py`, run via `python3 -m unittest discover -s tests`): imports `scripts/fetcher.py` directly (via `sys.path.insert(0, '../scripts')`), covers `STATUS_MAP`/`DURATION_MAP`/`PERIOD_MAP` (including regression tests for real incidents — AET, `STATUS_OVERTIME`, `STATUS_HALFTIME_ET`), `_display()` aliasing, `parse_event_clock()`, `normalize_date()`, `build_detail_entry()`.
 
 ### Pre-commit hook
 
 Uses the [pre-commit](https://pre-commit.com/) framework (`.pre-commit-config.yaml`, local hooks — no external repo dependencies). Runs on every `git commit`:
 
-1. `python3 build.py` — build must succeed
+1. `python3 scripts/build.py` — build must succeed
 2. `python3 scripts/check_empty_markers.py` — committed source files must keep markers empty (never commit populated `dist/`-style content)
 3. `npm test --silent` — JS suite
 4. `python3 -m unittest discover -s tests` — Python suite
@@ -129,8 +129,8 @@ CI (`build-check` job below) runs the exact same `pre-commit run --all-files` �
 
 Four services sharing the named volume `wc-data`:
 
-- **`dev`** (profile: `dev`): `nginx:alpine`, mounts `dist/` + `nginx.conf` + `wc-data:/data:ro`; port `8080`
-- **`builder`** (profile: `dev`): `python:3.12-alpine`, runs `watch.py` — watches source files, rebuilds to `dist/`, serves live-reload SSE on port `35729`
+- **`dev`** (profile: `dev`): `nginx:alpine`, mounts `dist/` + `nginx/dev.conf` + `wc-data:/data:ro`; port `8080`
+- **`builder`** (profile: `dev`): `python:3.12-alpine`, runs `scripts/watch.py` — watches source files, rebuilds to `dist/`, serves live-reload SSE on port `35729`
 - **`fetcher`** (profile: `dev` + `prod`): `alpine`, polls API every 60s, writes `data.json` + `scorers.json` to `wc-data:/data`
 - **`prod`** (profile: `prod`): built from `Dockerfile`, mounts `wc-data:/data:ro`; port `8081`
 
@@ -141,7 +141,7 @@ Four services sharing the named volume `wc-data`:
 ```dockerfile
 FROM nginx:alpine
 ARG BUILD_VERSION=dev
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/prod.conf /etc/nginx/conf.d/default.conf
 COPY dist/ /usr/share/nginx/html/
 RUN find /usr/share/nginx/html -name "*.html" -exec sed -i "s/vBUILD/v${BUILD_VERSION}/g" {} +
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
@@ -152,7 +152,7 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 
 **Build version injection:** all `*.html` files in `dist/` have `vBUILD` replaced with the git short hash at build time. Used for cache-busting `styles.css?vBUILD`.
 
-### nginx (both `nginx/default.conf` prod and `nginx.conf` dev)
+### nginx (`nginx/prod.conf` and `nginx/dev.conf`)
 
 Key rules:
 - `data.json` and `scorers.json` — served from `/data` volume first, baked image copy as fallback; `no-cache`
@@ -164,14 +164,14 @@ Key rules:
 
 ### Data pipeline
 
-1. **Fetcher container** (`fetcher.py`): polls ESPN public API (`site.api.espn.com/apis/site/v2/sports/soccer/fifa.world`) every 60s, writes four files to `wc-data` volume:
+1. **Fetcher container** (`scripts/fetcher.py`): polls ESPN public API (`site.api.espn.com/apis/site/v2/sports/soccer/fifa.world`) every 60s, writes four files to `wc-data` volume:
    - `data.json` — all matches with scores, status, minute, period
    - `scorers.json` — top scorers / Golden Boot
    - `match-details.json` — keyed by match ID → `{status, score{fullTime}, goals[], bookings[]}` (own goals, penalties, cards; bookings include `YELLOW`, `RED`, `YELLOW_RED`)
    - `group-winners.json` — keyed by group letter → `{first, second}` (only populated once all 6 group games FINISHED)
 2. nginx serves from volume (live), falls back to baked copy for `data.json`/`scorers.json`; `match-details.json` and `group-winners.json` return 404 if not yet generated (frontend handles gracefully)
 
-**`make deploy` uses `--force-recreate`** — all containers including the fetcher are restarted on every deploy, so `fetcher.py` changes take effect automatically.
+**`make deploy` uses `--force-recreate`** — all containers including the fetcher are restarted on every deploy, so `scripts/fetcher.py` changes take effect automatically.
 
 **ESPN API notes:**
 - No auth required
@@ -235,7 +235,7 @@ Three languages: `en`, `pt`, `es`. Stored in `LANGS` object in each page. Saved 
 
 ### `LANGS_COMMON` (shared partial)
 
-Injected by build.py from `_partials/langs.html` before each page's own `<script>`. Defines:
+Injected by `scripts/build.py` from `_partials/langs.html` before each page's own `<script>`. Defines:
 - `nav_*` keys (nav button labels in all 3 languages)
 - `lbl_timezone` (timezone label)
 - `teams` map in `pt` and `es` (country name translations)
@@ -424,7 +424,7 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - API has no `minute` field — only `status`
 - `CARD_LABELS` / `_cardLang` only exist on `feature/live-match-card`; `personal` uses `LANGS[_lang]` in `getScore()`
 - `GROUP_FIXTURES` array must be defined in `groups.html` — missing it causes a `ReferenceError` in the badge engine that crashes `render()` entirely (blank groups page)
-- If new `location =` blocks added to `nginx.conf` while local dev containers are running, run `nginx -s reload` inside the dev container (or `make down && make up`) — otherwise the new JSON files return 404 and the frontend silently gets empty data
+- If new `location =` blocks added to `nginx/dev.conf` while local dev containers are running, run `nginx -s reload` inside the dev container (or `make down && make up`) — otherwise the new JSON files return 404 and the frontend silently gets empty data
 - Changelog popup re-shows for all users when `VERSION` constant in the changelog IIFE is bumped; update all three `changelog_body` strings in LANGS at the same time; use the short git hash of the feature commit as VERSION (not a date string)
 - `score.duration` defaults to `"REGULAR"` for normal-time finishes — AET/PSO badge only shows when it's `"EXTRA_TIME"` or `"PENALTY_SHOOTOUT"`
 - `make deploy` uses `--force-recreate` so all containers (including the fetcher) always restart with the latest code — no manual restart needed
@@ -435,7 +435,8 @@ Patching writes to the `wc-data` volume via a temp alpine container.
 - Cloudflare-proxied services use `web` entrypoint; DNS-only use `websecure`
 - `Cache-Control: private` prevents CF caching (`DYNAMIC`); `no-store` returns `BYPASS`; `public, max-age=...` returns `HIT`
 - Traefik redirectregex replacements in Ansible labels use `${1}` (not `$${1}`) — `$$` is Docker Compose syntax, not needed in Ansible `docker_swarm_service` labels
-- When adding a new HTML page: add to `PAGES` array in `build.py`, add markers to source file, update Dockerfile if needed, add nav translation keys to `_partials/langs.html`
+- When adding a new HTML page: add to `PAGES` array in `scripts/build.py`, add markers to source file, update Dockerfile if needed, add nav translation keys to `_partials/langs.html`
+- Python scripts (`build.py`, `fetcher.py`, `watch.py`, `check_empty_markers.py`) live in `scripts/` and resolve all paths relative to the **repo root** (cwd), not their own file location — must always be invoked from the repo root (`python3 scripts/build.py`, not `cd scripts && python3 build.py`)
 - Source HTML files are committed with **empty markers** — `dist/` is gitignored. Never commit populated marker content.
 - Multi-line secrets (e.g. an SSH private key) pasted into a GitHub Actions text-box secret can suffer newline corruption — store as base64 (`base64 -w0 keyfile`) and decode in the workflow step instead
 - Tailscale OAuth client for CI needs BOTH `Devices → Core → Write` (with `tag:ci` under its Tags picker) AND `Keys → Auth Keys → Write` — missing the latter causes a silent `403` inside `tailscale/github-action` that doesn't fail the step (see CI/CD section above)

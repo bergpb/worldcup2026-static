@@ -20,12 +20,12 @@ A lightweight static site tracking all 104 matches of the 2026 FIFA World Cup wi
 
 ## How it works
 
-Data is fetched from the ESPN public API (no auth required) by a Docker container running `fetcher.py`. It writes `data.json` and `scorers.json` to a shared Docker volume every 120 seconds. nginx serves the live files from the volume, falling back to the baked copy in the image.
+Data is fetched from the ESPN public API (no auth required) by a Docker container running `scripts/fetcher.py`. It writes `data.json` and `scorers.json` to a shared Docker volume every 120 seconds. nginx serves the live files from the volume, falling back to the baked copy in the image.
 
 ```
 ESPN public API
       ↓
-fetcher.py (Docker, every 120s) → /data/data.json + scorers.json
+scripts/fetcher.py (Docker, every 120s) → /data/data.json + scorers.json
       ↓
 nginx (volume-first, baked fallback)
       ↓
@@ -56,16 +56,21 @@ worldcup2026-static/
 ├── bracket.html        # Knockout bracket (source)
 ├── scorers.html        # Top scorers (source)
 ├── styles.css          # Consolidated CSS for all pages
-├── _partials/          # Shared HTML/JS fragments injected by build.py
-├── build.py            # Assembles partials → dist/
-├── watch.py            # Dev watcher — rebuilds on change + SSE live reload
-├── fetcher.py          # Polls ESPN API, writes data.json + scorers.json
+├── _partials/          # Shared HTML/JS fragments injected by scripts/build.py
+├── scripts/
+│   ├── build.py            # Assembles partials → dist/
+│   ├── watch.py            # Dev watcher — rebuilds on change + SSE live reload
+│   ├── fetcher.py          # Polls ESPN API, writes data.json + scorers.json
+│   └── check_empty_markers.py  # Pre-commit/CI guard against committed marker content
 ├── dist/               # Built output (gitignored) — served by nginx
-├── nginx.conf          # Dev nginx config
-├── nginx/default.conf  # Prod nginx config
+├── nginx/
+│   ├── dev.conf        # Dev nginx config
+│   └── prod.conf       # Prod nginx config
+├── tests/              # JS (node --test) + Python (unittest) suites
 ├── Dockerfile          # Production image (nginx:alpine)
 ├── docker-compose.yml  # Dev and prod service definitions
 ├── Makefile            # Common commands
+├── .pre-commit-config.yaml  # Local hooks run on every commit (see Makefile install-hooks)
 └── sitemap.xml
 ```
 
@@ -73,19 +78,19 @@ worldcup2026-static/
 
 ## Build system
 
-Source HTML files contain only empty `<!-- partial:name --><!-- /partial:name -->` markers. `build.py` injects shared partials (head, nav, footer, langs, etc.) and writes assembled pages to `dist/`.
+Source HTML files contain only empty `<!-- partial:name --><!-- /partial:name -->` markers. `scripts/build.py` injects shared partials (head, nav, footer, langs, etc.) and writes assembled pages to `dist/`.
 
 ```bash
-python3 build.py           # build → dist/
-python3 build.py --check   # exit 1 if dist/ is stale
-python3 build.py --strip   # empty all markers in source files (before committing)
+python3 scripts/build.py           # build → dist/
+python3 scripts/build.py --check   # exit 1 if dist/ is stale
+python3 scripts/build.py --strip   # empty all markers in source files (before committing)
 ```
 
 Or via Make:
 
 ```bash
-make build   # python3 build.py
-make check   # python3 build.py --check
+make build   # python3 scripts/build.py
+make check   # python3 scripts/build.py --check
 ```
 
 ---
@@ -107,7 +112,7 @@ make logs   # follow dev logs
 | Service | Image | Role |
 |---|---|---|
 | `dev` | `nginx:alpine` | Serves `dist/` on port 8080 |
-| `builder` | `python:3.12-alpine` | Runs `watch.py` — rebuilds on change, SSE reload on `:35729` |
+| `builder` | `python:3.12-alpine` | Runs `scripts/watch.py` — rebuilds on change, SSE reload on `:35729` |
 | `fetcher` | `python:3.12-alpine` | Polls ESPN every 120s, writes to `wc-data` volume |
 
 ---

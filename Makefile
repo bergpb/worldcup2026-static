@@ -9,11 +9,11 @@ BUILD_HASH  = $(shell git rev-parse --short HEAD)
 
 ## Assemble partials into all pages
 build:
-	python3 build.py
+	python3 scripts/build.py
 
 ## Verify pages are up-to-date with partials (exits non-zero if stale)
 check:
-	python3 build.py --check
+	python3 scripts/build.py --check
 
 ## Run JS + Python unit tests
 test:

@@ -18,7 +18,7 @@ def main():
             html = f.read()
         for m in re.finditer(r'<!-- partial:(\w+) -->(.*?)<!-- /partial:\1 -->', html, re.S):
             if m.group(2).strip():
-                print(f'✗ {page} has populated marker "{m.group(1)}" — run python3 build.py --strip before committing')
+                print(f'✗ {page} has populated marker "{m.group(1)}" — run python3 scripts/build.py --strip before committing')
                 stale = True
     if stale:
         sys.exit(1)
