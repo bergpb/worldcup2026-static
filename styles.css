@@ -873,7 +873,6 @@ body.print-mode .third-place-section { margin-top: 12px; }
 
 /* ── MATCH BOX ───────────────────────────────────────────────────────────── */
 .mb { background:var(--card); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin:2px 0; width:100%; }
-.mb.fin { border-color:var(--win); }
 .mb.live { border-color:#F39C12; }
 .mm.live { border-color:#F39C12; }
 .mbnum { font-size:11px; font-weight:700; color:var(--gold); padding:4px 7px; border-bottom:1px solid var(--border); display:flex; gap:4px; flex-wrap:wrap; align-items:center; }
@@ -897,7 +896,6 @@ body.print-mode .third-place-section { margin-top: 12px; }
 .mround.on { display:flex; }
 .mm { background:var(--card); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
 .mm.inpair { border-radius:0; border:none; border-bottom:1px solid var(--border); }
-.mm.fin { border-color:var(--win); }
 .mmh { display:flex; justify-content:space-between; padding:4px 10px; border-bottom:1px solid var(--border); font-size:11px; color:#8A93B8; font-weight:600; }
 .mmh .mnum { color:var(--gold); font-weight:800; font-size:12px; }
 .mmt { display:flex; align-items:center; gap:8px; padding:7px 10px; border-bottom:1px solid var(--border); font-size:14px; font-weight:600; }

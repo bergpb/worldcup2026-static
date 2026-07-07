@@ -114,9 +114,9 @@ const FEEDERS = {
 // R32 group placeholders (Wikipedia official)
 const R32_PH = {
   537417: ['2nd Group A', '2nd Group B'],
-  537423: ['Win Group E', '3rd A/B/C/D/F'],
-  537415: ['Win Group F', '2nd Group C'],
-  537418: ['Win Group C', '2nd Group F'],
+  537423: ['Win Group C', '2nd Group F'],
+  537415: ['Win Group E', '3rd A/B/C/D/F'],
+  537418: ['Win Group F', '2nd Group C'],
   537424: ['Win Group I', '3rd C/D/F/G/H'],
   537416: ['2nd Group E', '2nd Group I'],
   537425: ['Win Group A', '3rd C/E/F/H/I'],
@@ -569,7 +569,9 @@ function buildEventCard(m){
   if (hg === null || hg === undefined) return null;
   const homeName = det.homeTeam?.name || det.homeTeam?.shortName || m.homeTeam?.name || '';
   const events = {home:[],away:[]};
-  (det.goals||[]).forEach(g => {
+  const isPSOMatch = det.score?.duration === 'PENALTY_SHOOTOUT';
+  const goals = (det.goals||[]).filter(g => !(isPSOMatch && g.minute >= 120 && g.type === 'PENALTY'));
+  goals.forEach(g => {
     // g.team is the ESPN own-goal event's credited (benefiting) side already - no flip needed
     const side = g.team?.name === homeName ? 'home' : 'away';
     let tag = '';

@@ -329,8 +329,8 @@ const KNOCKOUT_MATCHES = [
   { grp:'R32', num:'M87', id:537430, utc:1.5,  date:'2026-07-04', teams:'Win K v 3rd D/E/I/J/L', venue:'Kansas City'   },
   { grp:'R32', num:'M88', id:537428, utc:18,   date:'2026-07-03', teams:'2nd D v 2nd G',         venue:'Dallas'        },
   // Round of 16 (M89-M96) - Jul 4-8
-  { grp:'R16', num:'M90', id:537376, utc:21,   date:'2026-07-04', teams:'Win M73 v Win M75',     venue:'Houston'       },
-  { grp:'R16', num:'M89', id:537375, utc:17,   date:'2026-07-04', teams:'Win M74 v Win M77',     venue:'Philadelphia'  },
+  { grp:'R16', num:'M90', id:537376, utc:17,   date:'2026-07-04', teams:'Win M73 v Win M75',     venue:'Houston'       },
+  { grp:'R16', num:'M89', id:537375, utc:21,   date:'2026-07-04', teams:'Win M74 v Win M77',     venue:'Philadelphia'  },
   { grp:'R16', num:'M91', id:537377, utc:20,   date:'2026-07-05', teams:'Win M76 v Win M78',     venue:'New York/NJ'   },
   { grp:'R16', num:'M92', id:537378, utc:0,    date:'2026-07-06', teams:'Win M79 v Win M80',     venue:'Mexico City'   },
   { grp:'R16', num:'M94', id:537380, utc:0,    date:'2026-07-07', teams:'Win M81 v Win M82',     venue:'Seattle'       },
@@ -630,7 +630,6 @@ async function loadScores() {
   try {
     const res = await fetch('data.json?t=' + Date.now());
     const data = await res.json();
-    const prevScoreMap = { ...scoreMap };
     scoreMap = {};
     scoreMapById = {};
     (data.matches || []).forEach(m => {
@@ -673,20 +672,6 @@ async function loadScores() {
       scoreMapById[km.id] = { home: hg, away: ag, status: espn.status, id: km.id,
         duration: espn.score?.duration, halfTime: espn.score?.halfTime, winner: espn.score?.winner, homeName: home, awayName: away };
     });
-    // Detect score changes and show toast (skip on first load when prevScoreMap is empty)
-    if (Object.keys(prevScoreMap).length > 0) {
-      const toasts = [];
-      Object.entries(scoreMap).forEach(([key, s]) => {
-        const prev = prevScoreMap[key];
-        if (!prev || s.home === null || s.away === null) return;
-        if (prev.home === null || prev.away === null) return;
-        if (s.home !== prev.home || s.away !== prev.away) {
-          const [h, a] = key.split('|');
-          toasts.push(`⚽ ${teamName(h)} ${s.home}–${s.away} ${teamName(a)}`);
-        }
-      });
-      if (toasts.length) showToast(toasts.join(' · '));
-    }
     lastFetch = new Date();
     lastMatches = data.matches || [];
   } catch(e) {
@@ -871,7 +856,10 @@ function buildEventCard(teamsStr) {
 
   const events = { home: [], away: [] };
 
-  (det.goals || []).forEach(g => {
+  const isPSOMatch = det.score?.duration === 'PENALTY_SHOOTOUT';
+  const goals = (det.goals || []).filter(g => !(isPSOMatch && g.minute >= 120 && g.type === 'PENALTY'));
+
+  goals.forEach(g => {
     // g.team is the ESPN own-goal event's credited (benefiting) side already - no flip needed
     const side = g.team?.name === homeName || normalise(g.team?.name) === normalise(homeName) ? 'home' : 'away';
     let tag = '';

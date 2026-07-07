@@ -36,7 +36,7 @@
     Groups with a <span style="display:inline-block;width:8px;height:8px;background:#2ECC71;border-radius:50%;vertical-align:middle;margin:0 2px"></span> are in play — standings shown are provisional.<br>
     <span style="display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
       <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#FFD700;color:#0A0E1A;font-weight:800;font-size:10px;font-family:'Barlow Condensed',sans-serif;">1</span> Group winner clinched</span>
-      <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#2ECC71;color:#0A0E1A;font-weight:800;font-size:10px;font-family:'Barlow Condensed',sans-serif;">Q</span> Qualified (top 2 guaranteed)</span>
+      <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#2ECC71;color:#0A0E1A;font-weight:800;font-size:10px;font-family:'Barlow Condensed',sans-serif;">Q</span> Qualified (top 2 or best 8 3rd place)</span>
       <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#5DADE2;color:#0A0E1A;font-weight:800;font-size:10px;font-family:'Barlow Condensed',sans-serif;">2</span> Runner-up clinched</span>
       <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#F39C12;color:#0A0E1A;font-weight:800;font-size:10px;font-family:'Barlow Condensed',sans-serif;">3</span> Qualified as best 3rd</span>
       <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#E74C3C;color:#0A0E1A;font-weight:800;font-size:10px;font-family:'Barlow Condensed',sans-serif;">E</span> Eliminated</span>
@@ -492,8 +492,11 @@ function getGroupFixtureStatus(grp, finishedResultsMap) {
   const finished = [], remaining = [];
   fixtures.forEach(f => {
     const r = finishedResultsMap[`${grp}|${f.home}|${f.away}`];
-    if (r !== undefined) finished.push({ home: f.home, away: f.away, hg: r.hg, ag: r.ag });
-    else remaining.push(f);
+    if (r && r.hg !== null && r.hg !== undefined && r.ag !== null && r.ag !== undefined) {
+      finished.push({ home: f.home, away: f.away, hg: r.hg, ag: r.ag });
+    } else {
+      remaining.push(f);
+    }
   });
   return { finished, remaining };
 }
@@ -508,13 +511,24 @@ function allTeamsPlayedTwo(teamNames, finishedList) {
   return teamNames.every(t => played[t] >= 2);
 }
 
+// 5 outcomes per fixture (incl. GD extremes) so goal-difference tiebreakers are
+// stress-tested correctly across independent fixtures, e.g. a team losing 0-15
+// while another only loses 0-1 is now a modelled scenario.
+const OUTCOMES = [
+  { hg: 15, ag: 0 }, // home win heavy
+  { hg: 1,  ag: 0 }, // home win narrow
+  { hg: 0,  ag: 0 }, // draw
+  { hg: 0,  ag: 1 }, // away win narrow
+  { hg: 0,  ag: 15 }, // away win heavy
+];
+
 function generateScenarios(remaining) {
   if (remaining.length === 0) return [[]];
   let scenarios = [[]];
   remaining.forEach(fix => {
     const next = [];
     scenarios.forEach(scn => {
-      [{hg:1,ag:0},{hg:0,ag:0},{hg:0,ag:1}].forEach(res => {
+      OUTCOMES.forEach(res => {
         next.push([...scn, { home: fix.home, away: fix.away, ...res }]);
       });
     });
@@ -527,7 +541,7 @@ function calcGroupBadges(grp, teamNames, finishedResultsMap) {
   const { finished, remaining } = getGroupFixtureStatus(grp, finishedResultsMap);
   if (!allTeamsPlayedTwo(teamNames, finished)) return {};
   const scenarios = generateScenarios(remaining);
-  if (scenarios.length > 100) return {};
+  if (scenarios.length > 500) return {}; // safety cap (5^3=125, well under this)
 
   const positionsSeen = {};
   teamNames.forEach(t => positionsSeen[t] = new Set());
@@ -587,7 +601,7 @@ function render(highlightTeam, data) {
          KNOWN_SECOND.has(name) ? '2' :
          (badges[name] || ''));
       const badgeColor = badge === '1' ? '#FFD700' : badge === 'Q' ? '#2ECC71' : badge === '2' ? '#5DADE2' : badge === '3' ? '#F39C12' : badge === 'E' ? '#E74C3C' : 'transparent';
-      const badgeHtml = badge ? `<span class="qual-badge" style="background:${badgeColor};" title="${badge==='1'?'Group winner clinched':badge==='Q'?'Qualified (top 2 guaranteed)':badge==='2'?'Runner-up clinched':badge==='3'?'Qualified as best 3rd place':'Eliminated'}">${badge}</span>` : '';
+      const badgeHtml = badge ? `<span class="qual-badge" style="background:${badgeColor};" title="${badge==='1'?'Group winner clinched':badge==='Q'?'Qualified (top 2 or best 8 3rd place)':badge==='2'?'Runner-up clinched':badge==='3'?'Qualified as best 3rd place':'Eliminated'}">${badge}</span>` : '';
 
       rows += `<tr class="${hiCls}">
         <td class="stat" style="width:20px;padding-left:8px">${i+1}</td>
@@ -675,6 +689,8 @@ function renderThirdPlace(groups, groupStats) {
     const advances   = groupStageComplete ? i < 8 : (confirmed || (!eliminated && !uncertain && i < 8));
     const cls        = (confirmed || (groupStageComplete && i < 8)) ? 'advances' : '';
     const gdStr      = row.p > 0 ? (row.gd > 0 ? '+' + row.gd : String(row.gd)) : '-';
+    const badge3     = confirmed ? `<span class="qual-badge" style="background:#F39C12;" title="Qualified as best 3rd place">3</span>`
+      : eliminated ? `<span class="qual-badge" style="background:#E74C3C;" title="Eliminated">E</span>` : '';
 
     let statusCell, posColor;
     if (uncertain) {
@@ -696,7 +712,7 @@ function renderThirdPlace(groups, groupStats) {
 
     return `<tr class="${cls}">
       <td class="pos" style="color:${posColor};">${i+1}</td>
-      <td class="team-name">${flagImg(row.team)}${teamName(row.team)}<span class="grp-badge" style="color:${GROUP_COLORS[row.grp]}">${row.grp}</span></td>
+      <td class="team-name">${flagImg(row.team)}${teamName(row.team)}${badge3}<span class="grp-badge" style="color:${GROUP_COLORS[row.grp]}">${row.grp}</span></td>
       <td>${row.p > 0 ? row.p : '-'}</td>
       <td>${row.p > 0 ? row.w : '-'}</td>
       <td>${row.p > 0 ? row.d : '-'}</td>

@@ -14,7 +14,7 @@ const commonCode = extractSymbols(
 const groupsCode = extractSymbols(
   path.join(__dirname, '..', 'groups.html'),
   [
-    'GROUPS', 'GROUP_FIXTURES',
+    'GROUPS', 'GROUP_FIXTURES', 'OUTCOMES',
     'buildGroupStatsFromResults', 'buildResultsLookup', 'getGroupFixtureStatus',
     'allTeamsPlayedTwo', 'generateScenarios', 'calcGroupBadges',
     'h2hStats', 'sortTeams', 'calcStandings',
