@@ -1,0 +1,7 @@
+.git
+dist
+__pycache__
+node_modules
+tests
+.github
+.claude

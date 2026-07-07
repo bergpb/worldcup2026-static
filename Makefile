@@ -25,9 +25,9 @@ install-hooks:
 	pre-commit install
 	@echo "pre-commit hook installed — runs build + tests before every commit"
 
-## Deploy to production (rsync + inject git hash version + bump SW cache + rebuild)
-deploy: build
-	rsync -av --exclude='data.json' --exclude='scorers.json' --exclude='.git' ./ $(PROD_HOST):$(PROD_DIR)/
+## Deploy to production (rsync source + build inside the image + inject git hash version + rebuild)
+deploy:
+	rsync -av --exclude='data.json' --exclude='scorers.json' --exclude='.git' --exclude='dist' ./ $(PROD_HOST):$(PROD_DIR)/
 	ssh $(PROD_HOST) "cd $(PROD_DIR) && docker compose --profile prod build --build-arg BUILD_VERSION=$(BUILD_HASH) prod && docker compose --profile prod up -d --force-recreate"
 
 ## Start local dev server

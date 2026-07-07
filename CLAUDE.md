@@ -46,7 +46,7 @@ Source files contain only empty `<!-- partial:name --><!-- /partial:name -->` ma
 
 ### `scripts/build.py`
 
-Reads source files (with empty markers), injects partials, writes fully-assembled HTML to `dist/`. Run before deploying or testing locally. Lives in `scripts/` alongside `fetcher.py`, `watch.py`, and `check_empty_markers.py`; all path handling inside these scripts is relative to the **current working directory** (repo root), not the script's own location — always invoke them from the repo root (every Makefile target, Docker Compose service, and CI/pre-commit step already does this).
+Reads source files (with empty markers), injects partials, writes fully-assembled HTML to `dist/`. Run for local testing (`make up`) and by CI/pre-commit validation — production deploys no longer need a local build first, since the Dockerfile's builder stage runs this same script inside the image (see Dockerfile section below). Lives in `scripts/` alongside `fetcher.py`, `watch.py`, and `check_empty_markers.py`; all path handling inside these scripts is relative to the **current working directory** (repo root), not the script's own location — always invoke them from the repo root (every Makefile target, Docker Compose service, and CI/pre-commit step already does this).
 
 ```bash
 python3 scripts/build.py           # build → dist/
@@ -79,7 +79,7 @@ make build         # assemble partials → dist/
 make check         # verify dist/ is up-to-date (exits non-zero if stale)
 make test          # run JS (npm test) + Python (unittest) test suites
 make install-hooks # install the pre-commit git hook (run once per clone)
-make deploy        # build + rsync to $(PROD_HOST) + rebuild prod container + force-recreate all (fetcher included)
+make deploy        # rsync source to $(PROD_HOST) + build inside the image + force-recreate all (fetcher included)
 make sync          # rsync only, no rebuild
 make up            # start local dev (nginx + builder + fetcher)
 make down          # stop local dev
@@ -138,19 +138,28 @@ Four services sharing the named volume `wc-data`:
 
 ### Dockerfile
 
+Multi-stage: a `python:3.12-alpine` builder stage runs `scripts/build.py` against the full rsynced source tree, then the `nginx:alpine` final stage copies only the resulting `dist/` out of it.
+
 ```dockerfile
+FROM python:3.12-alpine AS builder
+WORKDIR /src
+COPY . .
+RUN python3 scripts/build.py
+
 FROM nginx:alpine
 ARG BUILD_VERSION=dev
 COPY nginx/prod.conf /etc/nginx/conf.d/default.conf
-COPY dist/ /usr/share/nginx/html/
+COPY --from=builder /src/dist/ /usr/share/nginx/html/
 RUN find /usr/share/nginx/html -name "*.html" -exec sed -i "s/vBUILD/v${BUILD_VERSION}/g" {} +
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
     CMD wget -qO- http://127.0.0.1/ || exit 1
 ```
 
+**Why build inside the image instead of shipping a pre-built `dist/`:** `scripts/build.py` is pure stdlib and runs in about a second, so there's no meaningful cost to rebuilding it remotely. This means `make deploy` only needs to rsync source files — no local build step, no risk of a stale local `dist/` being what gets shipped. `.dockerignore` excludes `.git`, `dist`, `tests`, etc. so the builder stage's `COPY . .` stays small; a locally-built `dist/` present on disk is irrelevant since it's never rsynced (see Makefile below) and even if it were, `scripts/build.py` overwrites every page it manages.
+
 **`127.0.0.1` not `localhost`** in healthcheck — busybox wget resolves `localhost` as IPv6 and fails.
 
-**Build version injection:** all `*.html` files in `dist/` have `vBUILD` replaced with the git short hash at build time. Used for cache-busting `styles.css?vBUILD`.
+**Build version injection:** all `*.html` files in `dist/` have `vBUILD` replaced with the git short hash at build time, inside the final stage. Used for cache-busting `styles.css?vBUILD`.
 
 ### nginx (`nginx/prod.conf` and `nginx/dev.conf`)
 
