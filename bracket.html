@@ -436,7 +436,7 @@ function render(){
     r32El.innerHTML = r32pairs.map(pair => {
       const [m1, m2] = pair.matches.map(id => mById(id)).filter(Boolean);
       if(!m1 && !m2) return '';
-      return `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:4px;">
+      return `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:visible;margin-bottom:4px;">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 10px;border-bottom:1px solid var(--border);text-align:right;">
           ${t('winners_meet')} <span style="color:var(--gold)">${pair.r16}</span>
         </div>
@@ -462,7 +462,7 @@ function render(){
     r16El.innerHTML = r16pairs.map(pair => {
       const [m1, m2] = pair.matches.map(id => mById(id)).filter(Boolean);
       if(!m1 && !m2) return '';
-      return `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:4px;">
+      return `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:visible;margin-bottom:4px;">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 10px;border-bottom:1px solid var(--border);text-align:right;">
           Winners meet in <span style="color:var(--gold)">${pair.next}</span>
         </div>
@@ -486,7 +486,7 @@ function render(){
     qfEl.innerHTML = qfpairs.map(pair => {
       const [m1, m2] = pair.matches.map(id => mById(id)).filter(Boolean);
       if(!m1 && !m2) return '';
-      return `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:4px;">
+      return `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:visible;margin-bottom:4px;">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 10px;border-bottom:1px solid var(--border);text-align:right;">
           Winners meet in <span style="color:var(--gold)">${pair.next}</span>
         </div>
@@ -504,7 +504,7 @@ function render(){
   const sfEl = document.getElementById('mrsf');
   if(sfEl){
     const m1 = mById(537387), m2 = mById(537388);
-    sfEl.innerHTML = `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:4px;">
+    sfEl.innerHTML = `<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:visible;margin-bottom:4px;">
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:4px 10px;border-bottom:1px solid var(--border);text-align:right;">
         Winners meet in <span style="color:var(--gold)">M104 The Final</span>
       </div>
