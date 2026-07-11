@@ -973,6 +973,9 @@ body.print-mode .third-place-section { margin-top: 12px; }
 }
 
 /* ── SCORERS ─────────────────────────────────────────────────────────────── */
+.still-in-note { display: flex; align-items: center; gap: 8px; background: rgba(46,204,113,0.08); border: 1px solid rgba(46,204,113,0.25); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-size: 13px; color: var(--text-sub); }
+.still-in-dot { width: 8px; height: 8px; background: var(--win); border-radius: 50%; flex-shrink: 0; }
+.scorers-table tr.still-in .player-name { color: var(--win); }
 .scorers-table { width: 100%; border-collapse: collapse; }
 .scorers-table th { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 8px 12px; border-bottom: 2px solid var(--border); text-align: center; }
 .scorers-table td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 16px; color: var(--text); vertical-align: middle; text-align: center; }

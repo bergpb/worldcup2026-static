@@ -19,6 +19,10 @@
     </div>
   </div>
 
+  <div class="still-in-note" id="still-in-note" style="display:none;">
+    <div class="still-in-dot"></div>
+    <span data-i18n="still_in_note">Green players are still in the tournament and can add to their tally</span>
+  </div>
   <div id="scorers-container" class="scorers-loading" data-i18n="loading">Loading scorers...</div>
   <div class="last-updated" id="last-updated"></div>
 
@@ -39,6 +43,7 @@ const LANGS = {
     col_pens: 'PENS', col_mp: 'PLAYED',
     no_scorers: 'No scorers yet — check back once matches are played.',
     error_load: 'Could not load scorers. Try again shortly.',
+    still_in_note: 'Green players are still in the tournament and can add to their tally',
     lbl_updated: 'Updated',
     footer_feedback: '&#128172; Feedback &amp; suggestions',
   },
@@ -49,6 +54,7 @@ const LANGS = {
     col_pens: 'PÊNALTIS', col_mp: 'JOGOS',
     no_scorers: 'Nenhum gol ainda — volte quando as partidas começarem.',
     error_load: 'Não foi possível carregar. Tente novamente em breve.',
+    still_in_note: 'Jogadores em verde ainda estão na competição e podem ampliar sua contagem',
     lbl_updated: 'Atualizado às',
     footer_feedback: '&#128172; Feedback &amp; sugestões',
   },
@@ -59,6 +65,7 @@ const LANGS = {
     col_pens: 'PENALES', col_mp: 'JUGADOS',
     no_scorers: 'Sin goleadores aún — vuelve cuando comiencen los partidos.',
     error_load: 'No se pudo cargar. Intenta de nuevo pronto.',
+    still_in_note: 'Los jugadores en verde siguen en el torneo y pueden sumar a su cuenta',
     lbl_updated: 'Actualizado a las',
     footer_feedback: '&#128172; Sugerencias y comentarios',
   },
@@ -105,6 +112,31 @@ function posClass(i) {
 }
 
 let _scorers = [];
+let STILL_IN = new Set();
+
+async function loadActiveTeams() {
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    const data = await res.json();
+    const active = new Set();
+    (data.matches || []).forEach(m => {
+      if (m.stage === 'GROUP_STAGE') return;
+      if (['TIMED', 'IN_PLAY', 'PAUSED'].includes(m.status)) {
+        if (m.homeTeam?.name) active.add(m.homeTeam.name);
+        if (m.homeTeam?.shortName) active.add(m.homeTeam.shortName);
+        if (m.awayTeam?.name) active.add(m.awayTeam.name);
+        if (m.awayTeam?.shortName) active.add(m.awayTeam.shortName);
+      }
+    });
+    STILL_IN = active;
+    const note = document.getElementById('still-in-note');
+    if (note) note.style.display = active.size ? 'flex' : 'none';
+  } catch(e) {}
+}
+
+function isStillIn(shortName, name) {
+  return STILL_IN.has(shortName) || STILL_IN.has(name);
+}
 
 function renderScorers() {
   const container = document.getElementById('scorers-container');
@@ -129,7 +161,8 @@ function renderScorers() {
     const prev = i > 0 ? _scorers[i - 1] : null;
     const tied = prev && s.goals === prev.goals && (s.assists ?? 0) === (prev.assists ?? 0);
     const posDisplay = tied ? '=' : (i + 1);
-    html += `<tr>
+    const stillIn = isStillIn(s.team.shortName, s.team.name);
+    html += `<tr${stillIn ? ' class="still-in"' : ''}>
       <td class="pos ${posClass(i)}">${posDisplay}</td>
       <td style="text-align:left;">
         <div class="player-name">${s.player.name}</div>
@@ -150,6 +183,7 @@ function renderScorers() {
 }
 
 async function loadScorers() {
+  await loadActiveTeams();
   try {
     const res = await fetch('scorers.json?t=' + Date.now());
     const data = await res.json();
