@@ -540,14 +540,32 @@ function render(){
 }
 
 // Mobile tabs
+function activateTab(rid){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.mround').forEach(x=>x.classList.remove('on'));
+  const btn = document.querySelector(`.tab[data-r="${rid}"]`);
+  if(btn) btn.classList.add('on');
+  const el = document.getElementById('mr'+rid) || document.getElementById('mr'+rid.replace('r',''));
+  if(el) el.classList.add('on');
+}
+
+// Defaults to the round currently in progress: the earliest stage that
+// isn't fully FINISHED yet. Once a stage completes, the next one becomes
+// the default the next time load() re-renders.
+function currentRoundTab(){
+  const stages=[['32','LAST_32'],['16','LAST_16'],['qf','QUARTER_FINALS'],['sf','SEMI_FINALS']];
+  for(const [key,stage] of stages){
+    const ms=byStage(stage);
+    if(ms.length && !ms.every(m=>m.status==='FINISHED')) return key;
+  }
+  return 'fin';
+}
+
+let userPickedTab=false;
 document.querySelectorAll('.tab').forEach(b=>{
   b.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.mround').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');
-    const rid = b.dataset.r;
-    const el = document.getElementById('mr'+rid) || document.getElementById('mr'+rid.replace('r',''));
-    if(el) el.classList.add('on');
+    userPickedTab=true;
+    activateTab(b.dataset.r);
   });
 });
 
@@ -666,6 +684,7 @@ async function load(){
       resolveKnockoutTeams();
     }
     render();
+    if(!userPickedTab) activateTab(currentRoundTab());
   }catch(e){ console.log('data.json:',e.message); }
   try{
     const dr=await fetch('match-details.json?t='+Date.now());
